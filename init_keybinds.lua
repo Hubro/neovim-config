@@ -1,40 +1,73 @@
 
 local default_opts = { noremap = true, silent = true }
 
-vim.api.nvim_set_keymap("n", "<BS>", ":nohl<CR>", default_opts)
-vim.api.nvim_set_keymap("n", "<Space>", "za", default_opts)
+local keybinds = {
+  -- Press ESC to remove search highlights and clear text from command line
+  {"n", "<Esc>", ":nohl<CR>:echo<Esc>"},
 
--- Easier window navigation
-vim.api.nvim_set_keymap("n", "<C-h>", "<C-w>h", default_opts)
-vim.api.nvim_set_keymap("n", "<C-j>", "<C-w>j", default_opts)
-vim.api.nvim_set_keymap("n", "<C-k>", "<C-w>k", default_opts)
-vim.api.nvim_set_keymap("n", "<C-l>", "<C-w>l", default_opts)
+  -- Press Space to toggle folds
+  {"n", "<Space>", "za"},
 
--- Show FZF!
-vim.api.nvim_set_keymap("n", "<C-p>", ":FZF<CR>", default_opts)
+  -- Toggle dark mode
+  {"n", "<F12>", ":lua toggle_dark_mode()<CR>"},
 
--- Toggle file tree (nvim-tree.lua)
-vim.api.nvim_set_keymap("n", "<Leader>t", ":NvimTreeToggle<CR>", default_opts)
+  -- Easier window navigation
+  {"n", "<C-h>", "<C-w>h"},
+  {"n", "<C-j>", "<C-w>j"},
+  {"n", "<C-k>", "<C-w>k"},
+  {"n", "<C-l>", "<C-w>l"},
 
--- Show completion menu ("compe" plugin)
-vim.api.nvim_set_keymap("i", "<C-n>", "compe#complete()", {noremap = true, expr = true})
+  -- Easier tab navigation
+  {"n", "<A-l>", ":tabnext<CR>"},      -- Next tab
+  {"n", "<A-h>", ":tabprev<CR>"},      -- Previous tab
+  {"n", "<A-L>", ":tabmove +1<CR>"},   -- Move tab right
+  {"n", "<A-H>", ":tabmove -1<CR>"},   -- Move tab left
 
--- Show diagnostics window ("trouble.nvim" plugin)
-vim.api.nvim_set_keymap("n", "<Leader>d", ":Trouble<CR>", default_opts)
+  -- Show FZF!
+  {"n", "<C-p>", ":FZF<CR>"},
 
--- Floating terminal ("vim-floaterm" plugin)
-vim.api.nvim_set_keymap("n", "<C-q>", ":FloatermToggle quick<CR>", default_opts)
-vim.api.nvim_set_keymap("t", "<C-q>", "<C-\\><C-n>:FloatermToggle quick<CR>", default_opts)
+  -- Show FZF (File history)
+  {"n", "<C-A-p>", ":History<CR>"},
 
--- Open a new embedded terminal in a split
-vim.api.nvim_set_keymap("n", "<F1>", ":vsplit<CR>:terminal<CR>i", default_opts)
-vim.api.nvim_set_keymap("n", "<S-F1>", ":split<CR>:terminal<CR>i", default_opts)
+  -- Toggle file tree (nvim-tree.lua)
+  {"n", "<Leader>t", ":NvimTreeToggle<CR>"},
+  {"n", "gt", ":NvimTreeFindFile<CR>"},   -- Open current file in the tree
 
--- Wrap the current line while in insert mode
-vim.api.nvim_set_keymap("i", "<M-q>", "<Esc>gqq0A", default_opts)
+  -- Toggle symbol outline
+  {"n", "<Leader>o", ":SymbolsOutline<CR>"},
 
+  -- Show diagnostics window ("trouble.nvim" plugin)
+  {"n", "<Leader>d", ":Trouble<CR>"},
 
--- CTRL+Enter creates a new line below the current line, Shift+Enter creates a
--- line above the current line.
-vim.api.nvim_set_keymap("i", "<C-CR>", "<Esc>o", default_opts)
-vim.api.nvim_set_keymap("i", "<S-CR>", "<Esc><S-o>", default_opts)
+  -- Floating terminal ("vim-floaterm" plugin)
+  {"n", "<C-q>", ":FloatermToggle quick<CR>"},
+  {"t", "<C-q>", "<C-\\><C-n>:FloatermToggle quick<CR>"},
+
+  -- Open a new embedded terminal in a split
+  {"n", "<F1>", ":vsplit<CR>:terminal<CR>i"},
+  {"n", "<S-F1>", ":split<CR>:terminal<CR>i"},
+
+  -- Wrap the current line while in insert mode
+  {"i", "<A-q>", "<Esc>gqq0A"},
+
+  -- CTRL+Enter creates a new line below the current line, Shift+Enter creates
+  -- a line above the current line.
+  {"i", "<C-CR>", "<Esc>o"},
+  {"i", "<S-CR>", "<Esc>O"},
+}
+
+-- {{{ The magic
+function apply_keybinds(keybinds)
+  for _, bind in ipairs(keybinds) do
+    if #bind < 4 then
+      bind[4] = default_opts
+    else
+      bind[4] = vim.tbl_extend("force", default_opts, bind[4])
+    end
+
+    vim.api.nvim_set_keymap(unpack(bind))
+  end
+end
+
+apply_keybinds(keybinds)
+-- }}}
