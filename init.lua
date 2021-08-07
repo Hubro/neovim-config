@@ -2,7 +2,13 @@
 -- Any embedded terminals will use nvr as the default editor
 vim.env.EDITOR = [[nvr --nostart -cc split --remote-wait +"set bufhidden=delete"]]
 
-vim.g.python3_host_prog = "/home/tomas/.pyenv/versions/neovim/bin/python"
+if vim.fn.has("macunix") == 1 then
+    vim.g.python3_host_prog = "/Users/tomas/.pyenv/versions/neovim/bin/python"
+    vim.g.mapleader = "+"
+else
+    vim.g.python3_host_prog = "/home/tomas/.pyenv/versions/neovim/bin/python"
+    vim.g.mapleader = "\\"
+end
 
 -- Run :checktime any time the cursor moves
 --
