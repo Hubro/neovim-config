@@ -131,8 +131,9 @@ function init_plugins(use)
   -- }}}
 
   -- {{{ vim-better-whitespace - Highlights and clears trailing whitespace
+  vim.g.better_whitespace_enabled = false   -- Don't highlight whitespace
   vim.g.strip_whitespace_on_save = true
-  vim.g.strip_whitelines_at_eof = true   -- Also strip trailing line endings
+  vim.g.strip_whitelines_at_eof = true      -- Also strip trailing line endings
   vim.g.strip_whitespace_confirm = false
   use "ntpeters/vim-better-whitespace"
   -- }}}
