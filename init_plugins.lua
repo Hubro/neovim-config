@@ -96,6 +96,7 @@ function init_plugins(use)
 
         indent = {
           enable = true,
+          disable = { "python" }   -- The indent expression for Python is broken
         },
 
         playground = {
