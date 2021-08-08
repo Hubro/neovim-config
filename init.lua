@@ -34,12 +34,5 @@ init("keybinds")
 init("packer")
 init("plugins")
 init("gui")
+init("colorscheme")
 
--- Default color scheme
-vim.cmd [[
-  try
-    colorscheme gruvbox
-  catch
-    " Guess it's not installed
-  endtry
-]]
