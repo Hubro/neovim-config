@@ -175,7 +175,18 @@ function init_plugins(use)
 
   -- {{{ ultisnips - Snippet plugin
   vim.g.UltiSnipsEditSplit = "horizontal"
-  use "SirVer/ultisnips"
+  vim.g.UltiSnipsExpandTrigger = "<Plug>UltisnipsExpand"   -- Expansion is done by nvim-compe
+
+  use {
+    "SirVer/ultisnips",
+    opt = true,
+
+    -- Only load ultisnips if Python 3 is available. Otherwise error messages
+    -- pop up on every key press.
+    cond = function()
+      return vim.fn.has("python3") == 1
+    end
+  }
   -- }}}
 
   -- {{{ nvim-compe - Auto-completion plugin for Neovim
