@@ -1,3 +1,4 @@
+
 --
 -- When this buffer is focused, press F5 to update plugins
 --
@@ -17,6 +18,16 @@ function init_plugins(use)
   -------------------
   -- Core plugins ---
   -------------------
+
+  -- {{{ Common dependencies
+
+  -- plenary.nvim - Utilities for Lua scripting in Neovim
+  use "nvim-lua/plenary.nvim"
+
+  -- popup.vim -- Implementation of Vim's popup API in Neovim
+  use "nvim-lua/popup.nvim"
+
+  -- }}}
 
   -- {{{ nvim-treesitter - Tree-sitter support for Neovim
   use {
@@ -109,10 +120,6 @@ function init_plugins(use)
   }
   -- }}}
 
-  -- {{{ plenary.nvim - Utilities for Lua scripting in Neovim
-  use "nvim-lua/plenary.nvim"
-  -- }}}
-
   -- {{{ vim-surround - Surround
   use "tpope/vim-surround"
   -- }}}
@@ -128,18 +135,31 @@ function init_plugins(use)
   use "ntpeters/vim-better-whitespace"
   -- }}}
 
-  -- {{{ fzf - Fuzzy File Finder inside Vim!
-  vim.env.FZF_DEFAULT_OPTS = "--reverse --border --preview \"bat -p --color=always {}\""
-
-  vim.g.fzf_layout = {
-    window = {
-      width = 200,
-      height = 0.8,
-      relative = false,
-    }
+  -- {{{ telescope.nvim - Fuzzy finder
+  use {
+    "nvim-telescope/telescope.nvim",
+    requires = {
+      "fhill2/telescope-ultisnips.nvim"
+    },
+    config = function()
+      vim.cmd "runtime configure_telescope.lua"
+    end
   }
+  -- }}}
 
-  use "junegunn/fzf"
+  -- {{{ [DISABLED] fzf - Fuzzy File Finder inside Vim!
+  -- vim.env.FZF_DEFAULT_OPTS = "--reverse --border --preview \"bat -p --color=always {}\""
+
+  -- vim.g.fzf_layout = {
+  --   window = {
+  --     width = 200,
+  --     height = 0.8,
+  --     relative = false,
+  --   }
+  -- }
+
+  -- use "junegunn/fzf"
+  -- use "junegunn/fzf.vim"
   -- }}}
 
   -- {{{ vim-visual-multi - Multiple cursors
