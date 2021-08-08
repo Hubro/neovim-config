@@ -8,7 +8,8 @@ vim.cmd [[
     au!
 
     au BufReadPost init_plugins.lua set foldmethod=marker | set foldlevel=0
-    au BufReadPost init_plugins.lua nnoremap <buffer> <F5> :PackerSync<CR>
+    au BufReadPost init_plugins.lua nnoremap <buffer> <F5> :so %<CR>:PackerSync<CR>
+    au BufWritePost init_plugins.lua source <afile> | PackerCompile
   augroup end
 ]]
 
