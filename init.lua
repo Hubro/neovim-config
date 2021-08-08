@@ -34,5 +34,6 @@ init("keybinds")
 init("packer")
 init("plugins")
 init("gui")
+init("custom_commands")
 init("colorscheme")
 
