@@ -37,3 +37,6 @@ init("gui")
 init("custom_commands")
 init("colorscheme")
 
+if _G.setup_project then
+  setup_project()
+end
