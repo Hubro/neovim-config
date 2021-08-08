@@ -199,6 +199,7 @@ function init_plugins(use)
       require("compe").setup {
         enabled = true,
         autocomplete = true,
+        preselect = "enable",
         min_length = 1,
 
         source = {
@@ -206,8 +207,19 @@ function init_plugins(use)
           path = true,
           buffer = true,
           nvim_lsp = true,
+          nvim_lua = true,
         },
       }
+
+      -- Completion menu ("nvim-compe" plugin)
+      vim.api.nvim_set_keymap("i", "<C-Space>", "compe#complete()", {noremap = true, expr = true})
+      vim.api.nvim_set_keymap("i", "<C-n>", "compe#complete()", {noremap = true, expr = true})
+      vim.api.nvim_set_keymap(
+        "i",
+        "<Tab>",
+        "compe#confirm({ 'keys': '<Tab>', 'select': v:true })",
+        {noremap = true, expr = true}
+      )
     end
   }
   -- }}}
