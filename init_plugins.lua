@@ -371,3 +371,24 @@ require("packer").startup {
     }
   }
 }
+
+--
+-- Automatically install all plugins if they are missing
+--
+
+local compiled_plugin_path =
+  vim.fn.stdpath("config") ..  "/plugin/packer_compiled.lua"
+
+if vim.fn.filereadable(compiled_plugin_path) ~= 1 then
+  _G.initial_packer_compile_done = function()
+    vim.cmd [[ au! User PackerCompileDone ]]
+
+    set_default_colorscheme()
+  end
+
+  vim.cmd [[
+    au User PackerCompileDone lua initial_packer_compile_done()
+
+    PackerSync
+  ]]
+end
