@@ -8,9 +8,6 @@ local keybinds = {
   -- Press Space to toggle folds
   {"n", "<Space>", "za"},
 
-  -- Toggle dark mode
-  {"n", "<F12>", ":lua toggle_dark_mode()<CR>"},
-
   -- Easier window navigation
   {"n", "<C-h>", "<C-w>h"},
   {"n", "<C-j>", "<C-w>j"},
@@ -23,21 +20,30 @@ local keybinds = {
   {"n", "<A-L>", ":tabmove +1<CR>"},   -- Move tab right
   {"n", "<A-H>", ":tabmove -1<CR>"},   -- Move tab left
 
-  -- Show FZF!
-  {"n", "<C-p>", ":FZF<CR>"},
+  -- Telescope - Find files
+  {"n", "<C-p>", ":Telescope find_files<CR>"},
 
-  -- Show FZF (File history)
-  {"n", "<C-A-p>", ":History<CR>"},
+  -- Telescope - File history
+  {"n", "<C-A-p>", ":Telescope oldfiles<CR>"},
+
+  -- Telescope - Show document outline using LSP symbols
+  {"n", "<Bar>o", ":Telescope lsp_document_symbols theme=outline<CR>"},
+
+  -- Telescope - Show Ultisnips snippets
+  {"n", "<Bar>s", ":Telescope ultisnips theme=ultisnips<CR>"},
+  {"i", "<C-s>", "<Space><BS><Esc>:Telescope ultisnips theme=ultisnips<CR>"},
 
   -- Toggle file tree (nvim-tree.lua)
   {"n", "<Leader>t", ":NvimTreeToggle<CR>"},
   {"n", "gt", ":NvimTreeFindFile<CR>"},   -- Open current file in the tree
 
   -- Toggle symbol outline
-  {"n", "<Leader>o", ":SymbolsOutline<CR>"},
+  --{"n", "<Leader>o", ":SymbolsOutline<CR>"},
 
   -- Show diagnostics window ("trouble.nvim" plugin)
-  {"n", "<Leader>d", ":Trouble<CR>"},
+  {"n", "<Leader>d", ":TroubleToggle<CR>"},
+  {"n", ")", "<Plug>(ale_next_wrap)", { noremap = false }},
+  {"n", "(", "<Plug>(ale_previous_wrap)", { noremap = false }},
 
   -- Floating terminal ("vim-floaterm" plugin)
   {"n", "<C-q>", ":FloatermToggle quick<CR>"},
