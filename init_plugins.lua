@@ -253,8 +253,8 @@ function init_plugins(use)
         map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
         map('i', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
         map('n', '<Leader>r', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-        map('n', '(', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-        map('n', ')', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+        -- map('n', '(', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+        -- map('n', ')', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
       end
 
       -- Custom config for YANG language server
