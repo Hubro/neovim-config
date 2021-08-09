@@ -323,6 +323,14 @@ TODO
 
   -- }}}
 
+  -- {{{ ale - Asynchronous linter engine
+  use {
+    "dense-analysis/ale",
+    config = function()
+    end
+  }
+  -- }}}
+
   ------------------
   -- Nice to have --
   ------------------
