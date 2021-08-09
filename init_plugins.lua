@@ -278,13 +278,46 @@ TODO
         },
       }
 
+      -- Custom config for Robot Framework language server
+      --
+      lspconfig_configs.robot_lsp = {
+        default_config = {
+          cmd = { "robotframework_ls" },
+          filetypes = { "robot" },
+          root_dir = function(fname)
+            return lsputil.find_git_ancestor(fname) or
+              lsputil.path.dirname(fname)
+          end,
+          settings = {
+              robot = {
+                  pythonpath = (
+                    vim.env.PYTHONPATH
+                    and vim.split(vim.env.PYTHONPATH, ":")
+                    or { "" }
+                  )
+              },
+          },
+        },
+        docs = {
+          description = [[
+TODO
+          ]],
+        },
+      }
+
       lspconfig.yang_lsp.setup {
         on_attach = _G.lsp_on_attach,
       }
 
-      lspconfig.pylsp.setup {
-        on_attach = _G.pylsp_on_attach,
+      vim.lsp.set_log_level("debug")
+
+      lspconfig.robot_lsp.setup {
+        on_attach = _G.lsp_on_attach,
       }
+
+      -- lspconfig.pylsp.setup {
+      --   on_attach = _G.lsp_on_attach,
+      -- }
     end
   }
 
