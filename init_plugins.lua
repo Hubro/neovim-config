@@ -341,6 +341,10 @@ TODO
   -- Nice to have --
   ------------------
 
+  -- {{{ lazygit.nvim - Lazygit inside neovim
+  use "kdheepak/lazygit.nvim"
+  -- }}}
+
   -- {{{ nvim-tree.lua - File explorer
   vim.g.nvim_tree_width = 40
 
