@@ -357,7 +357,7 @@ TODO
     config = function()
       require("trouble").setup {
         height = 20,
-        mode = "lsp_document_diagnostics",
+        mode = "loclist",
         auto_preview = false,
         action_keys = {
           toggle_fold = {"zA", "za", "<Space>"},
