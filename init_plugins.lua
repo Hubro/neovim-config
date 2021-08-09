@@ -239,12 +239,12 @@ function init_plugins(use)
       local lspconfig_configs = require("lspconfig/configs")
       local lsputil = require("lspconfig/util")
 
-      -- Runs when a buffer is connected to a language server
+      -- Handler for when a buffer is connected to a language server
       --
       -- This function is defined globally so it can be reused in local config
       -- files (.nvimrc)
       --
-      _G.pylsp_on_attach = function(client, bufnr)
+      _G.lsp_on_attach = function(client, bufnr)
         local function map(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
         local opts = {noremap=true, silent=true}
 
@@ -279,7 +279,7 @@ TODO
       }
 
       lspconfig.yang_lsp.setup {
-        on_attach = _G.pylsp_on_attach,
+        on_attach = _G.lsp_on_attach,
       }
 
       lspconfig.pylsp.setup {
