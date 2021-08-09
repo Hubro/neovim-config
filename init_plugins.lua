@@ -331,6 +331,12 @@ TODO
   }
   -- }}}
 
+  ----------------------
+  -- Language support --
+  ----------------------
+
+  use "mfukar/robotframework-vim"
+
   ------------------
   -- Nice to have --
   ------------------
