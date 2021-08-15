@@ -244,6 +244,11 @@ function init_plugins(use)
   }
   -- }}}
 
+  -- {{{ neoformat - Neovim plugin for formatting code
+  vim.g.neoformat_enabled_javascript = { "prettier" }
+  use "sbdchd/neoformat"
+  -- }}}
+
   ----------------------
   -- Language support --
   ----------------------
