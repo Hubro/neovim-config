@@ -263,6 +263,16 @@ function init_plugins(use)
 
   -- }}}
 
+  -- {{{ Python
+
+  -- https://github.com/Vimjas/vim-python-pep8-indent#gpython_pep8_indent_multiline_string
+  vim.g.python_pep8_indent_multiline_string = -2
+
+  -- Better indentation expression (indentexpr) for Python
+  use "Vimjas/vim-python-pep8-indent"
+
+  -- }}}
+
   ------------------
   -- Nice to have --
   ------------------
