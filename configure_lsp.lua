@@ -96,3 +96,7 @@ lspconfig.robot_lsp.setup {
 -- lspconfig.pylsp.setup {
 --   on_attach = _G.lsp_on_attach,
 -- }
+
+lspconfig.tsserver.setup {
+  on_attach = _G.lsp_on_attach
+}
