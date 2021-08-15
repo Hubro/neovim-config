@@ -253,7 +253,15 @@ function init_plugins(use)
   -- Language support --
   ----------------------
 
+  -- {{{ Robot Framework
+  --
+  -- LSP config for Robot Framework is done in the LSP configuration above
+  --
+
+  -- Syntax highlighting
   use "mfukar/robotframework-vim"
+
+  -- }}}
 
   ------------------
   -- Nice to have --
