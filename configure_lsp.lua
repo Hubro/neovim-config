@@ -100,3 +100,8 @@ lspconfig.robot_lsp.setup {
 lspconfig.tsserver.setup {
   on_attach = _G.lsp_on_attach
 }
+
+-- Allow projects to define a post-LSP hook for project specific LSP config
+if _G.project_hook_lsp then
+  project_hook_lsp()
+end
