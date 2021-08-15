@@ -10,15 +10,7 @@ else
     vim.g.mapleader = "\\"
 end
 
--- Run :checktime any time the cursor moves
---
--- This makes the "autoread" option work, which reloads buffers if the
--- corresponding file changes on disk.
---
-vim.cmd([[au CursorHold * checktime]])
-
--- Hide line numbers in the gutter in terminal windows
-vim.cmd([[au TermOpen * setlocal nonumber | setlocal norelativenumber]])
+vim.cmd([[au BufRead,BufNewFile ~/.config/nvim/*.lua set foldmethod=marker]])
 
 function init(name)
     vim.cmd("runtime init_" .. name .. ".lua")
@@ -35,6 +27,7 @@ init("packer")
 init("plugins")
 init("gui")
 init("custom_commands")
+init("autocommands")
 init("colorscheme")
 
 if _G.setup_project then
