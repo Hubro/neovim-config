@@ -70,6 +70,7 @@ function init_plugins(use)
           "rust",
           "scala",
           "scss",
+          "svelte",
           "toml",
           "typescript",
           "vue",
