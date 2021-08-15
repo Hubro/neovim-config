@@ -378,4 +378,8 @@ if vim.fn.filereadable(compiled_plugin_path) ~= 1 then
 
     PackerSync
   ]]
+else
+  -- Always rebuild plugins on startup, otherwise Packer will raise errors when
+  -- switching between platforms (Linux, Windows, macOS).
+  vim.cmd "PackerCompile"
 end
