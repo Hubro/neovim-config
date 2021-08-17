@@ -70,8 +70,10 @@ local keybinds = {
   {"n", "<F1>", ":vsplit<CR>:terminal<CR>i"},
   {"n", "<S-F1>", ":split<CR>:terminal<CR>i"},
 
-  -- Wrap the current line while in insert mode
-  {"i", "<A-q>", "<Esc>gqq0A"},
+  -- Text wrapping keybinds inspired by Sublime Text
+  {"i", "<A-w>", "<Esc>gqq0A"},   -- Wrap the current line while in insert mode
+  {"i", "<A-q>", "<Esc>gqipA"},   -- Wrap the current paragraph in insert mode
+  {"n", "<A-q>", "gqip"},         -- Wrap the current paragraph in normal mode
 
   -- CTRL+Enter creates a new line below the current line, Shift+Enter creates
   -- a line above the current line.
