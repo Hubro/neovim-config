@@ -8,6 +8,14 @@ local keybinds = {
   -- Press Space to toggle folds
   {"n", "<Space>", "za"},
 
+  -- Move lines up/down
+  {"n", "<A-k>", ":m -2<CR>"},
+  {"n", "<A-j>", ":m +1<CR>"},
+
+  -- Move selection up/down
+  {"v", "<A-k>", ":m '<-2'<CR>gv"},
+  {"v", "<A-j>", ":m '>+1'<CR>gv"},
+
   -- Easier window navigation
   {"n", "<C-h>", "<C-w>h"},
   {"n", "<C-j>", "<C-w>j"},
