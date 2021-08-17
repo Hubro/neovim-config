@@ -41,6 +41,15 @@ local keybinds = {
   {"n", "<Bar>s", ":Telescope ultisnips theme=ultisnips<CR>"},
   {"i", "<C-s>", "<Space><BS><Esc>:Telescope ultisnips theme=ultisnips<CR>"},
 
+  -- Telescope - Live grep
+  {"n", "<Bar>g", ":Telescope live_grep<CR>"},
+
+  -- Telescope - Show LSP code actions
+  {"n", "<Bar>la", ":Telescope lsp_code_actions theme=get_dropdown<CR>"},
+
+  -- Telescope - Show LSP references
+  {"n", "<Bar>lr", ":Telescope lsp_references<CR>"},
+
   -- Toggle file tree (nvim-tree.lua)
   {"n", "<Leader>t", ":NvimTreeToggle<CR>"},
   {"n", "gt", ":NvimTreeFindFile<CR>"},   -- Open current file in the tree
