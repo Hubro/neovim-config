@@ -47,6 +47,10 @@ function init_plugins(use)
   use "tpope/vim-surround"
   -- }}}
 
+  -- {{{ vim-commentary - Comment / Uncomment
+  use "tpope/vim-commentary"
+  -- }}}
+
   -- {{{ editorconfig-vim - EditorConfig support
   use "editorconfig/editorconfig-vim"
   -- }}}
