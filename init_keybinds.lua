@@ -70,13 +70,17 @@ local keybinds = {
   {"n", "<F1>", ":vsplit<CR>:terminal<CR>i"},
   {"n", "<S-F1>", ":split<CR>:terminal<CR>i"},
 
+  -- Alternative key to escape terminal, necessary since the original
+  -- keybinding can't be expressed on a Mac keyboard
+  {"t", "ń", "<C-\\><C-n>", { mac = true }},
+
   -- Text wrapping keybinds inspired by Sublime Text
   {"i", "<A-w>", "<Esc>gqq0A"},   -- Wrap the current line while in insert mode
   {"i", "<A-q>", "<Esc>gqipA"},   -- Wrap the current paragraph in insert mode
   {"n", "<A-q>", "gqip"},         -- Wrap the current paragraph in normal mode
 
   -- CTRL+Enter creates a new line below the current line, Shift+Enter creates
-  -- a line above the current line.
+  -- a line above the current line. (These only work in GUIs.)
   {"i", "<C-CR>", "<Esc>o"},
   {"i", "<S-CR>", "<Esc>O"},
 }
@@ -90,7 +94,19 @@ function apply_keybinds(keybinds)
       bind[4] = vim.tbl_extend("force", default_opts, bind[4])
     end
 
+    if bind[4].mac then
+      bind[4].mac = nil
+
+      if vim.fn.has("macunix") == 0 then
+        -- This is a mac-only keybind and this is not a MacOS system, so ignore
+        -- this keybind
+        goto continue
+      end
+    end
+
     vim.api.nvim_set_keymap(unpack(bind))
+
+    ::continue::
   end
 end
 
