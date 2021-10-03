@@ -28,6 +28,13 @@ local keybinds = {
   {"n", "<A-L>", ":tabmove +1<CR>"},   -- Move tab right
   {"n", "<A-H>", ":tabmove -1<CR>"},   -- Move tab left
 
+  -- Pressing * in visual mode should search for the selected text, then select
+  -- the next search result so * can be pressed repeatedly to move forwards.
+  {"v", "*", '"sy/<C-r>s<CR>gn'},
+
+  -- Pressing # in visual mode should do the same as *, but backwards.
+  {"v", "#", '"sy?<C-r>s<CR>gn'},
+
   -- Telescope - Find files
   {"n", "<C-p>", ":Telescope find_files<CR>"},
 
