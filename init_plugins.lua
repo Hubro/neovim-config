@@ -416,7 +416,7 @@ require("packer").startup {
 --
 
 local compiled_plugin_path =
-  vim.fn.stdpath("config") ..  "/plugin/packer_compiled.lua"
+  vim.fn.stdpath("config") .. "/plugin/packer_compiled.lua"
 
 if vim.fn.filereadable(compiled_plugin_path) ~= 1 then
   _G.initial_packer_compile_done = function()
@@ -433,5 +433,5 @@ if vim.fn.filereadable(compiled_plugin_path) ~= 1 then
 else
   -- Always rebuild plugins on startup, otherwise Packer will raise errors when
   -- switching between platforms (Linux, Windows, macOS).
-  vim.cmd "PackerCompile"
+  --vim.cmd "PackerCompile"
 end
