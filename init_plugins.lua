@@ -236,6 +236,8 @@ function init_plugins(use)
   -- {{{ trouble.nvim - A pretty list for showing diagnostics, quickfix etc.
   use {
     "folke/trouble.nvim",
+    opt = true,
+    cmd = { "Trouble", "TroubleToggle" },
     config = function()
       require("trouble").setup {
         height = 20,
