@@ -8,16 +8,22 @@ local lspconfig = require("lspconfig")
 local lspconfig_configs = require("lspconfig/configs")
 local lsputil = require("lspconfig/util")
 
+local lsp_status = require("lsp-status")
+
 -- Handler for when a buffer is connected to a language server
 --
 -- This function is defined globally so it can be reused in local config
 -- files (.nvimrc)
 --
 _G.lsp_on_attach = function(client, bufnr)
+  -- Give lsp-status a reference to the client
+  lsp_status.on_attach(client)
+
   local function map(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local opts = {noremap=true, silent=true}
 
   map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  map('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
   map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
   map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
   map('i', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
