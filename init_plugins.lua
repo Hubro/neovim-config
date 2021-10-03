@@ -224,7 +224,11 @@ function init_plugins(use)
   ------------------
 
   -- {{{ lazygit.nvim - Lazygit inside neovim
-  use "kdheepak/lazygit.nvim"
+  use {
+    "kdheepak/lazygit.nvim",
+    opt = true,
+    cmd = { "LazyGit" },
+  }
   -- }}}
 
   -- {{{ nvim-tree.lua - File explorer
