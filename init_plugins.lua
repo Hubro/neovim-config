@@ -236,9 +236,24 @@ function init_plugins(use)
   -- }}}
 
   -- {{{ nvim-tree.lua - File explorer
-  vim.g.nvim_tree_width = 40
+  vim.g.nvim_tree_ignore = {".git", "node_modules", "__pycache__"}
 
-  use "kyazdani42/nvim-tree.lua"
+  use {
+    "kyazdani42/nvim-tree.lua",
+    requires = { "kyazdani42/nvim-web-devicons" },
+    opt = true,
+    cmd = { "NvimTreeToggle", "NvimTreeFindFile" },
+    config = function()
+      require("nvim-web-devicons").setup()
+
+      require("nvim-tree").setup {
+        hijack_cursor = true,
+        view = {
+          width = 40
+        }
+      }
+    end
+  }
   -- }}}
 
   -- {{{ trouble.nvim - A pretty list for showing diagnostics, quickfix etc.
