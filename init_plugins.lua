@@ -212,6 +212,13 @@ function init_plugins(use)
 
   -- }}}
 
+  -- {{{ SystemD
+
+  -- Syntax highlighting for SystemD service files
+  use "wgwoods/vim-systemd-syntax"
+
+  -- }}}
+
   ------------------
   -- Nice to have --
   ------------------
