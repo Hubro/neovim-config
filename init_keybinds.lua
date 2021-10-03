@@ -42,7 +42,10 @@ local keybinds = {
   {"i", "<C-s>", "<Space><BS><Esc>:Telescope ultisnips theme=ultisnips<CR>"},
 
   -- Telescope - Live grep
-  {"n", "<Bar>g", ":Telescope live_grep<CR>"},
+  {"n", "<Bar>gr", ":Telescope live_grep<CR>"},
+
+  -- Telescope - Git status
+  {"n", "<Bar>gs", ":Telescope git_status<CR>"},
 
   -- Telescope - Show LSP code actions
   {"n", "<Bar>la", ":Telescope lsp_code_actions theme=get_dropdown<CR>"},
