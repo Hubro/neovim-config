@@ -251,10 +251,14 @@ function init_plugins(use)
 
   -- {{{ vim-floaterm - Floating terminal
   vim.g.floaterm_autoclose = 2
-  vim.g.floaterm_width = 120
-  vim.g.floaterm_height = 50
+  vim.g.floaterm_width = 160
+  vim.g.floaterm_height = 60
 
-  use "voldikss/vim-floaterm"
+  use {
+    "voldikss/vim-floaterm",
+    opt = true,
+    cmd = { "FloatermToggle" },
+  }
   -- }}}
 
   ------------
