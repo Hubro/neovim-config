@@ -12,7 +12,7 @@ vim.opt.expandtab = true       -- Insert spaces rather than literal tab symbols
 vim.opt.shiftwidth = 4         -- Spaces to use for auto-indent, >> and <<
 vim.opt.softtabstop = 4        -- Insert 4 spaces when pressing tab or backspace
 
-vim.opt.colorcolumn = { 80 }
+--vim.opt.colorcolumn = { 80 }
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.wrap = false
