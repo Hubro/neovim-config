@@ -117,8 +117,7 @@ end
 --   https://github.com/hoob3rt/lualine.nvim/tree/master/lua/lualine/themes
 --
 function _G.set_lualine_theme(theme)
-  require("plenary.reload").reload_module("lualine", true)
-  require("lualine").setup {
+  require"lualine".setup{
     options = {
       theme = theme
     }
