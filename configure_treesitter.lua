@@ -8,6 +8,26 @@
 --     },
 --     filetype = "yang",
 -- }
+--
+
+vim.treesitter.set_query("python", "folds", [[
+  (function_definition (block) @fold)
+  (class_definition (block) @fold)
+]])
+
+vim.treesitter.set_query("yang", "folds", [[
+  (statement
+    (statement_keyword "grouping")
+    (block) @fold)
+
+  (statement
+    (statement_keyword "container")
+    (block) @fold)
+
+  (statement
+    (statement_keyword "list")
+    (block) @fold)
+]])
 
 require("nvim-treesitter.configs").setup {
   -- Value can be "all", "maintained" (parsers with maintainers), or a
