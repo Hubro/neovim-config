@@ -35,6 +35,10 @@ local keybinds = {
   -- Pressing # in visual mode should do the same as *, but backwards.
   {"v", "#", '"sy?<C-r>s<CR>gn'},
 
+  -- Some Fugitive shortcuts
+  {"n", "<Leader>gs", ":tab G<CR>"},
+  {"n", "<Leader>gl", ":tab Git log<CR>"},
+
   -- Telescope - Find files
   {"n", "<C-p>", ":Telescope find_files<CR>"},
 
