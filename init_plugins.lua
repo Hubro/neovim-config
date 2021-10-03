@@ -174,6 +174,7 @@ function init_plugins(use)
   use {
     "dense-analysis/ale",
     config = function()
+      vim.cmd "runtime configure_ale.lua"
     end
   }
   -- }}}
