@@ -51,6 +51,10 @@ function init_plugins(use)
   use "tpope/vim-commentary"
   -- }}}
 
+  -- {{{ vim-repeat - Improved repeat (.) allowing plugin extension
+  use "tpope/vim-repeat"
+  -- }}}
+
   -- {{{ editorconfig-vim - EditorConfig support
   use "editorconfig/editorconfig-vim"
   -- }}}
@@ -160,6 +164,12 @@ function init_plugins(use)
 
   -- }}}
 
+  -- {{{ lsp-status.nvim - Plugin for displaying LSP status
+
+  use "nvim-lua/lsp-status.nvim"
+
+  -- }}}
+
   -- {{{ ale - Asynchronous linter engine
   use {
     "dense-analysis/ale",
@@ -171,6 +181,10 @@ function init_plugins(use)
   -- {{{ neoformat - Neovim plugin for formatting code
   vim.g.neoformat_enabled_javascript = { "prettier" }
   use "sbdchd/neoformat"
+  -- }}}
+
+  -- {{{ auto-pairs - Auto close quites and parentheses
+  use "jiangmiao/auto-pairs"
   -- }}}
 
   ----------------------
