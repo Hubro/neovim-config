@@ -231,6 +231,10 @@ function init_plugins(use)
   }
   -- }}}
 
+  -- {{{ fugitive.vim - Premier Git plugin for Vim
+  use "tpope/vim-fugitive"
+  -- }}}
+
   -- {{{ nvim-tree.lua - File explorer
   vim.g.nvim_tree_width = 40
 
