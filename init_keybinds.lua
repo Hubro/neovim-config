@@ -7,6 +7,7 @@ local keybinds = {
 
   -- Press Space to toggle folds
   {"n", "<Space>", "za"},
+  {"n", "<S-Space>", "zA"},
 
   -- Move lines up/down
   {"n", "<A-k>", ":m -2<CR>"},
