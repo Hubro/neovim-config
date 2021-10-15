@@ -219,6 +219,16 @@ function init_plugins(use)
 
   -- }}}
 
+  -- {{{ Markdown
+
+  -- Live preview for Markdown
+  use {
+    "iamcco/markdown-preview.nvim",
+    run = "cd app && yarn install",
+  }
+
+  -- }}}
+
   ------------------
   -- Nice to have --
   ------------------
