@@ -6,6 +6,7 @@ vim.opt.termguicolors = true   -- Allow true colors in color schemes
 vim.opt.updatetime=100         -- To make gitgutter update faster
 vim.opt.scrolloff = 5          -- Keep 5 lines margin between cursor and edge
 vim.opt.mouse = "a"            -- Enable mouse, mostly useful for resizing
+vim.opt.foldmethod = "marker"  -- Enable marker folding by default
 
 -- Default whitespace settings. These will probably be overridden by file type
 -- specific settings or EditorConfig.
