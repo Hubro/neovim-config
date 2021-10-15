@@ -32,6 +32,8 @@ _G.lsp_on_attach = function(client, bufnr)
   -- map('n', ')', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
 end
 
+-- {{{ Custom LSP configs
+
 -- Custom config for YANG language server
 --
 lspconfig_configs.yang_lsp = {
@@ -80,6 +82,25 @@ TODO
   },
 }
 
+-- Custom config for Home Assistant language server
+--
+lspconfig_configs.homeassistant = {
+  default_config = {
+    cmd = {
+      "/usr/bin/node",
+      "/opt/vscode-home-assistant/out/server/server.js",
+      "--stdio"
+    },
+    filetypes = { "yaml" },
+    root_dir = lsputil.root_pattern("configuration.yaml"),
+    settings = { }
+  }
+}
+
+-- }}}
+
+-- vim.lsp.set_log_level("debug")
+
 lspconfig.yang_lsp.setup {
   on_attach = _G.lsp_on_attach,
   capabilities = {
@@ -93,9 +114,11 @@ lspconfig.yang_lsp.setup {
   }
 }
 
-vim.lsp.set_log_level("debug")
-
 lspconfig.robot_lsp.setup {
+  on_attach = _G.lsp_on_attach,
+}
+
+lspconfig.homeassistant.setup {
   on_attach = _G.lsp_on_attach,
 }
 
