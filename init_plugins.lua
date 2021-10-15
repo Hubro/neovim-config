@@ -32,8 +32,7 @@ function init_plugins(use)
 
   -- {{{ nvim-treesitter - Tree-sitter support for Neovim
   use {
-    -- "nvim-treesitter/nvim-treesitter",
-    "Hubro/nvim-treesitter",
+    "nvim-treesitter/nvim-treesitter",
 
     requires = { "nvim-treesitter/playground" },
 
@@ -70,9 +69,7 @@ function init_plugins(use)
   -- {{{ telescope.nvim - Fuzzy finder
   use {
     "nvim-telescope/telescope.nvim",
-    requires = {
-      "fhill2/telescope-ultisnips.nvim"
-    },
+    requires = { "fhill2/telescope-ultisnips.nvim" },
     config = function()
       vim.cmd "runtime configure_telescope.lua"
     end
@@ -251,11 +248,8 @@ function init_plugins(use)
   use {
     "kyazdani42/nvim-tree.lua",
     requires = { "kyazdani42/nvim-web-devicons" },
-    opt = true,
-    cmd = { "NvimTreeToggle", "NvimTreeFindFile" },
+    wants = { "nvim-web-devicons" },
     config = function()
-      require("nvim-web-devicons").setup()
-
       require("nvim-tree").setup {
         hijack_cursor = true,
         view = {
@@ -304,7 +298,9 @@ function init_plugins(use)
   use {
     "kyazdani42/nvim-web-devicons",
     config = function()
-      require("nvim-web-devicons").setup()
+      require("nvim-web-devicons").setup {
+        default = true;
+      }
     end
   }
 
@@ -342,16 +338,18 @@ function init_plugins(use)
         icons = {
           ["class-name"] = '☰ ',      -- Classes and class-like objects
           ["function-name"] = 'λ ',   -- Functions
-          ["method-name"] = ' '      -- Methods (functions inside class-like objects)
+          ["method-name"] = ' '      -- Methods
         },
         -- separator = " ➜  ",
-        separator = " / ",
+        -- separator = " / ",
+        separator = "  ",
       }
 
       lualine.setup{
         options = {
-          disabled_filetypes = { "NvimTree" },
+          disabled_filetypes = { "NvimTree", "minimap" },
         },
+        extensions = { "fugitive", "nvim-tree", "quickfix" },
         sections = {
           lualine_b = {
             "branch",
@@ -389,12 +387,21 @@ function init_plugins(use)
             {
               "filename",
               path = 1,   -- Show relative path, not just filename
-              separator = "➜ ",
+              separator = "",
             },
             { gps.get_location, cond = gps.is_available }
           },
 
-          lualine_x = { tabline.tabline_tabs },
+          -- lualine_x = { tabline.tabline_tabs },
+          lualine_x = {
+            {
+              "tabs",
+              tabs_color = {
+                active = "lualine_a_normal",
+                inactive = "lualine_b_normal",
+              }
+            }
+          },
           lualine_y = {},
           lualine_z = {},
         }
