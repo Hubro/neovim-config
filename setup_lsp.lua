@@ -5,8 +5,8 @@ end
 _G.lsp_is_configured = true
 
 local lspconfig = require("lspconfig")
-local lspconfig_configs = require("lspconfig/configs")
-local lsputil = require("lspconfig/util")
+local lspconfig_configs = require("lspconfig.configs")
+local lsputil = require("lspconfig.util")
 
 local lsp_status = require("lsp-status")
 
@@ -99,8 +99,6 @@ lspconfig_configs.homeassistant = {
 
 -- }}}
 
--- vim.lsp.set_log_level("debug")
-
 lspconfig.yang_lsp.setup {
   on_attach = _G.lsp_on_attach,
   capabilities = {
@@ -126,7 +124,15 @@ lspconfig.homeassistant.setup {
 --   on_attach = _G.lsp_on_attach,
 -- }
 
+lspconfig.pyright.setup {
+  on_attach = _G.lsp_on_attach
+}
+
 lspconfig.tsserver.setup {
+  on_attach = _G.lsp_on_attach
+}
+
+lspconfig.svelte.setup {
   on_attach = _G.lsp_on_attach
 }
 

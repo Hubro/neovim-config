@@ -1,9 +1,11 @@
 
 vim.g.hubro_current_theme_mode = "dark"
-vim.g.hubro_default_dark_theme = "one"
-vim.g.hubro_default_light_theme = "one_light"
--- vim.g.hubro_default_dark_theme = "gruvbox"
--- vim.g.hubro_default_light_theme = "gruvbox_light"
+-- vim.g.hubro_default_dark_theme = "one"
+-- vim.g.hubro_default_light_theme = "one_light"
+-- vim.g.hubro_default_dark_theme = "gruvbox8_hard"
+-- vim.g.hubro_default_light_theme = "gruvbox8_hard_light"
+vim.g.hubro_default_dark_theme = "dracula"
+vim.g.hubro_default_light_theme = "iceberg_light"
 
 if vim.g.hubro_current_theme_mode == "dark" then
   vim.g.hubro_current_theme = vim.g.hubro_default_dark_theme
@@ -14,11 +16,11 @@ end
 -- Setting a colorscheme before a client is attached to Neovim is apparently
 -- pretty buggy, so this workaround waits until the first BufEnter event to set
 -- the colorscheme.
-vim.cmd([[
-  aug set_default_colorscheme
-    au BufEnter * lua set_default_colorscheme()
-  aug end
-]])
+--vim.cmd([[
+--  aug set_default_colorscheme
+--    au BufEnter * ++once lua set_default_colorscheme()
+--  aug end
+--]])
 
 local themes = {
   gruvbox = {
@@ -29,6 +31,16 @@ local themes = {
   gruvbox_light = {
     background = "light",
     colorscheme = "gruvbox",
+    lualine = "gruvbox_light",
+  },
+  gruvbox8_hard = {
+    background = "dark",
+    colorscheme = "gruvbox8_hard",
+    lualine = "gruvbox",
+  },
+  gruvbox8_hard_light = {
+    background = "light",
+    colorscheme = "gruvbox8_hard",
     lualine = "gruvbox_light",
   },
   one = {
@@ -74,6 +86,11 @@ local themes = {
     background = "light",
     colorscheme = "tokyonight",
     lualine = "auto",
+  },
+  dracula = {
+    background = "dark",
+    colorscheme = "dracula",
+    lualine = "dracula",
   }
 }
 
@@ -108,8 +125,6 @@ function _G.set_default_colorscheme()
     -- Failed to set default colorscheme, no big deal. The required plugins
     -- probably aren't installed.
   end
-
-  vim.cmd([[au! set_default_colorscheme]])
 end
 
 -- Themes:
@@ -123,3 +138,5 @@ function _G.set_lualine_theme(theme)
     }
   }
 end
+
+set_default_colorscheme()

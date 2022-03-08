@@ -10,25 +10,6 @@
 -- }
 --
 
-vim.treesitter.set_query("python", "folds", [[
-  (function_definition (block) @fold)
-  (class_definition (block) @fold)
-]])
-
-vim.treesitter.set_query("yang", "folds", [[
-  (statement
-    (statement_keyword "grouping")
-    (block) @fold)
-
-  (statement
-    (statement_keyword "container")
-    (block) @fold)
-
-  (statement
-    (statement_keyword "list")
-    (block) @fold)
-]])
-
 require("nvim-treesitter.configs").setup {
   -- Value can be "all", "maintained" (parsers with maintainers), or a
   -- list of languages
@@ -78,7 +59,9 @@ require("nvim-treesitter.configs").setup {
 
   indent = {
     enable = true,
-    disable = { "python" }   -- The indent expression for Python is broken
+
+    -- The indent expressions for some languages are complete shit
+    disable = { "python", "svelte" }
   },
 
   playground = {
@@ -98,5 +81,34 @@ require("nvim-treesitter.configs").setup {
       goto_node = '<cr>',
       show_help = '?',
     },
+  },
+
+  autotag = {
+    enable = true,
+    filetypes = {
+      "html", "xml",
+      "javascript", "javascriptreact", "typescriptreact",
+      "svelte",
+      "vue"
+    }
   }
 }
+
+vim.treesitter.set_query("python", "folds", [[
+  (function_definition (block) @fold)
+  (class_definition (block) @fold)
+]])
+
+vim.treesitter.set_query("yang", "folds", [[
+  (statement
+    (statement_keyword "grouping")
+    (block) @fold)
+
+  (statement
+    (statement_keyword "container")
+    (block) @fold)
+
+  (statement
+    (statement_keyword "list")
+    (block) @fold)
+]])

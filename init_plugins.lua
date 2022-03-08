@@ -1,469 +1,239 @@
 
---
--- When this buffer is focused, press F5 to update plugins
---
+local plugin_install_path = vim.fn.stdpath("data").."/bundle"
 
-vim.cmd [[
-  augroup init_plugins.lua
+-- {{{ Magic Lua juice
+
+vim.cmd[[
+  aug init_plugins.lua
     au!
-
-    au BufReadPost init_plugins.lua set foldmethod=marker | set foldlevel=0
-    au BufReadPost init_plugins.lua nnoremap <buffer> <F5> :so %<CR>:PackerSync<CR>
-    au BufWritePost init_plugins.lua source <afile> | PackerCompile
-  augroup end
+    au BufEnter init_plugins.lua nnoremap <F5> :so %<CR>:PlugInstall<CR>
+    au BufEnter init_plugins.lua nnoremap <F6> :so %<CR>:PlugUpdate<CR>
+  aug END
 ]]
 
-function init_plugins(use)
-  use "wbthomason/packer.nvim"
+function plug(definitions)
+  local plugins_to_set_up = {}
 
-  -------------------
-  -- Core plugins ---
-  -------------------
+  vim.fn["plug#begin"](plugin_install_path)
 
-  -- {{{ Common dependencies
-
-  -- plenary.nvim - Utilities for Lua scripting in Neovim
-  use "nvim-lua/plenary.nvim"
-
-  -- popup.vim -- Implementation of Vim's popup API in Neovim
-  use "nvim-lua/popup.nvim"
-
-  -- }}}
-
-  -- {{{ nvim-treesitter - Tree-sitter support for Neovim
-  use {
-    "nvim-treesitter/nvim-treesitter",
-
-    requires = { "nvim-treesitter/playground" },
-
-    config = function()
-      vim.cmd "runtime configure_treesitter.lua"
+  for i, plugin in ipairs(definitions) do
+    if type(plugin) == "string" then
+      vim.fn["plug#"](plugin)
     end
-  }
-  -- }}}
 
-  -- {{{ vim-surround - Surround
-  use "tpope/vim-surround"
-  -- }}}
+    if type(plugin) == "table" then
+      -- If this is a key/value table, it will contain special instructions and
+      -- global options
+      if plugin[1] == nil then
+        for key, value in pairs(plugin) do
+          if key:sub(1, 2) == "g:" then
+            -- This is a global option!
+            vim.g[key:sub(3, #key)] = value
+          elseif key == "setup" then
+            table.insert(plugins_to_set_up, value)
+          else
+            error("Unknown plugin instruction: " .. key)
+          end
+        end
+      -- Otherwise, this is a plug# call with options. We'll pass these more or
+      -- less directly to plug#, but with some aliases switched out to avoid
+      -- reserved keywords.
+      else
+        if plugin.run ~= nil then
+          plugin["do"] = plugin.run
+          plugin.run = nil
+        end
 
-  -- {{{ vim-commentary - Comment / Uncomment
-  use "tpope/vim-commentary"
-  -- }}}
-
-  -- {{{ vim-repeat - Improved repeat (.) allowing plugin extension
-  use "tpope/vim-repeat"
-  -- }}}
-
-  -- {{{ editorconfig-vim - EditorConfig support
-  use "editorconfig/editorconfig-vim"
-  -- }}}
-
-  -- {{{ vim-better-whitespace - Highlights and clears trailing whitespace
-  vim.g.better_whitespace_enabled = false   -- Don't highlight whitespace
-  vim.g.strip_whitespace_on_save = true
-  vim.g.strip_whitelines_at_eof = true      -- Also strip trailing line endings
-  vim.g.strip_whitespace_confirm = false
-  use "ntpeters/vim-better-whitespace"
-  -- }}}
-
-  -- {{{ telescope.nvim - Fuzzy finder
-  use {
-    "nvim-telescope/telescope.nvim",
-    requires = { "fhill2/telescope-ultisnips.nvim" },
-    config = function()
-      vim.cmd "runtime configure_telescope.lua"
+        vim.fn["plug#"](unpack(plugin))
+      end
     end
-  }
-  -- }}}
-
-  -- {{{ [DISABLED] fzf - Fuzzy File Finder inside Vim!
-  -- vim.env.FZF_DEFAULT_OPTS = "--reverse --border --preview \"bat -p --color=always {}\""
-
-  -- vim.g.fzf_layout = {
-  --   window = {
-  --     width = 200,
-  --     height = 0.8,
-  --     relative = false,
-  --   }
-  -- }
-
-  -- use "junegunn/fzf"
-  -- use "junegunn/fzf.vim"
-  -- }}}
-
-  -- {{{ vim-visual-multi - Multiple cursors
-  use "mg979/vim-visual-multi"
-  -- }}}
-
-  -- {{{ vim-gitgutter - Show Git changes in gutter
-  use "airblade/vim-gitgutter"
-  -- }}}
-
-  -- {{{ ultisnips - Snippet plugin
-  vim.g.UltiSnipsEditSplit = "horizontal"
-  vim.g.UltiSnipsExpandTrigger = "<Plug>UltisnipsExpand"   -- Expansion is done by nvim-compe
-
-  use {
-    "SirVer/ultisnips",
-    opt = true,
-
-    -- Only load ultisnips if Python 3 is available. Otherwise error messages
-    -- pop up on every key press.
-    cond = function()
-      return vim.fn.has("python3") == 1
-    end
-  }
-  -- }}}
-
-  -- {{{ nvim-compe - Auto-completion plugin for Neovim
-  use {
-    "hrsh7th/nvim-compe",
-    config = function()
-      vim.o.completeopt = "menuone,noselect"
-
-      -- https://github.com/hrsh7th/nvim-compe#lua-config
-      require("compe").setup {
-        enabled = true,
-        autocomplete = true,
-        preselect = "enable",
-        min_length = 1,
-
-        source = {
-          ultisnips = true,
-          path = true,
-          buffer = true,
-          nvim_lsp = true,
-          nvim_lua = true,
-        },
-      }
-
-      -- Completion menu ("nvim-compe" plugin)
-      vim.api.nvim_set_keymap("i", "<C-Space>", "compe#complete()", {noremap = true, expr = true})
-      vim.api.nvim_set_keymap("i", "<C-n>", "compe#complete()", {noremap = true, expr = true})
-      vim.api.nvim_set_keymap(
-        "i",
-        "<Tab>",
-        "compe#confirm({ 'keys': '<Tab>', 'select': v:true })",
-        {noremap = true, expr = true}
-      )
-    end
-  }
-  -- }}}
-
-  -- {{{ nvim-lspconfig - Configurations for a bunch of language servers
-
-  use {
-    "neovim/nvim-lspconfig",
-    config = function()
-      vim.cmd "runtime configure_lsp.lua"
-    end
-  }
-
-  -- }}}
-
-  -- {{{ lsp-status.nvim - Plugin for displaying LSP status
-
-  use "nvim-lua/lsp-status.nvim"
-
-  -- }}}
-
-  -- {{{ ale - Asynchronous linter engine
-  use {
-    "dense-analysis/ale",
-    config = function()
-      vim.cmd "runtime configure_ale.lua"
-    end
-  }
-  -- }}}
-
-  -- {{{ neoformat - Neovim plugin for formatting code
-  vim.g.neoformat_enabled_javascript = { "prettier" }
-  use "sbdchd/neoformat"
-  -- }}}
-
-  -- {{{ auto-pairs - Auto close quites and parentheses
-  use "jiangmiao/auto-pairs"
-  -- }}}
-
-  ----------------------
-  -- Language support --
-  ----------------------
-
-  -- {{{ Robot Framework
-  --
-  -- LSP config for Robot Framework is done in the LSP configuration above
-  --
-
-  -- Syntax highlighting
-  use "mfukar/robotframework-vim"
-
-  -- }}}
-
-  -- {{{ Python
-
-  -- https://github.com/Vimjas/vim-python-pep8-indent#gpython_pep8_indent_multiline_string
-  vim.g.python_pep8_indent_multiline_string = -2
-
-  -- Better indentation expression (indentexpr) for Python
-  use "Vimjas/vim-python-pep8-indent"
-
-  -- }}}
-
-  -- {{{ SystemD
-
-  -- Syntax highlighting for SystemD service files
-  use "wgwoods/vim-systemd-syntax"
-
-  -- }}}
-
-  -- {{{ Markdown
-
-  -- Live preview for Markdown
-  use {
-    "iamcco/markdown-preview.nvim",
-    run = "cd app && yarn install",
-  }
-
-  -- }}}
-
-  ------------------
-  -- Nice to have --
-  ------------------
-
-  -- {{{ lazygit.nvim - Lazygit inside neovim
-  use {
-    "kdheepak/lazygit.nvim",
-    opt = true,
-    cmd = { "LazyGit" },
-  }
-  -- }}}
-
-  -- {{{ fugitive.vim - Premier Git plugin for Vim
-  use "tpope/vim-fugitive"
-  -- }}}
-
-  -- {{{ nvim-tree.lua - File explorer
-  vim.g.nvim_tree_ignore = {".git", "node_modules", "__pycache__"}
-
-  use {
-    "kyazdani42/nvim-tree.lua",
-    requires = { "kyazdani42/nvim-web-devicons" },
-    wants = { "nvim-web-devicons" },
-    config = function()
-      require("nvim-tree").setup {
-        hijack_cursor = true,
-        view = {
-          width = 40
-        }
-      }
-    end
-  }
-  -- }}}
-
-  -- {{{ trouble.nvim - A pretty list for showing diagnostics, quickfix etc.
-  use {
-    "folke/trouble.nvim",
-    opt = true,
-    cmd = { "Trouble", "TroubleToggle" },
-    config = function()
-      require("trouble").setup {
-        height = 20,
-        mode = "loclist",
-        auto_preview = false,
-        action_keys = {
-          toggle_fold = {"zA", "za", "<Space>"},
-        },
-      }
-    end
-  }
-  -- }}}
-
-  -- {{{ vim-floaterm - Floating terminal
-  vim.g.floaterm_autoclose = 2
-  vim.g.floaterm_width = 160
-  vim.g.floaterm_height = 60
-
-  use {
-    "voldikss/vim-floaterm",
-    opt = true,
-    cmd = { "FloatermToggle" },
-  }
-  -- }}}
-
-  ------------
-  -- Bling ---
-  ------------
-
-  -- {{{ Icons - Needed by multiple plugins
-  use {
-    "kyazdani42/nvim-web-devicons",
-    config = function()
-      require("nvim-web-devicons").setup {
-        default = true;
-      }
-    end
-  }
-
-  use "ryanoasis/vim-devicons"
-  -- }}}
-
-  -- {{{ lualine.nvim - Fast statusline for Neovim written in Lua
-  use {
-    -- "hoob3rt/lualine.nvim",
-
-    -- Fork that allows reloading config. See: https://github.com/hoob3rt/lualine.nvim/pull/311
-    --
-    "shadmansaleh/lualine.nvim",
-
-    requires = {
-      "nvim-lua/lsp-status.nvim",
-      "/home/tomas/src/github/Hubro/nvim-gps",
-      "kdheepak/tabline.nvim",
-    },
-    config = function()
-      local lualine = require("lualine")
-      local tabline = require("tabline")
-      local lsp_status = require("lsp-status")
-      local gps = require("nvim-gps")
-
-      tabline.setup { enable = false }
-
-      lsp_status.config {
-        diagnostics = false,
-        current_function = false,
-        status_symbol = "LSP ✓",
-      }
-
-      gps.setup {
-        icons = {
-          ["class-name"] = '☰ ',      -- Classes and class-like objects
-          ["function-name"] = 'λ ',   -- Functions
-          ["method-name"] = ' '      -- Methods
-        },
-        -- separator = " ➜  ",
-        -- separator = " / ",
-        separator = "  ",
-      }
-
-      lualine.setup{
-        options = {
-          disabled_filetypes = { "NvimTree", "minimap" },
-        },
-        extensions = { "fugitive", "nvim-tree", "quickfix" },
-        sections = {
-          lualine_b = {
-            "branch",
-            function() return lsp_status.status() end,
-          },
-          lualine_c = { },
-        },
-        sections = {
-          lualine_a = {"mode"},
-          lualine_b = {"filename"},
-          lualine_c = {{ gps.get_location, cond = gps.is_available }},
-
-          lualine_x = {},
-          lualine_y = {
-            function() return lsp_status.status() end,
-            "filetype"
-          },
-          lualine_z = {"location"}
-        },
-        inactive_sections = {
-          lualine_a = {},
-          lualine_b = {},
-          lualine_c = {"filename"},
-
-          lualine_x = {"location"},
-          lualine_y = {},
-          lualine_z = {}
-        },
-        tabline = {
-          lualine_a = {},
-          lualine_b = {
-            "branch"
-          },
-          lualine_c = {
-            {
-              "filename",
-              path = 1,   -- Show relative path, not just filename
-              separator = "",
-            },
-            { gps.get_location, cond = gps.is_available }
-          },
-
-          -- lualine_x = { tabline.tabline_tabs },
-          lualine_x = {
-            {
-              "tabs",
-              tabs_color = {
-                active = "lualine_a_normal",
-                inactive = "lualine_b_normal",
-              }
-            }
-          },
-          lualine_y = {},
-          lualine_z = {},
-        }
-      }
-
-      -- Redraw tabline every time the cursor moves
-      vim.cmd [[
-        aug update_tabline
-          au!
-          au CursorMoved * redrawtabline
-        aug END
-      ]]
-    end
-  }
-  -- }}}
-
-  -------------------
-  -- Color schemes --
-  -------------------
-
-  vim.g.one_allow_italics = 1   -- Allow italics in One theme
-
-  use "rakr/vim-one"                -- One theme (dark and light)
-  use "tomasr/molokai"              -- Molokai
-  use "arcticicestudio/nord-vim"    -- Nord
-  use "cocopon/iceberg.vim"         -- Iceberg
-  use "morhetz/gruvbox"             -- Gruvbox
-  use "ayu-theme/ayu-vim"           -- Ayu
-  use "folke/tokyonight.nvim"       -- TokyoNight
-end
-
-require("packer").startup {
-  init_plugins,
-  config = {
-    display = {
-      -- Display packer output window as a floating window
-      open_fn = require("packer.util").float,
-    }
-  }
-}
-
---
--- Automatically install all plugins if they are missing
---
-
-local compiled_plugin_path =
-  vim.fn.stdpath("config") .. "/plugin/packer_compiled.lua"
-
-if vim.fn.filereadable(compiled_plugin_path) ~= 1 then
-  _G.initial_packer_compile_done = function()
-    vim.cmd [[ au! User PackerCompileDone ]]
-
-    set_default_colorscheme()
   end
 
-  vim.cmd [[
-    au User PackerCompileDone lua initial_packer_compile_done()
+  vim.fn["plug#end"]()
 
-    PackerSync
-  ]]
-else
-  -- Always rebuild plugins on startup, otherwise Packer will raise errors when
-  -- switching between platforms (Linux, Windows, macOS).
-  --vim.cmd "PackerCompile"
+  -- All plugins should now be loaded, so it's safe to set them up
+  for _, setup in ipairs(plugins_to_set_up) do
+    if type(setup) == "string" then
+      vim.cmd("runtime setup_" .. setup .. ".lua")
+    elseif type(setup) == "function" then
+      setup()
+    else
+      error("Unexpected setup type: " .. type(setup))
+    end
+  end
 end
+
+-- }}}
+
+plug {
+  -- {{{ Common dependencies
+
+  -- Utilities for Lua scripting in Neovim
+  "nvim-lua/plenary.nvim",
+
+  -- Implementation of Vim's popup API in Neovim
+  "nvim-lua/popup.nvim",
+
+  -- Extra icon support
+  "ryanoasis/vim-devicons",
+  "kyazdani42/nvim-web-devicons", { setup = function()
+    require("nvim-web-devicons").setup{ default = true }
+  end },
+
+  -- }}}
+
+  -- Official plugins
+  "nvim-treesitter/playground",
+  "nvim-treesitter/nvim-treesitter", { setup = "treesitter" },
+  "neovim/nvim-lspconfig", { setup = "lsp" },
+
+  -- tpope goodness
+  "tpope/vim-repeat",  -- Lets plugins implement proper repeat support
+  "tpope/vim-surround",
+  "tpope/vim-commentary",
+  "tpope/vim-fugitive",
+  "tpope/vim-sleuth",  -- Smartly detect shiftwidth and related settings
+  "tpope/vim-eunuch",  -- Adds common Unix command helpers like ":Rename"
+
+  "airblade/vim-gitgutter",
+
+  -- EditorConfig support
+  "editorconfig/editorconfig-vim",
+
+  -- Multiple cursors
+  "mg979/vim-visual-multi",
+
+  -- Automatically close quotes and parentheses
+  "jiangmiao/auto-pairs", {
+    ["g:AutoPairsShortcutToggle"] = "",
+    ["g:AutoPairsShortcutFastWrap"] = "",
+    ["g:AutoPairsShortcutJump"] = "",
+    ["g:AutoPairsShortcutBackInsert"] = "<A-b>",
+  },
+
+  -- Automatically close HTML/XML tags
+  -- "alvan/vim-closetag",
+  "windwp/nvim-ts-autotag",
+
+  -- Asynchronous linter engine
+  "dense-analysis/ale",
+
+  -- Snippet support
+  "SirVer/ultisnips", {
+    ["g:UltiSnipsEditSplit"] = "horizontal",
+    -- Expansion is done by nvim-compe
+    ["g:UltiSnipsExpandTrigger"] = "<Plug>UltisnipsExpand",
+  },
+
+  -- Auto completion suggestions, with LSP and snippet integration
+  -- "hrsh7th/nvim-compe", { setup = "compe" },
+  "hrsh7th/cmp-buffer",
+  "hrsh7th/cmp-nvim-lsp",
+  "hrsh7th/cmp-path",
+  "hrsh7th/cmp-cmdline",
+  "quangnguyen30192/cmp-nvim-ultisnips",
+  "hrsh7th/nvim-cmp", { setup = "cmp" },
+
+  -- Trouble - Nicely formatted quickfix and diagnostics list
+  "folke/trouble.nvim", { setup = "trouble" },
+
+  -- Floating terminal
+  "voldikss/vim-floaterm",
+
+  -- Extensible plugin for auto-formatting code
+  "sbdchd/neoformat", {
+    ["g:neoformat_enabled_javascript"] = { "prettier" },
+    ["g:neoformat_enabled_javascriptreact"] = { "prettier" },
+    ["g:neoformat_enabled_typescript"] = { "prettier" },
+    ["g:neoformat_enabled_typescriptreact"] = { "prettier" },
+  },
+
+  -- Telescope
+  "fhill2/telescope-ultisnips.nvim",
+  "nvim-telescope/telescope.nvim", { setup = "telescope" },
+
+  -- Lualine
+  "nvim-lua/lsp-status.nvim",  -- LSP status component
+  --"~/src/github/Hubro/nvim-gps",
+  "SmiteshP/nvim-gps",  -- Code position breadcrumbs status component
+  "nvim-lualine/lualine.nvim", { setup = "lualine" },
+
+  -- nvim-tree.lua
+  "kyazdani42/nvim-tree.lua", {
+    -- ["g:nvim_tree_ignore"] = {".git", "node_modules", "__pycache__"},
+    setup = "nvim_tree"
+  },
+
+  -- Whitespace auto stripping
+  "ntpeters/vim-better-whitespace", {
+    ["g:better_whitespace_enabled"] = false,  -- Don't highlight whitespace
+    ["g:strip_whitespace_on_save"] = true,
+    ["g:strip_whitelines_at_eof"] = true,  -- Also strip trailing line endings
+    ["g:strip_whitespace_confirm"] = false,
+  },
+
+  -- Document outline based on LSP
+  "simrat39/symbols-outline.nvim", {
+    ["g:symbols_outline"] = {
+      auto_close = true,
+      width = 40,
+      symbol_blacklist = {
+        "Property", "Field", "Variable", "Key", "EnumMember", "TypeParameter"
+      }
+    }
+  },
+
+  -- Minimap (currently broken when used with fugitive)
+  -- "wfxr/minimap.vim", {
+  --   ["g:minimap_width"] = 10,
+  --   ["g:minimap_auto_start"] = 1,
+  --   ["g:minimap_auto_start_win_enter"] = 1,
+  --   ["g:minimap_highlight_range"] = 1,
+  --   -- ["g:minimap_git_colors"] = 1,
+
+  --   -- Disable minimap for specific file types
+  --   ["g:minimap_block_filetypes"] = { "nerdtree" },
+
+  --   -- Disable minimap for specific buffer types
+  --   ["g:minimap_block_buftypes"] = { "nofile", "nowrite", "quickfix", "terminal", "prompt" },
+
+  --   -- Close minimap for specific file types
+  --   ["g:minimap_close_filetypes"] = { "fugitive", "netrw", "vim-plug" },
+  -- },
+
+  -- {{{ Language support
+
+  -- Robot Framework syntax highlighting
+  "mfukar/robotframework-vim",
+
+  -- Python - Better indentation expression (indentexpr)
+  -- "Vimjas/vim-python-pep8-indent", {
+  --   -- https://github.com/Vimjas/vim-python-pep8-indent#gpython_pep8_indent_multiline_string
+  --   ["g:python_pep8_indent_multiline_string"] = -2
+  -- },
+
+  -- SystemD - Syntax highlighting
+  "wgwoods/vim-systemd-syntax",
+
+  -- Markdown - Live preview server
+  { "iamcco/markdown-preview.nvim", run = "cd app && yarn install" },
+
+  -- Polar - Authorization DSL
+  "osohq/polar.vim",
+
+  -- Sway config files
+  "terminalnode/sway-vim-syntax",
+
+  -- }}}
+
+  -- Color schemes
+  "rakr/vim-one",              -- One theme (dark and light)
+  "tomasr/molokai",            -- Molokai
+  "arcticicestudio/nord-vim",  -- Nord
+  "cocopon/iceberg.vim",       -- Iceberg
+  "morhetz/gruvbox",           -- Gruvbox
+  "lifepillar/vim-gruvbox8",   -- Gruvbox (Simplified and optimized)
+  "ayu-theme/ayu-vim",         -- Ayu
+  "folke/tokyonight.nvim",     -- TokyoNight
+  "dracula/vim",               -- Dracula
+}

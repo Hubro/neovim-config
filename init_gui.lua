@@ -1,6 +1,8 @@
 
 if vim.g.neovide then
   vim.opt.guifont = "Source Code Pro:h9"
+  -- vim.opt.guifont = "RobotoMono Nerd Font:h9"
+  -- vim.opt.guifont = "Roboto Mono:h9"
   vim.g.neovide_cursor_animation_length = 0.05
   vim.g.neovide_cursor_trail_size = 0.2
 

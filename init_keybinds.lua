@@ -2,6 +2,14 @@
 local default_opts = { noremap = true, silent = true }
 
 local keybinds = {
+  -- Use the plus key as an additional leader key, for keyboards that can't
+  -- trivially produce a backslash (*cough* Macbooks)
+  {"n", "+", "<Leader>", { noremap = false }},
+
+  -- Alternative key to escape terminal, necessary since the original
+  -- keybinding can't be expressed on a Mac keyboard
+  {"t", "ń", "<C-\\><C-n>"},
+
   -- Press ESC to remove search highlights and clear text from command line
   {"n", "<Esc>", ":nohl<CR>:echo<Esc>"},
 
@@ -16,6 +24,10 @@ local keybinds = {
   -- Move selection up/down
   {"v", "<A-k>", ":m '<-2'<CR>gv"},
   {"v", "<A-j>", ":m '>+1'<CR>gv"},
+
+  -- Indent/dedent selection without losing selection
+  {"v", "<", "<gv"},
+  {"v", ">", ">gv"},
 
   -- Easier window navigation
   {"n", "<C-h>", "<C-w>h"},
@@ -45,6 +57,7 @@ local keybinds = {
 
   -- Telescope - File history
   {"n", "<C-A-p>", ":Telescope oldfiles<CR>"},
+  {"n", "<Bar>h", ":Telescope oldfiles<CR>"},  -- Neovide can't do Ctrl+Alt yet...
 
   -- Telescope - Show document outline using LSP symbols
   {"n", "<Bar>o", ":Telescope lsp_document_symbols theme=outline<CR>"},
@@ -69,6 +82,9 @@ local keybinds = {
   {"n", "<Leader>t", ":NvimTreeToggle<CR>"},
   {"n", "gt", ":NvimTreeFindFile<CR>"},   -- Open current file in the tree
 
+  -- Toggle document outline (simrat39/symbols-outline.nvim)
+  {"n", "<Leader>o", ":SymbolsOutline<CR>"},
+
   -- Toggle symbol outline
   --{"n", "<Leader>o", ":SymbolsOutline<CR>"},
 
@@ -85,9 +101,7 @@ local keybinds = {
   {"n", "<F1>", ":vsplit<CR>:terminal<CR>i"},
   {"n", "<S-F1>", ":split<CR>:terminal<CR>i"},
 
-  -- Alternative key to escape terminal, necessary since the original
-  -- keybinding can't be expressed on a Mac keyboard
-  {"t", "ń", "<C-\\><C-n>", { mac = true }},
+  {"n", "<F10>", ":Neoformat<CR>"},
 
   -- Text wrapping keybinds inspired by Sublime Text
   {"i", "<A-w>", "<Esc>gqq0A"},   -- Wrap the current line while in insert mode
@@ -98,7 +112,18 @@ local keybinds = {
   -- a line above the current line. (These only work in GUIs.)
   {"i", "<C-CR>", "<Esc>o"},
   {"i", "<S-CR>", "<Esc>O"},
+
+  {"x", "<A-n>", "<Plug>(VM-Visual-Cursors)", { noremap = false }},
+
+  -- GUI only keybinds (i.e. Neovide)
+  {"i", "<C-V>", "<C-r>+"},   -- Ctrl+Shift+v, paste system clipboard
 }
+
+-- Disable the bizarre default keymappings on Neovim 0.6
+if vim.fn.has("nvim-0.6.0") == 1 then
+  -- This raises an error if the keybind is already deleted, so we ignore it
+  pcall(vim.api.nvim_del_keymap, "n", "Y")
+end
 
 -- {{{ The magic
 function apply_keybinds(keybinds)
@@ -115,6 +140,16 @@ function apply_keybinds(keybinds)
       if vim.fn.has("macunix") == 0 then
         -- This is a mac-only keybind and this is not a MacOS system, so ignore
         -- this keybind
+        goto continue
+      end
+    end
+
+    if bind[4].gui then
+      bind[4].gui = nil
+
+      if vim.g.neovide == true then
+        -- This is a GUI-only keybind, so if we're not running in Neovide,
+        -- ignore this keybind
         goto continue
       end
     end
