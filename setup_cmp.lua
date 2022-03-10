@@ -25,7 +25,6 @@ if installed then
             {
                 { name = "buffer" },
                 { name = "path" },
-                { name = "cmdline" },
             }
         )
     }
@@ -35,6 +34,9 @@ if installed then
             { name = "cmdline" },
             { name = "path" },
             { name = "buffer" },
+        },
+        completion = {
+            keyword_length = 3
         }
     })
 
