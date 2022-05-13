@@ -1,11 +1,7 @@
 
-vim.g.hubro_current_theme_mode = "dark"
--- vim.g.hubro_default_dark_theme = "one"
--- vim.g.hubro_default_light_theme = "one_light"
--- vim.g.hubro_default_dark_theme = "gruvbox8_hard"
--- vim.g.hubro_default_light_theme = "gruvbox8_hard_light"
-vim.g.hubro_default_dark_theme = "dracula"
-vim.g.hubro_default_light_theme = "iceberg_light"
+vim.g.hubro_current_theme_mode = "light"
+vim.g.hubro_default_dark_theme = "duskfox"
+vim.g.hubro_default_light_theme = "dawnfox"
 
 if vim.g.hubro_current_theme_mode == "dark" then
   vim.g.hubro_current_theme = vim.g.hubro_default_dark_theme
@@ -47,6 +43,14 @@ local themes = {
     background = "dark",
     colorscheme = "one",
     lualine = "onedark",
+    -- overrides = {
+    --   Normal = {
+    --     guibg = "#171717",
+    --   },
+    --   SignColumn = {
+    --     guibg = "#171717",
+    --   },
+    -- },
   },
   one_light = {
     background = "light",
@@ -64,17 +68,15 @@ local themes = {
     lualine = "iceberg_light",
   },
   ayu = {
-    vars = {
-      ayucolor = "dark"
-    },
-    colorscheme = "ayu",
+    colorscheme = "ayu-dark",
+    lualine = "ayu_dark",
+  },
+  ayu_mirage = {
+    colorscheme = "ayu-mirage",
     lualine = "ayu_dark",
   },
   ayu_light = {
-    vars = {
-      ayucolor = "light"
-    },
-    colorscheme = "ayu",
+    colorscheme = "ayu-light",
     lualine = "ayu_light",
   },
   tokyonight = {
@@ -91,7 +93,41 @@ local themes = {
     background = "dark",
     colorscheme = "dracula",
     lualine = "dracula",
-  }
+  },
+  papercolor = {
+    background = "dark",
+    colorscheme = "PaperColor",
+    lualine = "PaperColor",
+  },
+  papercolor_light = {
+    background = "light",
+    colorscheme = "PaperColor",
+    lualine = "PaperColor",
+  },
+  dayfox = {
+    background = "light",
+    colorscheme = "dayfox",
+    lualine = "dayfox",
+    before = function()
+      soft_setup("nightfox", { options = { dim_inactive = true } })
+    end
+  },
+  dawnfox = {
+    background = "dark",
+    colorscheme = "dawnfox",
+    lualine = "dawnfox",
+    before = function()
+      soft_setup("nightfox", { options = { dim_inactive = true } })
+    end
+  },
+  duskfox = {
+    background = "dark",
+    colorscheme = "duskfox",
+    lualine = "duskfox",
+    before = function()
+      soft_setup("nightfox", { options = { dim_inactive = true } })
+    end
+  },
 }
 
 function _G.set_colorscheme(name)
@@ -107,7 +143,19 @@ function _G.set_colorscheme(name)
     vim.opt.background = theme.background
   end
 
+  if theme.before then
+    theme.before()
+  end
+
   vim.cmd("colorscheme "..theme.colorscheme)
+
+  if theme.overrides then
+    for hlgroup_name, hlgroup in pairs(theme.overrides) do
+      for hl_name, value in pairs(hlgroup) do
+        vim.cmd("highlight "..hlgroup_name.." "..hl_name.."="..value)
+      end
+    end
+  end
 
   if theme.lualine then
     set_lualine_theme(theme.lualine)
@@ -125,6 +173,22 @@ function _G.set_default_colorscheme()
     -- Failed to set default colorscheme, no big deal. The required plugins
     -- probably aren't installed.
   end
+end
+
+function _G.toggle_colorscheme()
+  if vim.g.hubro_current_theme_mode == "light" then
+    vim.g.hubro_current_theme_mode = "dark"
+  else
+    vim.g.hubro_current_theme_mode = "light"
+  end
+
+  if vim.g.hubro_current_theme_mode == "dark" then
+    vim.g.hubro_current_theme = vim.g.hubro_default_dark_theme
+  else
+    vim.g.hubro_current_theme = vim.g.hubro_default_light_theme
+  end
+
+  set_default_colorscheme()
 end
 
 -- Themes:
