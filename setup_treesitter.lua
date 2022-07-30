@@ -1,5 +1,5 @@
 
---local configs = require("nvim-treesitter.parsers").get_parser_configs()
+-- local configs = require("nvim-treesitter.parsers").get_parser_configs()
 --
 -- configs.yang = {
 --     install_info = {
@@ -8,7 +8,26 @@
 --     },
 --     filetype = "yang",
 -- }
---
+
+local configs = require("nvim-treesitter.parsers").get_parser_configs()
+
+configs.robot = {
+  install_info = {
+    url = "~/Dropbox/projects/tree-sitter-robot",
+    files = { "src/parser.c" },
+    generate_requires_npm = false,
+    required_generate_from_grammar = false,
+  },
+  filetype = "robot",
+}
+
+-- configs.jsonnet = {
+--   install_info = {
+--     url = "https://github.com/sourcegraph/tree-sitter-jsonnet",
+--     files = { "src/parser.c", "src/scanner.c" },
+--   },
+--   filetype = "jsonnet",
+-- }
 
 require("nvim-treesitter.configs").setup {
   -- Value can be "all", "maintained" (parsers with maintainers), or a
@@ -61,7 +80,7 @@ require("nvim-treesitter.configs").setup {
     enable = true,
 
     -- The indent expressions for some languages are complete shit
-    disable = { "python", "svelte" }
+    disable = { "svelte" }
   },
 
   playground = {
@@ -112,3 +131,75 @@ vim.treesitter.set_query("yang", "folds", [[
     (statement_keyword "list")
     (block) @fold)
 ]])
+
+vim.treesitter.set_query("yang", "indents", [[
+  (module) @indent
+  (submodule) @indent
+  (statement) @indent
+  (extension_statement) @indent
+  (statement ";" @indent_end)
+  (extension_statement ";" @indent_end)
+  (block "}" @indent_end @branch)
+
+  ((string) @aligned_indent
+   (#set! "delimiter" "\"\""))
+]])
+
+vim.treesitter.set_query("robot", "highlights", [[
+  (comment) @comment
+  (ellipses) @punctuation.delimiter
+
+  (section_header) @keyword
+  (extra_text) @comment
+
+  (setting_statement) @keyword
+
+  (variable_definition (variable_name) @variable)
+
+  (keyword_definition (name) @function)
+  (keyword_definition (body (keyword_setting) @keyword))
+
+  (test_case_definition (name) @property)
+
+  (keyword_invocation (keyword) @function)
+
+  (argument (text_chunk) @string)
+  (argument (scalar_variable) @string.special)
+  (argument (list_variable) @string.special)
+  (argument (dictionary_variable) @string.special)
+]])
+
+vim.treesitter.set_query("rust", "folds", [[
+  (function_item (block) @fold)
+  (struct_item (field_declaration_list) @fold)
+]])
+
+-- vim.treesitter.set_query("jsonnet", "highlights", [[
+--   "if" @conditional
+--   [
+--     (local)
+--     "function"
+--   ] @keyword
+--   (comment) @comment
+
+--   (string) @string
+--   (number) @number
+--   [
+--     (true)
+--     (false)
+--   ] @boolean
+
+--   (binaryop) @operator
+--   (unaryop) @operator
+
+--   (id) @variable
+--   (param identifier: (id) @variable.parameter)
+--   (bind function: (id) @function)
+--   (fieldname) @string.special
+--   [
+--     "["
+--     "]"
+--     "{"
+--     "}"
+--   ] @punctuation.bracket
+-- ]])

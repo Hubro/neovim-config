@@ -10,6 +10,9 @@ local lsputil = require("lspconfig.util")
 
 local lsp_status = require("lsp-status")
 
+-- Globally disables dianostics for language servers!
+--vim.lsp.handlers["textDocument/publishDiagnostics"] = function () end
+
 -- Handler for when a buffer is connected to a language server
 --
 -- This function is defined globally so it can be reused in local config
@@ -112,29 +115,14 @@ lspconfig.yang_lsp.setup {
   }
 }
 
-lspconfig.robot_lsp.setup {
-  on_attach = _G.lsp_on_attach,
-}
-
-lspconfig.homeassistant.setup {
-  on_attach = _G.lsp_on_attach,
-}
-
--- lspconfig.pylsp.setup {
---   on_attach = _G.lsp_on_attach,
--- }
-
-lspconfig.pyright.setup {
-  on_attach = _G.lsp_on_attach
-}
-
-lspconfig.tsserver.setup {
-  on_attach = _G.lsp_on_attach
-}
-
-lspconfig.svelte.setup {
-  on_attach = _G.lsp_on_attach
-}
+lspconfig.robot_lsp.setup { on_attach = _G.lsp_on_attach, }
+lspconfig.homeassistant.setup { on_attach = _G.lsp_on_attach, }
+-- lspconfig.pylsp.setup { on_attach = _G.lsp_on_attach, }
+lspconfig.pyright.setup { on_attach = _G.lsp_on_attach }
+lspconfig.tsserver.setup { on_attach = _G.lsp_on_attach }
+lspconfig.svelte.setup { on_attach = _G.lsp_on_attach }
+lspconfig.rust_analyzer.setup { on_attach = _G.lsp_on_attach }
+lspconfig.elmls.setup { on_attach = _G.lsp_on_attach }
 
 -- Allow projects to define a post-LSP hook for project specific LSP config
 if _G.project_hook_lsp then

@@ -1,15 +1,31 @@
 
 -- Options
-vim.wo.colorcolumn = "80"
+vim.wo.colorcolumn = "88"   -- Black's default line length
+vim.bo.indentkeys = "=elif,=else,=except"
 
 -- Tree-sitter folding
 vim.wo.foldmethod = "expr"
 vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
-vim.wo.foldlevel = 0
+vim.wo.foldlevel = 99
 
--- Recompute folds after opening a Python file, works around this Telescope
--- bug: https://github.com/nvim-telescope/telescope.nvim/issues/699
---vim.cmd [[ au BufEnter *.py :norm zX<CR> ]]
+-- Tree-sitter indentation
+vim.bo.indentexpr = "nvim_treesitter#indent()"
+
+-- Custom key maps for vim-pythonsense
+local map = function(keybind, command)
+  vim.api.nvim_buf_set_keymap(0, "o", keybind, command, {})
+  vim.api.nvim_buf_set_keymap(0, "v", keybind, command, {})
+end
+map("if", "<Plug>(PythonsenseInnerFunctionTextObject)")
+map("af", "<Plug>(PythonsenseOuterFunctionTextObject)")
+map("iC", "<Plug>(PythonsenseInnerClassTextObject)")
+map("aC", "<Plug>(PythonsenseOuterClassTextObject)")
+map("id", "<Plug>(PythonsenseInnerDocStringTextObject)")
+map("ad", "<Plug>(PythonsenseOuterDocStringTextObject)")
+map("]f", "<Plug>(PythonsenseStartOfNextPythonFunction)")
+map("[f", "<Plug>(PythonsenseEndOfPreviousPythonFunction)")
+map("]C", "<Plug>(PythonsenseStartOfNextPythonClass)")
+map("[C", "<Plug>(PythonsenseEndOfPreviousPythonClass)")
 
 -- Pyflyby commands
 _G.hubro_pyflyby_tidy_imports = function()
@@ -26,7 +42,7 @@ _G.hubro_pyflyby_tidy_imports = function()
   local lines_after = vim.fn.line("$")
   local line_diff = lines_after - lines_before
 
-  -- Adjust for new line count
+  -- Adjust cursor position for new line count
   cursor_pos[2] = cursor_pos[2] + line_diff
 
   vim.fn.setpos(".", cursor_pos)

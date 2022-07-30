@@ -39,9 +39,9 @@ function plug(definitions)
       -- less directly to plug#, but with some aliases switched out to avoid
       -- reserved keywords.
       else
-        if plugin.run ~= nil then
-          plugin["do"] = plugin.run
-          plugin.run = nil
+        if plugin[2].run ~= nil then
+          plugin[2]["do"] = plugin[2].run
+          plugin[2].run = nil
         end
 
         vim.fn["plug#"](unpack(plugin))
@@ -87,15 +87,37 @@ plug {
   "nvim-treesitter/nvim-treesitter", { setup = "treesitter" },
   "neovim/nvim-lspconfig", { setup = "lsp" },
 
-  -- tpope goodness
+  -- Mandatory tpope goodness
   "tpope/vim-repeat",  -- Lets plugins implement proper repeat support
   "tpope/vim-surround",
   "tpope/vim-commentary",
   "tpope/vim-fugitive",
   "tpope/vim-sleuth",  -- Smartly detect shiftwidth and related settings
   "tpope/vim-eunuch",  -- Adds common Unix command helpers like ":Rename"
+  "tpope/vim-unimpaired",  -- Pairs of handy bracket mappings
 
-  "airblade/vim-gitgutter",
+  -- Extra text objects
+  "kana/vim-textobj-user",             -- Common dependency
+  "wellle/targets.vim",                -- Lots of generic useful ones
+  "glts/vim-textobj-comment",          -- Comments (language agnostic)
+  "jeetsukumaran/vim-pythonsense", {   -- Functions, classes and docstrings
+    ["g:is_pythonsense_suppress_object_keymaps"] = 1,
+    ["g:is_pythonsense_suppress_motion_keymaps"] = 1,
+    ["g:is_pythonsense_suppress_location_keymaps"] = 1,
+    -- Custom keymaps are set in ftplugin/python.lua
+  },
+
+  -- Basic syntax checking for a crapload of languages
+  "vim-syntastic/syntastic", {
+    ["g:syntastic_always_populate_loc_list"] = "1",
+    ["g:syntastic_auto_loc_list"] = "0",
+    ["g:syntastic_check_on_open"] = "1",
+    ["g:syntastic_check_on_wq"] = "0",
+    ["g:syntastic_python_checkers"] = {},
+  },
+
+  -- "airblade/vim-gitgutter",
+  "lewis6991/gitsigns.nvim", { setup = function() soft_setup("gitsigns") end },
 
   -- EditorConfig support
   "editorconfig/editorconfig-vim",
@@ -116,7 +138,9 @@ plug {
   "windwp/nvim-ts-autotag",
 
   -- Asynchronous linter engine
-  "dense-analysis/ale",
+  "dense-analysis/ale", {
+    ["g:ale_disable_lsp"] = "1"
+  },
 
   -- Snippet support
   "SirVer/ultisnips", {
@@ -183,7 +207,59 @@ plug {
     }
   },
 
-  -- Minimap (currently broken when used with fugitive)
+  -- Zen mode
+  "folke/twilight.nvim", {
+    setup = function()
+      soft_setup("twilight", {
+        context = 20,
+        expand = { "function", "function_definition", "decorated_definition" },
+      })
+    end
+  },
+  -- "folke/zen-mode.nvim", {
+  { "nasanos/zen-mode.nvim", { branch = "keep-cursor-position-on-exit" } }, {
+    setup = function()
+      soft_setup("zen-mode", {
+        window = {
+
+        },
+        plugins = {
+          gitsigns = { enabled = true },
+
+          -- Twilight is cool but needs some work
+          twilight = { enabled = false },
+        },
+        on_open = function(win)
+          vim.cmd("ALEDisableBuffer")
+          vim.cmd("ScrollViewDisable")
+          vim.diagnostic.disable()
+
+          -- Currently, changing the font causes Zen mode to scale incorrectly.
+          -- Follow: https://github.com/folke/zen-mode.nvim/issues/45
+          --
+          -- vim.opt.guifont = "SauceCodePro Nerd Font:h12:w57"
+        end,
+        on_close = function(win)
+          vim.cmd("ALEEnableBuffer")
+          vim.cmd("ScrollViewEnable")
+          vim.diagnostic.enable()
+          -- vim.opt.guifont = "SauceCodePro Nerd Font:h9:w57"
+        end,
+      })
+    end
+  },
+
+  -- Control 'guifont' to zoom in/out in a GUI
+  "drzel/vim-gui-zoom",
+
+  -- Floating scrollbar
+  "dstein64/nvim-scrollview", {
+    setup = function()
+      soft_setup("scrollview")
+    end
+  },
+
+  -- Minimap (currently causes smooth scroll to stutter in Neovide)
   -- "wfxr/minimap.vim", {
   --   ["g:minimap_width"] = 10,
   --   ["g:minimap_auto_start"] = 1,
@@ -192,7 +268,7 @@ plug {
   --   -- ["g:minimap_git_colors"] = 1,
 
   --   -- Disable minimap for specific file types
-  --   ["g:minimap_block_filetypes"] = { "nerdtree" },
+  --   ["g:minimap_block_filetypes"] = { "nerdtree", "fugitive" },
 
   --   -- Disable minimap for specific buffer types
   --   ["g:minimap_block_buftypes"] = { "nofile", "nowrite", "quickfix", "terminal", "prompt" },
@@ -216,7 +292,7 @@ plug {
   "wgwoods/vim-systemd-syntax",
 
   -- Markdown - Live preview server
-  { "iamcco/markdown-preview.nvim", run = "cd app && yarn install" },
+  { "iamcco/markdown-preview.nvim", { run = "cd app && yarn install" } },
 
   -- Polar - Authorization DSL
   "osohq/polar.vim",
@@ -227,13 +303,16 @@ plug {
   -- }}}
 
   -- Color schemes
-  "rakr/vim-one",              -- One theme (dark and light)
-  "tomasr/molokai",            -- Molokai
-  "arcticicestudio/nord-vim",  -- Nord
-  "cocopon/iceberg.vim",       -- Iceberg
-  "morhetz/gruvbox",           -- Gruvbox
-  "lifepillar/vim-gruvbox8",   -- Gruvbox (Simplified and optimized)
-  "ayu-theme/ayu-vim",         -- Ayu
-  "folke/tokyonight.nvim",     -- TokyoNight
-  "dracula/vim",               -- Dracula
+  "rakr/vim-one",                -- One theme (dark and light)
+  "tomasr/molokai",              -- Molokai
+  "arcticicestudio/nord-vim",    -- Nord
+  "cocopon/iceberg.vim",         -- Iceberg
+  "morhetz/gruvbox",             -- Gruvbox
+  "lifepillar/vim-gruvbox8",     -- Gruvbox (Simplified and optimized)
+  -- "ayu-theme/ayu-vim",        -- Ayu
+  "Shatur/neovim-ayu",           -- Ayu (Optimized for Neovim)
+  "folke/tokyonight.nvim",       -- TokyoNight
+  "dracula/vim",                 -- Dracula
+  "NLKNguyen/papercolor-theme",  -- PaperColor
+  "EdenEast/nightfox.nvim",      -- Nightfox
 }

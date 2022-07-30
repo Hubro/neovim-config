@@ -23,6 +23,8 @@ if vim.fn.filereadable(".nvimrc") == 1 then
   vim.cmd("source .nvimrc")
 end
 
+vim.cmd("runtime helpers.lua")
+
 init("options")
 init("keybinds")
 -- init("packer")

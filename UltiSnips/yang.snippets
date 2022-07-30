@@ -1,6 +1,75 @@
 
-snippet grouping
+snippet grouping "grouping" b
 grouping ${1:name} {
+	$0
+}
+endsnippet
+
+snippet leaf "leaf" b
+leaf ${1:leaf-name} {
+	type ${2:string};
+	description "$0";
+}
+endsnippet
+
+snippet desc "description" b
+description "$0";
+endsnippet
+
+#
+# Nano service plan outline and behavior tree snippets
+#
+
+snippet ncs:plan-outline "ncs:plan-outline" b
+ncs:plan-outline $1 {
+	$0
+}
+endsnippet
+
+snippet ncs:component-type "ncs:component-type" b
+ncs:component-type "$1" {
+	$0
+}
+endsnippet
+
+snippet ncs:state "ncs:state" b
+ncs:state "$1";
+endsnippet
+
+snippet ncs:stateb "ncs:state with block" b
+ncs:state "$1" {
+	$0
+}
+endsnippet
+
+snippet ncs:create "ncs:create" b
+ncs:create {
+	$0
+}
+endsnippet
+
+snippet ncs:delete "ncs:delete" b
+ncs:delete {
+	$0
+}
+endsnippet
+
+snippet ncs:nano-callback "ncs:nano-callback" b
+ncs:nano-callback;
+endsnippet
+
+snippet ncs:monitor "ncs:monitor" b
+ncs:monitor "$1" {
+	$0
+}
+endsnippet
+
+snippet ncs:trigger-expr "ncs:trigger-expr" b
+ncs:trigger-expr "$0";
+endsnippet
+
+snippet ncs:selector "ncs:selector" b
+ncs:selector {
 	$0
 }
 endsnippet

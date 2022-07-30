@@ -1,7 +1,7 @@
 
 vim.g.hubro_current_theme_mode = "light"
 vim.g.hubro_default_dark_theme = "duskfox"
-vim.g.hubro_default_light_theme = "dawnfox"
+vim.g.hubro_default_light_theme = "dayfox"
 
 if vim.g.hubro_current_theme_mode == "dark" then
   vim.g.hubro_current_theme = vim.g.hubro_default_dark_theme
@@ -109,7 +109,7 @@ local themes = {
     colorscheme = "dayfox",
     lualine = "dayfox",
     before = function()
-      soft_setup("nightfox", { options = { dim_inactive = true } })
+      soft_setup("nightfox", { options = { dim_inactive = false } })
     end
   },
   dawnfox = {
@@ -117,7 +117,7 @@ local themes = {
     colorscheme = "dawnfox",
     lualine = "dawnfox",
     before = function()
-      soft_setup("nightfox", { options = { dim_inactive = true } })
+      soft_setup("nightfox", { options = { dim_inactive = false } })
     end
   },
   duskfox = {
