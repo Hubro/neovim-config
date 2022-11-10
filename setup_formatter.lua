@@ -1,7 +1,7 @@
 soft_setup("formatter", {
   filetype = {
     lua = {
-      -- require("formatter.filetypes.lua").stylua,
+      -- This is copied from "formatter.filetypes.lua", but with added options
       function()
         local util = require("formatter.util")
 
@@ -22,18 +22,38 @@ soft_setup("formatter", {
       end,
     },
 
+    python = {
+      require("formatter.filetypes.python").isort,
+      require("formatter.filetypes.python").black,
+    },
+
     ["*"] = {
       require("formatter.filetypes.any").remove_trailing_whitespace,
     },
   },
 })
 
--- Always run :Format on every file write. This shouldn't do anything on
--- filetypes the formatter isn't configured for, so it should be safe (fingers
--- crossed.)
+-- Automatically format files on save!
+
 local group = vim.api.nvim_create_augroup("formatter.nvim", { clear = true })
 vim.api.nvim_create_autocmd("BufWritePost", {
   pattern = "*",
   group = group,
-  command = "FormatWrite",
+  callback = function()
+    -- Don't autoformat Python files, it's waaaaaaaay too slow. Use ":Black".
+    -- Ref: https://github.com/mhartington/formatter.nvim/issues/213
+    if vim.opt.filetype._value == "python" then
+      return
+    end
+
+    vim.cmd("FormatWrite")
+  end,
+})
+
+-- Since auto formatting is disabled for Python, explicitly strip whitespace
+-- when saving Python files
+vim.api.nvim_create_autocmd("BufWritePost", {
+  pattern = "*.py",
+  group = group,
+  command = "FormatWrite sed",
 })
