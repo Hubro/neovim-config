@@ -170,12 +170,7 @@ plug {
   "voldikss/vim-floaterm",
 
   -- Extensible plugin for auto-formatting code
-  "sbdchd/neoformat", {
-    ["g:neoformat_enabled_javascript"] = { "prettier" },
-    ["g:neoformat_enabled_javascriptreact"] = { "prettier" },
-    ["g:neoformat_enabled_typescript"] = { "prettier" },
-    ["g:neoformat_enabled_typescriptreact"] = { "prettier" },
-  },
+  "mhartington/formatter.nvim", { setup = "formatter" },
 
   -- Telescope
   "fhill2/telescope-ultisnips.nvim",
