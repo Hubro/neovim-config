@@ -1,4 +1,3 @@
-
 local success, nvim_tree = pcall(require, "nvim-tree")
 
 -- Don't bother crashing loudly if nvim-tree isn't installed
@@ -38,7 +37,7 @@ if success then
     print(vim.inspect(node))
   end
 
-  nvim_tree.setup {
+  nvim_tree.setup({
     hijack_cursor = true,
     sync_root_with_cwd = true,
     view = {
@@ -49,10 +48,9 @@ if success then
           { key = "ga", action = "git_add", action_cb = git_add },
           { key = "gd", action = "git_rm", action_cb = git_rm },
           { key = "<Leader>d", action = "debug", action_cb = debug },
-        }
+        },
       },
     },
-    filters = {
-    }
-  }
+    filters = {},
+  })
 end

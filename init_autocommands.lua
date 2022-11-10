@@ -1,20 +1,18 @@
-
 -- Run :checktime at various events, like when the cursor moves
 --
 -- This makes the "autoread" option work, which reloads buffers if the
 -- corresponding file changes on disk.
 --
 vim.cmd(
-  'au FocusGained,BufEnter,CursorHold,CursorHoldI * ' ..
-  'if expand("%f") != "[Command Line]" | checktime | endif'
+  "au FocusGained,BufEnter,CursorHold,CursorHoldI * " .. 'if expand("%f") != "[Command Line]" | checktime | endif'
 )
 
 -- Show a warning when a file is reloaded
 vim.cmd(
-  'autocmd FileChangedShellPost * ' ..
-  'echohl WarningMsg | ' ..
-  'echo "File " . expand("<afile>") . " changed on disk, buffer reloaded" | ' ..
-  'echohl None'
+  "autocmd FileChangedShellPost * "
+    .. "echohl WarningMsg | "
+    .. 'echo "File " . expand("<afile>") . " changed on disk, buffer reloaded" | '
+    .. "echohl None"
 )
 
 -- function run_checktime(timer_id)

@@ -1,4 +1,3 @@
-
 local is_neovide = (vim.g.neovide == true)
 
 vim.g.hubro_default_font = "Iosevka Nerd Font:h9.5"
@@ -27,8 +26,8 @@ if is_neovide then
   vim.g.neovide_transparency = 0.97
 
   if vim.api.nvim_exec("echo hostname()", true) == "aura" then
-    vim.g.neovide_refresh_rate=240
+    vim.g.neovide_refresh_rate = 240
   else
-    vim.g.neovide_refresh_rate=60
+    vim.g.neovide_refresh_rate = 60
   end
 end

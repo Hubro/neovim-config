@@ -1,4 +1,3 @@
-
 -- local configs = require("nvim-treesitter.parsers").get_parser_configs()
 --
 -- configs.yang = {
@@ -32,7 +31,7 @@ if success then
   --   filetype = "jsonnet",
   -- }
 
-  require("nvim-treesitter.configs").setup {
+  require("nvim-treesitter.configs").setup({
     -- Value can be "all", "maintained" (parsers with maintainers), or a
     -- list of languages
     ensure_installed = {
@@ -76,14 +75,14 @@ if success then
         node_incremental = "<A-9>",
         -- scope_incremental = "<C-l>",
         node_decremental = "<A-8>",
-      }
+      },
     },
 
     indent = {
       enable = true,
 
       -- The indent expressions for some languages are complete shit
-      disable = { "svelte" }
+      disable = { "svelte" },
     },
 
     playground = {
@@ -92,36 +91,46 @@ if success then
       updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
       persist_queries = false, -- Whether the query persists across vim sessions
       keybindings = {
-        toggle_query_editor = 'o',
-        toggle_hl_groups = 'i',
-        toggle_injected_languages = 't',
-        toggle_anonymous_nodes = 'a',
-        toggle_language_display = 'I',
-        focus_language = 'f',
-        unfocus_language = 'F',
-        update = 'R',
-        goto_node = '<cr>',
-        show_help = '?',
+        toggle_query_editor = "o",
+        toggle_hl_groups = "i",
+        toggle_injected_languages = "t",
+        toggle_anonymous_nodes = "a",
+        toggle_language_display = "I",
+        focus_language = "f",
+        unfocus_language = "F",
+        update = "R",
+        goto_node = "<cr>",
+        show_help = "?",
       },
     },
 
     autotag = {
       enable = true,
       filetypes = {
-        "html", "xml",
-        "javascript", "javascriptreact", "typescriptreact",
+        "html",
+        "xml",
+        "javascript",
+        "javascriptreact",
+        "typescriptreact",
         "svelte",
-        "vue"
-      }
-    }
-  }
+        "vue",
+      },
+    },
+  })
 
-  vim.treesitter.set_query("python", "folds", [[
+  vim.treesitter.set_query(
+    "python",
+    "folds",
+    [[
     (function_definition (block) @fold)
     (class_definition (block) @fold)
-  ]])
+  ]]
+  )
 
-  vim.treesitter.set_query("yang", "folds", [[
+  vim.treesitter.set_query(
+    "yang",
+    "folds",
+    [[
     (statement
       (statement_keyword "grouping")
       (block) @fold)
@@ -133,9 +142,13 @@ if success then
     (statement
       (statement_keyword "list")
       (block) @fold)
-  ]])
+  ]]
+  )
 
-  vim.treesitter.set_query("yang", "indents", [[
+  vim.treesitter.set_query(
+    "yang",
+    "indents",
+    [[
     (module) @indent
     (submodule) @indent
     (statement) @indent
@@ -146,9 +159,13 @@ if success then
 
     ((string) @aligned_indent
      (#set! "delimiter" "\"\""))
-  ]])
+  ]]
+  )
 
-  vim.treesitter.set_query("robot", "highlights", [[
+  vim.treesitter.set_query(
+    "robot",
+    "highlights",
+    [[
     (comment) @comment
     (ellipses) @punctuation.delimiter
 
@@ -170,12 +187,17 @@ if success then
     (argument (scalar_variable) @string.special)
     (argument (list_variable) @string.special)
     (argument (dictionary_variable) @string.special)
-  ]])
+  ]]
+  )
 
-  vim.treesitter.set_query("rust", "folds", [[
+  vim.treesitter.set_query(
+    "rust",
+    "folds",
+    [[
     (function_item (block) @fold)
     (struct_item (field_declaration_list) @fold)
-  ]])
+  ]]
+  )
 
   -- vim.treesitter.set_query("jsonnet", "highlights", [[
   --   "if" @conditional

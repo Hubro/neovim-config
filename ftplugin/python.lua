@@ -1,6 +1,5 @@
-
 -- Options
-vim.wo.colorcolumn = "88"   -- Black's default line length
+vim.wo.colorcolumn = "88" -- Black's default line length
 vim.bo.indentkeys = "=elif,=else,=except"
 
 -- Tree-sitter folding
@@ -37,7 +36,7 @@ _G.hubro_pyflyby_tidy_imports = function()
     return
   end
 
-  vim.cmd [[ %!tidy-imports --black --quiet ]]
+  vim.cmd([[ %!tidy-imports --black --quiet ]])
 
   local lines_after = vim.fn.line("$")
   local line_diff = lines_after - lines_before
@@ -48,4 +47,4 @@ _G.hubro_pyflyby_tidy_imports = function()
   vim.fn.setpos(".", cursor_pos)
 end
 
-vim.cmd [[ command! PyflybyTidyImports :silent lua hubro_pyflyby_tidy_imports() ]]
+vim.cmd([[ command! PyflybyTidyImports :silent lua hubro_pyflyby_tidy_imports() ]])

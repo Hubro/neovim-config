@@ -4,6 +4,6 @@ soft_setup("trouble", {
   -- mode = "workspace_diagnostics",
   auto_preview = false,
   action_keys = {
-    toggle_fold = {"zA", "za", "<Space>"},
+    toggle_fold = { "zA", "za", "<Space>" },
   },
 })

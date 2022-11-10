@@ -25,15 +25,17 @@ if success then
     -- Give lsp-status a reference to the client
     lsp_status.on_attach(client)
 
-    local function map(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-    local opts = {noremap=true, silent=true}
+    local function map(...)
+      vim.api.nvim_buf_set_keymap(bufnr, ...)
+    end
+    local opts = { noremap = true, silent = true }
 
-    map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-    map('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-    map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-    map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-    map('i', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-    map('n', '<Leader>r', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+    map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+    map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
+    map("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+    map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+    map("i", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+    map("n", "<Leader>r", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
     -- map('n', '(', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
     -- map('n', ')', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
   end
@@ -68,17 +70,12 @@ if success then
       cmd = { "robotframework_ls" },
       filetypes = { "robot" },
       root_dir = function(fname)
-        return lsputil.find_git_ancestor(fname) or
-          lsputil.path.dirname(fname)
+        return lsputil.find_git_ancestor(fname) or lsputil.path.dirname(fname)
       end,
       settings = {
-          robot = {
-              pythonpath = (
-                vim.env.PYTHONPATH
-                and vim.split(vim.env.PYTHONPATH, ":")
-                or { "" }
-              )
-          },
+        robot = {
+          pythonpath = (vim.env.PYTHONPATH and vim.split(vim.env.PYTHONPATH, ":") or { "" }),
+        },
       },
     },
     docs = {
@@ -95,37 +92,37 @@ if success then
       cmd = {
         "/usr/bin/node",
         "/opt/vscode-home-assistant/out/server/server.js",
-        "--stdio"
+        "--stdio",
       },
       filetypes = { "yaml" },
       root_dir = lsputil.root_pattern("configuration.yaml"),
-      settings = { }
-    }
+      settings = {},
+    },
   }
 
   -- }}}
 
-  lspconfig.yang_lsp.setup {
+  lspconfig.yang_lsp.setup({
     on_attach = _G.lsp_on_attach,
     capabilities = {
       textDocument = {
         completion = {
           completionItem = {
-            snippetSupport = false
-          }
-        }
-      }
-    }
-  }
+            snippetSupport = false,
+          },
+        },
+      },
+    },
+  })
 
-  lspconfig.robot_lsp.setup { on_attach = _G.lsp_on_attach, }
-  lspconfig.homeassistant.setup { on_attach = _G.lsp_on_attach, }
+  lspconfig.robot_lsp.setup({ on_attach = _G.lsp_on_attach })
+  lspconfig.homeassistant.setup({ on_attach = _G.lsp_on_attach })
   -- lspconfig.pylsp.setup { on_attach = _G.lsp_on_attach, }
-  lspconfig.pyright.setup { on_attach = _G.lsp_on_attach }
-  lspconfig.tsserver.setup { on_attach = _G.lsp_on_attach }
-  lspconfig.svelte.setup { on_attach = _G.lsp_on_attach }
-  lspconfig.rust_analyzer.setup { on_attach = _G.lsp_on_attach }
-  lspconfig.elmls.setup { on_attach = _G.lsp_on_attach }
+  lspconfig.pyright.setup({ on_attach = _G.lsp_on_attach })
+  lspconfig.tsserver.setup({ on_attach = _G.lsp_on_attach })
+  lspconfig.svelte.setup({ on_attach = _G.lsp_on_attach })
+  lspconfig.rust_analyzer.setup({ on_attach = _G.lsp_on_attach })
+  lspconfig.elmls.setup({ on_attach = _G.lsp_on_attach })
 
   -- Allow projects to define a post-LSP hook for project specific LSP config
   if _G.project_hook_lsp then

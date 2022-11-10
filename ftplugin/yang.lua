@@ -1,4 +1,3 @@
-
 -- YANG keywords can contain dashes
 vim.opt.iskeyword:append("-")
 

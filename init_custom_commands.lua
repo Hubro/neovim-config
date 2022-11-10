@@ -1,5 +1,4 @@
-
-vim.cmd [[
+vim.cmd([[
   command CloseHiddenBuffers :call CloseHiddenBuffers()
 
   " Close all hidden buffers!
@@ -17,4 +16,4 @@ vim.cmd [[
     endfor
     echo "Closed ".closed." hidden buffers"
   endfunction
-]]
+]])

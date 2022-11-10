@@ -1,21 +1,20 @@
-
 -- Any embedded terminals will use nvr as the default editor
 -- vim.env.EDITOR = [[nvr --nostart -cc split --remote-wait +"set bufhidden=delete"]]
 -- Any embedded terminals will use a neovide popup as default editor
 vim.env.EDITOR = "neovide --geometry 100x60 --wayland-app-id neovide-floating --nofork -- +startinsert"
 
 if vim.fn.has("macunix") == 1 then
-    vim.g.python3_host_prog = "/Users/tomas/.pyenv/versions/neovim/bin/python"
-    vim.g.mapleader = "+"
+  vim.g.python3_host_prog = "/Users/tomas/.pyenv/versions/neovim/bin/python"
+  vim.g.mapleader = "+"
 else
-    vim.g.python3_host_prog = "/home/tomas/.pyenv/versions/neovim/bin/python"
-    vim.g.mapleader = "\\"
+  vim.g.python3_host_prog = "/home/tomas/.pyenv/versions/neovim/bin/python"
+  vim.g.mapleader = "\\"
 end
 
 vim.cmd([[au BufRead,BufNewFile ~/.config/nvim/*.lua set foldmethod=marker]])
 
-local init = function (name)
-    vim.cmd("runtime init_" .. name .. ".lua")
+local init = function(name)
+  vim.cmd("runtime init_" .. name .. ".lua")
 end
 
 -- Source local .nvimrc here if present (DEPRECATE THIS IN FAVOR OF LUA INIT)

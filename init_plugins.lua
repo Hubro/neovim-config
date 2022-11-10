@@ -1,15 +1,14 @@
-
-local plugin_install_path = vim.fn.stdpath("data").."/bundle"
+local plugin_install_path = vim.fn.stdpath("data") .. "/bundle"
 
 -- {{{ Magic Lua juice
 
-vim.cmd[[
+vim.cmd([[
   aug init_plugins.lua
     au!
     au BufEnter init_plugins.lua nnoremap <F5> :so %<CR>:PlugInstall<CR>
     au BufEnter init_plugins.lua nnoremap <F6> :so %<CR>:PlugUpdate<CR>
   aug END
-]]
+]])
 
 local plug = function(definitions)
   local plugins_to_set_up = {}
@@ -65,7 +64,7 @@ end
 
 -- }}}
 
-plug {
+plug({
   -- {{{ Common dependencies
 
   -- Utilities for Lua scripting in Neovim
@@ -76,31 +75,37 @@ plug {
 
   -- Extra icon support
   "ryanoasis/vim-devicons",
-  "kyazdani42/nvim-web-devicons", { setup = function()
-    soft_setup("nvim-web-devicons", { default = true })
-  end },
+  "kyazdani42/nvim-web-devicons",
+  {
+    setup = function()
+      soft_setup("nvim-web-devicons", { default = true })
+    end,
+  },
 
   -- }}}
 
   -- Official plugins
   "nvim-treesitter/playground",
-  "nvim-treesitter/nvim-treesitter", { setup = "treesitter" },
-  "neovim/nvim-lspconfig", { setup = "lsp" },
+  "nvim-treesitter/nvim-treesitter",
+  { setup = "treesitter" },
+  "neovim/nvim-lspconfig",
+  { setup = "lsp" },
 
   -- Mandatory tpope goodness
-  "tpope/vim-repeat",  -- Lets plugins implement proper repeat support
+  "tpope/vim-repeat", -- Lets plugins implement proper repeat support
   "tpope/vim-surround",
   "tpope/vim-commentary",
   "tpope/vim-fugitive",
-  "tpope/vim-sleuth",  -- Smartly detect shiftwidth and related settings
-  "tpope/vim-eunuch",  -- Adds common Unix command helpers like ":Rename"
-  "tpope/vim-unimpaired",  -- Pairs of handy bracket mappings
+  "tpope/vim-sleuth", -- Smartly detect shiftwidth and related settings
+  "tpope/vim-eunuch", -- Adds common Unix command helpers like ":Rename"
+  "tpope/vim-unimpaired", -- Pairs of handy bracket mappings
 
   -- Extra text objects
-  "kana/vim-textobj-user",             -- Common dependency
-  "wellle/targets.vim",                -- Lots of generic useful ones
-  "glts/vim-textobj-comment",          -- Comments (language agnostic)
-  "jeetsukumaran/vim-pythonsense", {   -- Functions, classes and docstrings
+  "kana/vim-textobj-user", -- Common dependency
+  "wellle/targets.vim", -- Lots of generic useful ones
+  "glts/vim-textobj-comment", -- Comments (language agnostic)
+  "jeetsukumaran/vim-pythonsense",
+  { -- Functions, classes and docstrings
     ["g:is_pythonsense_suppress_object_keymaps"] = 1,
     ["g:is_pythonsense_suppress_motion_keymaps"] = 1,
     ["g:is_pythonsense_suppress_location_keymaps"] = 1,
@@ -108,7 +113,8 @@ plug {
   },
 
   -- Basic syntax checking for a crapload of languages
-  "vim-syntastic/syntastic", {
+  "vim-syntastic/syntastic",
+  {
     ["g:syntastic_always_populate_loc_list"] = "1",
     ["g:syntastic_auto_loc_list"] = "0",
     ["g:syntastic_check_on_open"] = "1",
@@ -117,7 +123,12 @@ plug {
   },
 
   -- "airblade/vim-gitgutter",
-  "lewis6991/gitsigns.nvim", { setup = function() soft_setup("gitsigns") end },
+  "lewis6991/gitsigns.nvim",
+  {
+    setup = function()
+      soft_setup("gitsigns")
+    end,
+  },
 
   -- EditorConfig support
   "editorconfig/editorconfig-vim",
@@ -126,7 +137,8 @@ plug {
   "mg979/vim-visual-multi",
 
   -- Automatically close quotes and parentheses
-  "jiangmiao/auto-pairs", {
+  "jiangmiao/auto-pairs",
+  {
     ["g:AutoPairsShortcutToggle"] = "",
     ["g:AutoPairsShortcutFastWrap"] = "",
     ["g:AutoPairsShortcutJump"] = "",
@@ -138,13 +150,15 @@ plug {
   "windwp/nvim-ts-autotag",
 
   -- Asynchronous linter engine
-  "dense-analysis/ale", {
-    ["g:ale_linters_explicit"] = "1",   -- Only run stuff I explicitly enable
+  "dense-analysis/ale",
+  {
+    ["g:ale_linters_explicit"] = "1", -- Only run stuff I explicitly enable
     ["g:ale_disable_lsp"] = "1",
   },
 
   -- Snippet support
-  "SirVer/ultisnips", {
+  "SirVer/ultisnips",
+  {
     ["g:UltiSnipsEditSplit"] = "horizontal",
     -- Expansion is done by nvim-compe
     ["g:UltiSnipsExpandTrigger"] = "<Plug>UltisnipsExpand",
@@ -157,11 +171,13 @@ plug {
   "hrsh7th/cmp-path",
   "hrsh7th/cmp-cmdline",
   "quangnguyen30192/cmp-nvim-ultisnips",
-  "onsails/lspkind.nvim",   -- LSP icons
-  "hrsh7th/nvim-cmp", { setup = "cmp" },
+  "onsails/lspkind.nvim", -- LSP icons
+  "hrsh7th/nvim-cmp",
+  { setup = "cmp" },
 
   -- Trouble - Nicely formatted quickfix and diagnostics list
-  "folke/trouble.nvim", { setup = "trouble" },
+  "folke/trouble.nvim",
+  { setup = "trouble" },
 
   -- Lazygit integration
   "kdheepak/lazygit.nvim",
@@ -170,29 +186,34 @@ plug {
   "voldikss/vim-floaterm",
 
   -- Extensible plugin for auto-formatting code
-  "mhartington/formatter.nvim", { setup = "formatter" },
+  "mhartington/formatter.nvim",
+  { setup = "formatter" },
 
   -- Telescope
   "fhill2/telescope-ultisnips.nvim",
-  "nvim-telescope/telescope.nvim", { setup = "telescope" },
+  "nvim-telescope/telescope.nvim",
+  { setup = "telescope" },
 
   -- Lualine
-  "nvim-lua/lsp-status.nvim",  -- LSP status component
+  "nvim-lua/lsp-status.nvim", -- LSP status component
   --"~/src/github/Hubro/nvim-gps",
-  "SmiteshP/nvim-gps",  -- Code position breadcrumbs status component
-  "nvim-lualine/lualine.nvim", { setup = "lualine" },
+  "SmiteshP/nvim-gps", -- Code position breadcrumbs status component
+  "nvim-lualine/lualine.nvim",
+  { setup = "lualine" },
 
   -- nvim-tree.lua
-  "kyazdani42/nvim-tree.lua", {
+  "kyazdani42/nvim-tree.lua",
+  {
     -- ["g:nvim_tree_ignore"] = {".git", "node_modules", "__pycache__"},
-    setup = "nvim_tree"
+    setup = "nvim_tree",
   },
 
   -- Whitespace auto stripping
-  "ntpeters/vim-better-whitespace", {
-    ["g:better_whitespace_enabled"] = false,  -- Don't highlight whitespace
+  "ntpeters/vim-better-whitespace",
+  {
+    ["g:better_whitespace_enabled"] = false, -- Don't highlight whitespace
     ["g:strip_whitespace_on_save"] = true,
-    ["g:strip_whitelines_at_eof"] = true,  -- Also strip trailing line endings
+    ["g:strip_whitelines_at_eof"] = true, -- Also strip trailing line endings
     ["g:strip_whitespace_confirm"] = false,
   },
 
@@ -209,7 +230,8 @@ plug {
   --},
 
   -- Document outline with LSP and Tree-sitter backends
-  "stevearc/aerial.nvim", {
+  "stevearc/aerial.nvim",
+  {
     setup = function()
       -- vim.treesitter.set_query("bash", "aerial", [[
       --   (function_definition
@@ -235,27 +257,27 @@ plug {
         close_on_select = true,
         float = {
           relative = "win",
-        }
+        },
       })
-    end
+    end,
   },
 
   -- Zen mode
-  "folke/twilight.nvim", {
+  "folke/twilight.nvim",
+  {
     setup = function()
       soft_setup("twilight", {
         context = 20,
         expand = { "function", "function_definition", "decorated_definition" },
       })
-    end
+    end,
   },
   -- "folke/zen-mode.nvim", {
-  { "nasanos/zen-mode.nvim", { branch = "keep-cursor-position-on-exit" } }, {
+  { "nasanos/zen-mode.nvim", { branch = "keep-cursor-position-on-exit" } },
+  {
     setup = function()
       soft_setup("zen-mode", {
-        window = {
-
-        },
+        window = {},
         plugins = {
           gitsigns = { enabled = true },
 
@@ -279,59 +301,58 @@ plug {
           -- vim.opt.guifont = "SauceCodePro Nerd Font:h9:w57"
         end,
       })
-    end
+    end,
   },
 
   -- Control 'guifont' to zoom in/out in a GUI
   "drzel/vim-gui-zoom",
 
   -- Floating scrollbar
-  "dstein64/nvim-scrollview", {
+  "dstein64/nvim-scrollview",
+  {
     setup = function()
       soft_setup("scrollview")
-    end
+    end,
   },
 
   -- {{{ Language support
 
   -- Neovim plugin development support, sets up Lua LSP and such
-  "folke/neodev.nvim", {
+  "folke/neodev.nvim",
+  {
     setup = function()
       soft_setup("neodev", {
         override = function(_, options)
-          if (
-            vim.fn.expand("%") == ".nvimrc.lua"
-            or vim.fn.expand("%") == ".nvimrc-post.lua"
-          ) then
+          if vim.fn.expand("%") == ".nvimrc.lua" or vim.fn.expand("%") == ".nvimrc-post.lua" then
             options.enabled = true
           end
-        end
+        end,
       })
 
       soft_require("lspconfig", function(lspconfig)
         -- I currently only use Lua for Neovim config, so might as well enable
         -- neodev globally
-        lspconfig.sumneko_lua.setup {
+        lspconfig.sumneko_lua.setup({
           on_attach = _G.lsp_on_attach,
 
           Lua = {
-              runtime = {
-                  -- Tell the language server which version of Lua you're using
-                  -- (most likely LuaJIT in the case of Neovim)
-                  version = 'LuaJIT',
-              },
-              diagnostics = {
-                  -- Get the language server to recognize the `vim` global
-                  globals = {'vim'},
-              },
-              workspace = {
-                  -- Make the server aware of Neovim runtime files
-                  library = vim.api.nvim_get_runtime_file("", true),
-              },
-          }
-        }
+            runtime = {
+              -- Tell the language server which version of Lua you're using
+              -- (most likely LuaJIT in the case of Neovim)
+              version = "LuaJIT",
+            },
+            diagnostics = {
+              -- Get the language server to recognize the `vim` global
+              globals = { "vim" },
+            },
+            workspace = {
+              -- Make the server aware of Neovim runtime files
+              library = vim.api.nvim_get_runtime_file("", true),
+            },
+          },
+        })
       end)
-    end
+    end,
   },
 
   -- Robot Framework syntax highlighting
@@ -361,16 +382,16 @@ plug {
   -- }}}
 
   -- Color schemes
-  "rakr/vim-one",                -- One theme (dark and light)
-  "tomasr/molokai",              -- Molokai
-  "arcticicestudio/nord-vim",    -- Nord
-  "cocopon/iceberg.vim",         -- Iceberg
-  "morhetz/gruvbox",             -- Gruvbox
-  "lifepillar/vim-gruvbox8",     -- Gruvbox (Simplified and optimized)
+  "rakr/vim-one", -- One theme (dark and light)
+  "tomasr/molokai", -- Molokai
+  "arcticicestudio/nord-vim", -- Nord
+  "cocopon/iceberg.vim", -- Iceberg
+  "morhetz/gruvbox", -- Gruvbox
+  "lifepillar/vim-gruvbox8", -- Gruvbox (Simplified and optimized)
   -- "ayu-theme/ayu-vim",        -- Ayu
-  "Shatur/neovim-ayu",           -- Ayu (Optimized for Neovim)
-  "folke/tokyonight.nvim",       -- TokyoNight
-  "dracula/vim",                 -- Dracula
-  "NLKNguyen/papercolor-theme",  -- PaperColor
-  "EdenEast/nightfox.nvim",      -- Nightfox
-}
+  "Shatur/neovim-ayu", -- Ayu (Optimized for Neovim)
+  "folke/tokyonight.nvim", -- TokyoNight
+  "dracula/vim", -- Dracula
+  "NLKNguyen/papercolor-theme", -- PaperColor
+  "EdenEast/nightfox.nvim", -- Nightfox
+})

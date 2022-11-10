@@ -1,4 +1,3 @@
-
 -- Helper to setup plugins
 --
 -- This will try to require the plugin, then call plugin.setup(options). If the

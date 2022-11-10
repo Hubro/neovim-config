@@ -3,6 +3,6 @@
 --
 -- https://github.com/sourcegraph/tree-sitter-jsonnet
 --
-vim.cmd[[
+vim.cmd([[
   au BufNewFile,BufRead *.jsonnet set filetype=javascript
-]]
+]])
