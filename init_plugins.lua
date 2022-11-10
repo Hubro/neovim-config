@@ -11,7 +11,7 @@ vim.cmd[[
   aug END
 ]]
 
-function plug(definitions)
+local plug = function(definitions)
   local plugins_to_set_up = {}
 
   vim.fn["plug#begin"](plugin_install_path)
@@ -77,7 +77,7 @@ plug {
   -- Extra icon support
   "ryanoasis/vim-devicons",
   "kyazdani42/nvim-web-devicons", { setup = function()
-    require("nvim-web-devicons").setup{ default = true }
+    soft_setup("nvim-web-devicons", { default = true })
   end },
 
   -- }}}
@@ -139,7 +139,8 @@ plug {
 
   -- Asynchronous linter engine
   "dense-analysis/ale", {
-    ["g:ale_disable_lsp"] = "1"
+    ["g:ale_linters_explicit"] = "1",   -- Only run stuff I explicitly enable
+    ["g:ale_disable_lsp"] = "1",
   },
 
   -- Snippet support
@@ -156,10 +157,14 @@ plug {
   "hrsh7th/cmp-path",
   "hrsh7th/cmp-cmdline",
   "quangnguyen30192/cmp-nvim-ultisnips",
+  "onsails/lspkind.nvim",   -- LSP icons
   "hrsh7th/nvim-cmp", { setup = "cmp" },
 
   -- Trouble - Nicely formatted quickfix and diagnostics list
   "folke/trouble.nvim", { setup = "trouble" },
+
+  -- Lazygit integration
+  "kdheepak/lazygit.nvim",
 
   -- Floating terminal
   "voldikss/vim-floaterm",
@@ -197,14 +202,47 @@ plug {
   },
 
   -- Document outline based on LSP
-  "simrat39/symbols-outline.nvim", {
-    ["g:symbols_outline"] = {
-      auto_close = true,
-      width = 40,
-      symbol_blacklist = {
-        "Property", "Field", "Variable", "Key", "EnumMember", "TypeParameter"
-      }
-    }
+  --"simrat39/symbols-outline.nvim", {
+  --  setup = function()
+  --    soft_setup("symbols-outline", {
+  --      width = 40,
+  --      symbol_blacklist = {
+  --        "Property", "Field", "Variable", "Key", "EnumMember", "TypeParameter"
+  --      }
+  --    })
+  --  end
+  --},
+
+  -- Document outline with LSP and Tree-sitter backends
+  "stevearc/aerial.nvim", {
+    setup = function()
+      -- vim.treesitter.set_query("bash", "aerial", [[
+      --   (function_definition
+      --     name: (word) @name) @type
+
+      --   (declaration_command
+      --     (variable_assignment
+      --       name: (variable_name) @name)) @type
+      -- ]])
+
+      -- local map = require("aerial/backends/treesitter/language_kind_map")
+      -- map.bash.declaration_command = "Field"
+
+      soft_setup("aerial", {
+        backends = { "treesitter", "lsp", "markdown" },
+        layout = {
+          max_width = { 80, 0.9 },
+          min_width = 60,
+        },
+        keymaps = {
+          ["<Esc>"] = "actions.close",
+        },
+        close_on_select = true,
+        float = {
+          relative = "win",
+        }
+      })
+    end
   },
 
   -- Zen mode
@@ -259,25 +297,47 @@ plug {
     end
   },
 
-  -- Minimap (currently causes smooth scroll to stutter in Neovide)
-  -- "wfxr/minimap.vim", {
-  --   ["g:minimap_width"] = 10,
-  --   ["g:minimap_auto_start"] = 1,
-  --   ["g:minimap_auto_start_win_enter"] = 1,
-  --   ["g:minimap_highlight_range"] = 1,
-  --   -- ["g:minimap_git_colors"] = 1,
-
-  --   -- Disable minimap for specific file types
-  --   ["g:minimap_block_filetypes"] = { "nerdtree", "fugitive" },
-
-  --   -- Disable minimap for specific buffer types
-  --   ["g:minimap_block_buftypes"] = { "nofile", "nowrite", "quickfix", "terminal", "prompt" },
-
-  --   -- Close minimap for specific file types
-  --   ["g:minimap_close_filetypes"] = { "fugitive", "netrw", "vim-plug" },
-  -- },
-
   -- {{{ Language support
+
+  -- Neovim plugin development support, sets up Lua LSP and such
+  "folke/neodev.nvim", {
+    setup = function()
+      soft_setup("neodev", {
+        override = function(_, options)
+          if (
+            vim.fn.expand("%") == ".nvimrc.lua"
+            or vim.fn.expand("%") == ".nvimrc-post.lua"
+          ) then
+            options.enabled = true
+          end
+        end
+      })
+
+      soft_require("lspconfig", function(lspconfig)
+        -- I currently only use Lua for Neovim config, so might as well enable
+        -- neodev globally
+        lspconfig.sumneko_lua.setup {
+          on_attach = _G.lsp_on_attach,
+
+          Lua = {
+              runtime = {
+                  -- Tell the language server which version of Lua you're using
+                  -- (most likely LuaJIT in the case of Neovim)
+                  version = 'LuaJIT',
+              },
+              diagnostics = {
+                  -- Get the language server to recognize the `vim` global
+                  globals = {'vim'},
+              },
+              workspace = {
+                  -- Make the server aware of Neovim runtime files
+                  library = vim.api.nvim_get_runtime_file("", true),
+              },
+          }
+        }
+      end)
+    end
+  },
 
   -- Robot Framework syntax highlighting
   "mfukar/robotframework-vim",
@@ -287,6 +347,9 @@ plug {
   --   -- https://github.com/Vimjas/vim-python-pep8-indent#gpython_pep8_indent_multiline_string
   --   ["g:python_pep8_indent_multiline_string"] = -2
   -- },
+
+  -- Python - Black auto-formatting
+  "psf/black",
 
   -- SystemD - Syntax highlighting
   "wgwoods/vim-systemd-syntax",

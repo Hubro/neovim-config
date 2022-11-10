@@ -1,4 +1,4 @@
-require("trouble").setup {
+soft_setup("trouble", {
   height = 20,
   mode = "loclist",
   -- mode = "workspace_diagnostics",
@@ -6,4 +6,4 @@ require("trouble").setup {
   action_keys = {
     toggle_fold = {"zA", "za", "<Space>"},
   },
-}
+})

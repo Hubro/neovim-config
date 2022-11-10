@@ -12,3 +12,11 @@ _G.soft_setup = function(plugin_name, options)
     plugin.setup(options)
   end
 end
+
+_G.soft_require = function(module_name, callback)
+  local success, plugin = pcall(require, module_name)
+
+  if success then
+    callback(plugin)
+  end
+end

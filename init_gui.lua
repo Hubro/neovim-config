@@ -1,9 +1,9 @@
 
 local is_neovide = (vim.g.neovide == true)
 
-vim.g.hubro_default_font = "Iosevka:h9.5"
-vim.g.hubro_big_font = "Iosevka:h13.5"
-vim.g.hubro_huge_font = "Iosevka:h18"
+vim.g.hubro_default_font = "Iosevka Nerd Font:h9.5"
+vim.g.hubro_big_font = "Iosevka Nerd Font:h13.5"
+vim.g.hubro_huge_font = "Iosevka Nerd Font:h18"
 
 -- vim.opt.guifont = "Cascadia Code PL:h9"
 vim.opt.guifont = vim.g.hubro_default_font

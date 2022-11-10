@@ -1,5 +1,6 @@
 
 local installed, cmp = pcall(require, "cmp")
+local lspkind_installed, lspkind = pcall(require, "lspkind")
 
 local buffer = function(opts)
     if not opts then
@@ -38,6 +39,24 @@ if installed then
 
     vim.opt.completeopt = "menu,menuone,noselect"
 
+    local formatting = {}
+
+    if lspkind_installed then
+        -- https://github.com/onsails/lspkind.nvim
+        formatting = {
+            format = lspkind.cmp_format{
+                with_text = true,
+                menu = {
+                    buffer = "[buf]",
+                    nvim_lsp = "[LSP]",
+                    nvim_lua = "[api]",
+                    path = "[path]",
+                    ultisnips = "[snip]",
+                }
+            }
+        }
+    end
+
     cmp.setup{
         snippet = {
             expand = function(args)
@@ -54,7 +73,12 @@ if installed then
                 buffer(),
                 { name = "path" },
             }
-        )
+        ),
+        formatting = formatting,
+        experimental = {
+            native_menu = false,
+            ghost_text = true,
+        }
     }
 
     cmp.setup.cmdline(":", {
@@ -62,10 +86,6 @@ if installed then
         sources = cmp.config.sources(
             {
                 { name = "cmdline" },
-            },
-            {
-                { name = "path" },
-                buffer{ all_buffers = true }
             }
         ),
         completion = {

@@ -142,11 +142,8 @@ local keybinds = {
   {"n", "<Leader>t", ":NvimTreeToggle<CR>"},
   {"n", "gt", ":NvimTreeFindFile<CR>"},   -- Open current file in the tree
 
-  -- Toggle document outline (simrat39/symbols-outline.nvim)
-  {"n", "<Leader>o", ":SymbolsOutline<CR>"},
-
-  -- Toggle symbol outline
-  --{"n", "<Leader>o", ":SymbolsOutline<CR>"},
+  -- Toggle document outline (See "aerial" in plugins)
+  {"n", "<Leader>o", ":AerialOpen float<CR>"},
 
   -- Zen mode
   {"n", "<F11>", ":silent :ZenMode<CR>"},
@@ -178,8 +175,9 @@ local keybinds = {
   {"x", "<A-n>", "<Plug>(VM-Visual-Cursors)", { noremap = false }},
 
   -- Zoom in/out in a GUI (uses vim-gui-zoom plugin)
-  {"n", "<C-+>", ":ZoomIn<CR>", { gui = true }},
-  {"n", "<C-->", ":ZoomOut<CR>", { gui = true }},
+  {"n", "<C-+>", ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor + 0.1<CR>", { gui = true }},
+  {"n", "<C-->", ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor - 0.1<CR>", { gui = true }},
+  {"n", "<C-0>", ":lua vim.g.neovide_scale_factor = 1<CR>", { gui = true }},
 
   -- Set specific font sizes using Alt+1/2/3
   {"n", "<A-1>", ":lua vim.opt.guifont = vim.g.hubro_default_font<CR>"},
@@ -194,7 +192,7 @@ local keybinds = {
 -- end
 
 -- {{{ The magic
-function apply_keybinds(keybinds)
+_G.apply_keybinds = function(keybinds)
   for _, bind in ipairs(keybinds) do
     if #bind < 4 then
       bind[4] = default_opts
