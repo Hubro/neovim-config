@@ -124,6 +124,14 @@ if success then
   lspconfig.rust_analyzer.setup({ on_attach = _G.lsp_on_attach })
   lspconfig.elmls.setup({ on_attach = _G.lsp_on_attach })
 
+  -- cssls requires snippet support
+  local cssls_capabilities = vim.lsp.protocol.make_client_capabilities()
+  cssls_capabilities.textDocument.completion.completionItem.snippetSupport = true
+  lspconfig.cssls.setup({
+    on_attach = _G.lsp_on_attach,
+    capabilities = cssls_capabilities,
+  })
+
   -- Allow projects to define a post-LSP hook for project specific LSP config
   if _G.project_hook_lsp then
     project_hook_lsp()
