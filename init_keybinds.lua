@@ -163,7 +163,7 @@ local keybinds = {
   { "n", "<F1>", ":vsplit<CR>:terminal<CR>i" },
   { "n", "<S-F1>", ":split<CR>:terminal<CR>i" },
 
-  { "n", "<F10>", ":Neoformat<CR>" },
+  { "n", "<F10>", ":Format<CR>" },
 
   -- CTRL+Enter creates a new line below the current line, Shift+Enter creates
   -- a line above the current line. (These only work in GUIs.)
