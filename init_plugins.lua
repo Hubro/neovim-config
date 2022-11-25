@@ -373,6 +373,9 @@ plug({
   -- Markdown - Live preview server
   { "iamcco/markdown-preview.nvim", { run = "cd app && yarn install" } },
 
+  -- Markdown - Generate TOC
+  { "mzlogin/vim-markdown-toc", { commit = "7ec05df27b4922830ace2246de36ac7e53bea1db" } },
+
   -- Polar - Authorization DSL
   "osohq/polar.vim",
 
