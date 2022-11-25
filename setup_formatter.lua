@@ -22,6 +22,10 @@ soft_setup("formatter", {
       end,
     },
 
+    javascript = {
+      require("formatter.filetypes.javascript").prettier,
+    },
+
     python = {
       require("formatter.filetypes.python").isort,
       require("formatter.filetypes.python").black,
