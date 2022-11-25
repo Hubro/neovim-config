@@ -42,6 +42,7 @@ if success then
     sync_root_with_cwd = true,
     view = {
       width = 60,
+      preserve_window_proportions = true,
       mappings = {
         list = {
           { key = "cd", action = "cd" },
