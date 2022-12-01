@@ -30,9 +30,12 @@ if success then
     end
     local opts = { noremap = true, silent = true }
 
-    map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+    --map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+    map("n", "gd", "<cmd>Trouble lsp_definitions<CR>", opts)
+    map("n", "gD", "<cmd>Trouble lsp_type_definitions<CR>", opts)
     map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-    map("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+    -- map("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+    map("n", "gr", "<cmd>Trouble lsp_references<CR>", opts)
     map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
     map("i", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
     map("n", "<Leader>r", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)

@@ -60,14 +60,24 @@ if success then
     })
   end
 
+  local mappings = {
+    i = {
+      ["<C-j>"] = actions.move_selection_next,
+      ["<C-k>"] = actions.move_selection_previous,
+    },
+    n = {},
+  }
+
+  local trouble_installed, trouble = pcall(require, "trouble.providers.telescope")
+
+  if trouble_installed then
+    mappings["i"]["<C-q>"] = trouble.smart_open_with_trouble
+    mappings["n"]["<C-q>"] = trouble.smart_open_with_trouble
+  end
+
   telescope.setup({
     defaults = {
-      mappings = {
-        i = {
-          ["<C-j>"] = actions.move_selection_next,
-          ["<C-k>"] = actions.move_selection_previous,
-        },
-      },
+      mappings = mappings,
       layout_strategy = "horizontal",
       layout_config = {
         prompt_position = "top",
