@@ -82,7 +82,7 @@ if success then
       enable = true,
 
       -- The indent expressions for some languages are complete shit
-      disable = { "svelte" },
+      disable = { "svelte", "php" },
     },
 
     playground = {
