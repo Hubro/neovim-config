@@ -105,8 +105,13 @@ if success then
 
   -- }}}
 
-  lspconfig.yang_lsp.setup({
+  -- Default setup config for all LSP servers
+  lspconfig.util.default_config = vim.tbl_extend("force", lspconfig.util.default_config, {
+    autostart = true,
     on_attach = _G.lsp_on_attach,
+  })
+
+  lspconfig.yang_lsp.setup({
     capabilities = {
       textDocument = {
         completion = {
@@ -118,20 +123,21 @@ if success then
     },
   })
 
-  lspconfig.robot_lsp.setup({ on_attach = _G.lsp_on_attach })
-  lspconfig.homeassistant.setup({ on_attach = _G.lsp_on_attach })
-  -- lspconfig.pylsp.setup { on_attach = _G.lsp_on_attach, }
-  lspconfig.pyright.setup({ on_attach = _G.lsp_on_attach })
-  lspconfig.tsserver.setup({ on_attach = _G.lsp_on_attach })
-  lspconfig.svelte.setup({ on_attach = _G.lsp_on_attach })
-  lspconfig.rust_analyzer.setup({ on_attach = _G.lsp_on_attach })
-  lspconfig.elmls.setup({ on_attach = _G.lsp_on_attach })
+  lspconfig.robot_lsp.setup({})
+  lspconfig.homeassistant.setup({})
+  -- lspconfig.pylsp.setup {}
+  lspconfig.pyright.setup({})
+  lspconfig.tsserver.setup({})
+  lspconfig.svelte.setup({})
+  lspconfig.rust_analyzer.setup({})
+  lspconfig.elmls.setup({})
+  lspconfig.astro.setup({})
+  lspconfig.tailwindcss.setup({})
 
   -- cssls requires snippet support
   local cssls_capabilities = vim.lsp.protocol.make_client_capabilities()
   cssls_capabilities.textDocument.completion.completionItem.snippetSupport = true
   lspconfig.cssls.setup({
-    on_attach = _G.lsp_on_attach,
     capabilities = cssls_capabilities,
   })
 
