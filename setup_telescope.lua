@@ -5,6 +5,14 @@ if success then
   local actions = require("telescope.actions")
   local themes = require("telescope.themes")
 
+  -- My custom actions
+  local custom_actions = {
+    open_trouble_quickfix = function(_)
+      vim.cmd([[Trouble quickfix]])
+    end,
+  }
+  custom_actions = require("telescope.actions.mt").transform_mod(custom_actions)
+
   -- Ultisnips extension
   telescope.load_extension("ultisnips")
 
@@ -64,16 +72,21 @@ if success then
     i = {
       ["<C-j>"] = actions.move_selection_next,
       ["<C-k>"] = actions.move_selection_previous,
+      ["<C-q>"] = actions.smart_send_to_qflist + custom_actions.open_trouble_quickfix,
+      ["<C-a>"] = actions.smart_add_to_qflist + custom_actions.open_trouble_quickfix,
     },
-    n = {},
+    n = {
+      ["<C-q>"] = actions.smart_send_to_qflist + custom_actions.open_trouble_quickfix,
+      ["<C-a>"] = actions.smart_add_to_qflist + custom_actions.open_trouble_quickfix,
+    },
   }
 
-  local trouble_installed, trouble = pcall(require, "trouble.providers.telescope")
+  -- local trouble_installed, trouble = pcall(require, "trouble.providers.telescope")
 
-  if trouble_installed then
-    mappings["i"]["<C-q>"] = trouble.smart_open_with_trouble
-    mappings["n"]["<C-q>"] = trouble.smart_open_with_trouble
-  end
+  -- if trouble_installed then
+  --   mappings["i"]["<C-q>"] = trouble.smart_open_with_trouble
+  --   mappings["n"]["<C-q>"] = trouble.smart_open_with_trouble
+  -- end
 
   telescope.setup({
     defaults = {

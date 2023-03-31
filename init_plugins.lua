@@ -179,6 +179,25 @@ plug({
   "folke/trouble.nvim",
   { setup = "trouble" },
 
+  "folke/which-key.nvim",
+  {
+    setup = function()
+      soft_setup("which-key")
+    end,
+  },
+
+  -- Leap.nvim - Neovim's answer to the mouse, quick on-screen navigation
+  "ggandor/leap.nvim",
+  {
+    setup = function()
+      soft_require("leap", function(leap)
+        vim.keymap.set({ "n", "x", "o" }, "å", "<Plug>(leap-forward-to)")
+        vim.keymap.set({ "n", "x", "o" }, "Å", "<Plug>(leap-backward-to)")
+        vim.keymap.set({ "n", "x", "o" }, "gå", "<Plug>(leap-cross-window)")
+      end)
+    end,
+  },
+
   -- Lazygit integration
   "kdheepak/lazygit.nvim",
 
@@ -262,48 +281,6 @@ plug({
     end,
   },
 
-  -- Zen mode
-  "folke/twilight.nvim",
-  {
-    setup = function()
-      soft_setup("twilight", {
-        context = 20,
-        expand = { "function", "function_definition", "decorated_definition" },
-      })
-    end,
-  },
-  -- "folke/zen-mode.nvim", {
-  { "nasanos/zen-mode.nvim", { branch = "keep-cursor-position-on-exit" } },
-  {
-    setup = function()
-      soft_setup("zen-mode", {
-        window = {},
-        plugins = {
-          gitsigns = { enabled = true },
-
-          -- Twilight is cool but needs some work
-          twilight = { enabled = false },
-        },
-        on_open = function(win)
-          vim.cmd("ALEDisableBuffer")
-          vim.cmd("ScrollViewDisable")
-          vim.diagnostic.disable()
-
-          -- Currently, changing the font causes Zen mode to scale incorrectly.
-          -- Follow: https://github.com/folke/zen-mode.nvim/issues/45
-          --
-          -- vim.opt.guifont = "SauceCodePro Nerd Font:h12:w57"
-        end,
-        on_close = function(win)
-          vim.cmd("ALEEnableBuffer")
-          vim.cmd("ScrollViewEnable")
-          vim.diagnostic.enable()
-          -- vim.opt.guifont = "SauceCodePro Nerd Font:h9:w57"
-        end,
-      })
-    end,
-  },
-
   -- Control 'guifont' to zoom in/out in a GUI
   "drzel/vim-gui-zoom",
 
@@ -323,35 +300,17 @@ plug({
     setup = function()
       soft_setup("neodev", {
         override = function(_, options)
-          if vim.fn.expand("%") == ".nvimrc.lua" or vim.fn.expand("%") == ".nvimrc-post.lua" then
+          if
+            vim.fn.expand("%") == ".nvimrc.lua"
+            or vim.fn.expand("%") == ".nvimrc-post.lua"
+          then
             options.enabled = true
           end
         end,
       })
 
-      soft_require("lspconfig", function(lspconfig)
-        -- I currently only use Lua for Neovim config, so might as well enable
-        -- neodev globally
-        lspconfig.sumneko_lua.setup({
-          on_attach = _G.lsp_on_attach,
-
-          Lua = {
-            runtime = {
-              -- Tell the language server which version of Lua you're using
-              -- (most likely LuaJIT in the case of Neovim)
-              version = "LuaJIT",
-            },
-            diagnostics = {
-              -- Get the language server to recognize the `vim` global
-              globals = { "vim" },
-            },
-            workspace = {
-              -- Make the server aware of Neovim runtime files
-              library = vim.api.nvim_get_runtime_file("", true),
-            },
-          },
-        })
-      end)
+      -- ADDITIONAL LSP CONFIG MAY BE REQUIRED HERE, I DELETED IT BECAUSE
+      -- SUMNEKO LS IS DEPRECATED
     end,
   },
 
@@ -374,7 +333,10 @@ plug({
   { "iamcco/markdown-preview.nvim", { run = "cd app && yarn install" } },
 
   -- Markdown - Generate TOC
-  { "mzlogin/vim-markdown-toc", { commit = "7ec05df27b4922830ace2246de36ac7e53bea1db" } },
+  {
+    "mzlogin/vim-markdown-toc",
+    { commit = "7ec05df27b4922830ace2246de36ac7e53bea1db" },
+  },
 
   -- Polar - Authorization DSL
   "osohq/polar.vim",

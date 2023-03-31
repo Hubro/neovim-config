@@ -1,10 +1,6 @@
 local default_opts = { noremap = true, silent = true }
 
 local keybinds = {
-  -- Use the plus key as an additional leader key, for keyboards that can't
-  -- trivially produce a backslash (*cough* Macbooks)
-  { "n", "+", "<Leader>", { noremap = false } },
-
   -- Alternative key to escape terminal, necessary since the original
   -- keybinding can't be expressed on a Mac keyboard
   { "t", "ń", "<C-\\><C-n>" },
@@ -96,9 +92,13 @@ local keybinds = {
   -- Plugin keybinds
   --
 
-  -- Be quiet! Disable LSP diagnostics and ALE warnings
-  { "n", "<Leader>q", ":ALEDisableBuffer<CR>:lua vim.diagnostic.disable(0)<CR>" },
-  { "n", "<Leader>Q", ":ALEEnableBuffer<CR>:lua vim.diagnostic.enable(0)<CR>" },
+  -- Silence! Disable LSP diagnostics and ALE warnings
+  {
+    "n",
+    "<Leader>s",
+    ":ALEDisableBuffer<CR>:lua vim.diagnostic.disable(0)<CR>",
+  },
+  { "n", "<Leader>S", ":ALEEnableBuffer<CR>:lua vim.diagnostic.enable(0)<CR>" },
 
   -- Some Fugitive shortcuts
   { "n", "<Leader>gs", ":tab G<CR>" },
@@ -151,9 +151,13 @@ local keybinds = {
   { "n", "<F12>", ":lua toggle_colorscheme()<CR>" },
 
   -- Show diagnostics window ("trouble.nvim" plugin)
-  { "n", "<Leader>d", ":TroubleToggle<CR>" },
+  { "n", "<Leader>d", ":Trouble document_diagnostics<CR>" },
+  { "n", "<Leader>q", ":Trouble quickfix<CR>" },
   { "n", ")", "<Plug>(ale_next_wrap)", { noremap = false } },
   { "n", "(", "<Plug>(ale_previous_wrap)", { noremap = false } },
+
+  -- Show inline diagnostics window
+  { "n", "L", ":lua vim.diagnostic.open_float()<CR>" },
 
   -- Floating terminal ("vim-floaterm" plugin)
   { "n", "<C-q>", ":FloatermToggle quick<CR>" },
@@ -174,8 +178,18 @@ local keybinds = {
   { "x", "<A-n>", "<Plug>(VM-Visual-Cursors)", { noremap = false } },
 
   -- Zoom in/out in a GUI (uses vim-gui-zoom plugin)
-  { "n", "<C-+>", ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor + 0.1<CR>", { gui = true } },
-  { "n", "<C-->", ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor - 0.1<CR>", { gui = true } },
+  {
+    "n",
+    "<C-+>",
+    ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor + 0.1<CR>",
+    { gui = true },
+  },
+  {
+    "n",
+    "<C-->",
+    ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor - 0.1<CR>",
+    { gui = true },
+  },
   { "n", "<C-0>", ":lua vim.g.neovide_scale_factor = 1<CR>", { gui = true } },
 
   -- Set specific font sizes using Alt+1/2/3

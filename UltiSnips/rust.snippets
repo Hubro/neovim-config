@@ -1,0 +1,38 @@
+
+snippet struct "A struct" b
+struct ${1:StructName} {
+	$0
+}
+endsnippet
+
+snippet enum "An enumeration" b
+enum ${1:EnumName} {
+	$0
+}
+endsnippet
+
+snippet tests "A unit test block" b
+#[cfg(test)]
+mod test {
+	use super::*;
+
+	#[test]
+	fn test_something() {
+		todo!();$0
+	}
+}
+endsnippet
+
+snippet test "A unit test" b
+#[test]
+fn test_${1}() {
+	$0
+}
+endsnippet
+
+snippet assert_eq "An assertion" b
+assert_eq!(
+	${1:A},
+	${0:B},
+);
+endsnippet

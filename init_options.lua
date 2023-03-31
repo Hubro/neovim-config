@@ -7,6 +7,9 @@ vim.opt.scrolloff = 5 -- Keep 5 lines margin between cursor and edge
 vim.opt.mouse = "a" -- Enable mouse, mostly useful for resizing
 vim.opt.foldmethod = "marker" -- Enable marker folding by default
 vim.opt.signcolumn = "yes" -- Always show sign column, prevents jumping
+vim.opt.indentkeys = nil
+
+vim.cmd.behave("xterm") -- Disables mouse popup window
 
 -- Default whitespace settings. These will probably be overridden by file type
 -- specific settings or EditorConfig.

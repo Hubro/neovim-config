@@ -25,6 +25,11 @@ if success then
     -- Give lsp-status a reference to the client
     lsp_status.on_attach(client)
 
+    -- The Ruff LSP only provides diagnostics, let's not set any key bindings
+    if client.name == "ruff" then
+      return
+    end
+
     local function map(...)
       vim.api.nvim_buf_set_keymap(bufnr, ...)
     end
@@ -77,7 +82,9 @@ if success then
       end,
       settings = {
         robot = {
-          pythonpath = (vim.env.PYTHONPATH and vim.split(vim.env.PYTHONPATH, ":") or { "" }),
+          pythonpath = (
+            vim.env.PYTHONPATH and vim.split(vim.env.PYTHONPATH, ":") or { "" }
+          ),
         },
       },
     },
@@ -106,10 +113,11 @@ if success then
   -- }}}
 
   -- Default setup config for all LSP servers
-  lspconfig.util.default_config = vim.tbl_extend("force", lspconfig.util.default_config, {
-    autostart = true,
-    on_attach = _G.lsp_on_attach,
-  })
+  lspconfig.util.default_config =
+    vim.tbl_extend("force", lspconfig.util.default_config, {
+      autostart = true,
+      on_attach = _G.lsp_on_attach,
+    })
 
   lspconfig.yang_lsp.setup({
     capabilities = {
@@ -123,23 +131,88 @@ if success then
     },
   })
 
-  lspconfig.robot_lsp.setup({})
-  lspconfig.homeassistant.setup({})
-  -- lspconfig.pylsp.setup {}
-  lspconfig.pyright.setup({})
-  lspconfig.tsserver.setup({})
-  lspconfig.svelte.setup({})
-  lspconfig.rust_analyzer.setup({})
-  lspconfig.elmls.setup({})
-  lspconfig.astro.setup({})
-  lspconfig.tailwindcss.setup({})
-
   -- cssls requires snippet support
   local cssls_capabilities = vim.lsp.protocol.make_client_capabilities()
-  cssls_capabilities.textDocument.completion.completionItem.snippetSupport = true
-  lspconfig.cssls.setup({
-    capabilities = cssls_capabilities,
-  })
+  cssls_capabilities.textDocument.completion.completionItem.snippetSupport =
+    true
+
+  local servers_we_want = {
+    "robot_lsp",
+    "homeassistant",
+    -- {
+    --   "pylsp",
+    --   {
+    --     settings = {
+    --       pylsp = {
+    --         plugins = {
+    --           autopep8 = { enabled = false },
+    --           jedi_completion = { enabled = true },
+    --           jedi_definition = { enabled = true },
+    --           jedi_hover = { enabled = true },
+    --           jedi_references = { enabled = true },
+    --           jedi_signature_help = { enabled = true },
+    --           jedi_symbols = { enabled = true },
+    --           mccabe = { enabled = false },
+    --           pycodestyle = { enabled = false },
+    --           pydocstyle = { enabled = false },
+    --           pyflakes = { enabled = false },
+    --           pylint = { enabled = false },
+    --           rope_autoimport = { enabled = true },
+    --           yapf = { enabled = false },
+    --         },
+    --       },
+    --     },
+    --   },
+    -- },
+    {
+      "pyright",
+      {
+        settings = {
+          python = {
+            analysis = {
+              diagnosticMode = "off",
+              typeCheckingMode = "off",
+            },
+          },
+        },
+      },
+    },
+    "tsserver",
+    "svelte",
+    "rust_analyzer",
+    "elmls",
+    "astro",
+    { "cssls", { capabilities = cssls_capabilities } },
+    "tailwindcss",
+    "ruff_lsp",
+  }
+
+  for _, server_name in pairs(servers_we_want) do
+    local custom_server_config
+
+    if type(server_name) == "table" then
+      custom_server_config = server_name[2]
+      server_name = server_name[1]
+    else
+      custom_server_config = {}
+    end
+
+    local current_lspconfig = lspconfig[server_name]
+
+    -- Only try to set up the lsp client if the executable exists, otherwise nvim will whine
+    if
+      vim.fn.executable(current_lspconfig.document_config.default_config.cmd[1])
+      == 1
+    then
+      current_lspconfig.setup(
+        vim.tbl_extend(
+          "force",
+          lspconfig.util.default_config,
+          custom_server_config
+        )
+      )
+    end
+  end
 
   -- Allow projects to define a post-LSP hook for project specific LSP config
   if _G.project_hook_lsp then

@@ -31,15 +31,6 @@ if success then
     },
     extensions = { "fugitive", "nvim-tree", "quickfix" },
     sections = {
-      lualine_b = {
-        "branch",
-        function()
-          return lsp_status.status()
-        end,
-      },
-      lualine_c = {},
-    },
-    sections = {
       lualine_a = { "mode" },
       lualine_b = { "filename" },
       lualine_c = { { gps.get_location, cond = gps.is_available } },

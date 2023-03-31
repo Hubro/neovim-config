@@ -15,7 +15,7 @@ if success then
 
   configs.robot = {
     install_info = {
-      url = "~/Dropbox/projects/tree-sitter-robot",
+      url = "~/Dropbox/Projects/tree-sitter-robot",
       files = { "src/parser.c" },
       generate_requires_npm = false,
       required_generate_from_grammar = false,
@@ -32,6 +32,9 @@ if success then
   -- }
 
   require("nvim-treesitter.configs").setup({
+    sync_install = true,
+    auto_install = true,
+
     -- Value can be "all", "maintained" (parsers with maintainers), or a
     -- list of languages
     ensure_installed = {
@@ -49,6 +52,7 @@ if success then
       "python",
       "query",
       "regex",
+      "robot",
       "ruby",
       "rust",
       "scala",
@@ -56,6 +60,7 @@ if success then
       "svelte",
       "toml",
       "typescript",
+      "tsx",
       "vue",
       "yaml",
       "yang",
@@ -66,6 +71,8 @@ if success then
       -- Can also enable/disable for specific languages
       -- enable = { "python" },
       -- disable = { "c", "rust" },
+
+      disable = { "gitcommit" },
     },
 
     incremental_selection = {
