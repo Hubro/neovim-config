@@ -112,16 +112,6 @@ plug({
     -- Custom keymaps are set in ftplugin/python.lua
   },
 
-  -- Basic syntax checking for a crapload of languages
-  "vim-syntastic/syntastic",
-  {
-    ["g:syntastic_always_populate_loc_list"] = "1",
-    ["g:syntastic_auto_loc_list"] = "0",
-    ["g:syntastic_check_on_open"] = "1",
-    ["g:syntastic_check_on_wq"] = "0",
-    ["g:syntastic_python_checkers"] = {},
-  },
-
   -- "airblade/vim-gitgutter",
   "lewis6991/gitsigns.nvim",
   {
