@@ -1,6 +1,5 @@
-
-vim.g.hubro_current_theme_mode = "dark"
-vim.g.hubro_default_dark_theme = "duskfox"
+vim.g.hubro_current_theme_mode = "light"
+vim.g.hubro_default_dark_theme = "catppuccin"
 vim.g.hubro_default_light_theme = "dayfox"
 
 if vim.g.hubro_current_theme_mode == "dark" then
@@ -110,7 +109,15 @@ local themes = {
     lualine = "dayfox",
     before = function()
       soft_setup("nightfox", { options = { dim_inactive = false } })
-    end
+    end,
+    overrides = {
+      IndentBlanklineChar = {
+        guifd = "#e5ded6",
+      },
+      IndentBlanklineContextChar = {
+        guifg = "#9886c1",
+      },
+    },
   },
   dawnfox = {
     background = "dark",
@@ -118,7 +125,7 @@ local themes = {
     lualine = "dawnfox",
     before = function()
       soft_setup("nightfox", { options = { dim_inactive = false } })
-    end
+    end,
   },
   duskfox = {
     background = "dark",
@@ -126,7 +133,32 @@ local themes = {
     lualine = "duskfox",
     before = function()
       soft_setup("nightfox", { options = { dim_inactive = true } })
-    end
+    end,
+  },
+  catppuccin = {
+    background = "dark",
+    colorscheme = "catppuccin-mocha",
+    lualine = "auto",
+    before = function()
+      soft_setup("catppuccin", {
+        dim_inactive = { enabled = true },
+      })
+    end,
+    overrides = {
+      IndentBlanklineContextChar = {
+        guifg = "#ca9374",
+        --guifg = "#cba6f7",
+      },
+      IndentBlanklineContextStart = {
+        guisp = "#ca9374",
+        --guisp = "#cba6f7",
+      },
+    },
+  },
+  catppuccin_light = {
+    background = "light",
+    colorscheme = "catppuccin-latte",
+    lualine = "auto",
   },
 }
 
@@ -147,12 +179,12 @@ function _G.set_colorscheme(name)
     theme.before()
   end
 
-  vim.cmd("colorscheme "..theme.colorscheme)
+  vim.cmd("colorscheme " .. theme.colorscheme)
 
   if theme.overrides then
     for hlgroup_name, hlgroup in pairs(theme.overrides) do
       for hl_name, value in pairs(hlgroup) do
-        vim.cmd("highlight "..hlgroup_name.." "..hl_name.."="..value)
+        vim.cmd("highlight " .. hlgroup_name .. " " .. hl_name .. "=" .. value)
       end
     end
   end
@@ -196,11 +228,11 @@ end
 --   https://github.com/hoob3rt/lualine.nvim/tree/master/lua/lualine/themes
 --
 function _G.set_lualine_theme(theme)
-  require"lualine".setup{
+  require("lualine").setup({
     options = {
-      theme = theme
-    }
-  }
+      theme = theme,
+    },
+  })
 end
 
 set_default_colorscheme()

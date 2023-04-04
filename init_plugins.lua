@@ -282,6 +282,18 @@ plug({
     end,
   },
 
+  -- Indentation lines
+  "lukas-reineke/indent-blankline.nvim",
+  {
+    setup = function()
+      soft_setup("indent_blankline", {
+        show_current_context = true,
+        -- show_current_context_start = true,
+        char = "▎",
+      })
+    end,
+  },
+
   -- {{{ Language support
 
   -- Neovim plugin development support, sets up Lua LSP and such
@@ -334,6 +346,9 @@ plug({
   -- Sway config files
   "terminalnode/sway-vim-syntax",
 
+  -- Kitty config files
+  "fladson/vim-kitty",
+
   -- }}}
 
   -- Color schemes
@@ -349,4 +364,5 @@ plug({
   "dracula/vim", -- Dracula
   "NLKNguyen/papercolor-theme", -- PaperColor
   "EdenEast/nightfox.nvim", -- Nightfox
+  { "catppuccin/nvim", { as = "catppuccin" } }, -- Catppuccin
 })
