@@ -37,34 +37,34 @@ if success then
 
     -- Value can be "all", "maintained" (parsers with maintainers), or a
     -- list of languages
-    ensure_installed = {
-      -- "abnf",
-      "bash",
-      "c",
-      "css",
-      "go",
-      "graphql",
-      "html",
-      "java",
-      "javascript",
-      "lua",
-      "php",
-      "python",
-      "query",
-      "regex",
-      "robot",
-      "ruby",
-      "rust",
-      "scala",
-      "scss",
-      "svelte",
-      "toml",
-      "typescript",
-      "tsx",
-      "vue",
-      "yaml",
-      "yang",
-    },
+    -- ensure_installed = {
+    --   -- "abnf",
+    --   "bash",
+    --   "c",
+    --   "css",
+    --   "go",
+    --   "graphql",
+    --   "html",
+    --   "java",
+    --   "javascript",
+    --   "lua",
+    --   "php",
+    --   "python",
+    --   "query",
+    --   "regex",
+    --   "robot",
+    --   "ruby",
+    --   "rust",
+    --   "scala",
+    --   "scss",
+    --   "svelte",
+    --   "toml",
+    --   "typescript",
+    --   "tsx",
+    --   "vue",
+    --   "yaml",
+    --   "yang",
+    -- },
 
     highlight = {
       enable = true,
@@ -125,86 +125,86 @@ if success then
     },
   })
 
-  vim.treesitter.set_query(
-    "python",
-    "folds",
-    [[
-    (function_definition (block) @fold)
-    (class_definition (block) @fold)
-  ]]
-  )
+  -- vim.treesitter.set_query(
+  --   "python",
+  --   "folds",
+  --   [[
+  --   (function_definition (block) @fold)
+  --   (class_definition (block) @fold)
+  -- ]]
+  -- )
 
-  vim.treesitter.set_query(
-    "yang",
-    "folds",
-    [[
-    (statement
-      (statement_keyword "grouping")
-      (block) @fold)
+  -- vim.treesitter.set_query(
+  --   "yang",
+  --   "folds",
+  --   [[
+  --   (statement
+  --     (statement_keyword "grouping")
+  --     (block) @fold)
 
-    (statement
-      (statement_keyword "container")
-      (block) @fold)
+  --   (statement
+  --     (statement_keyword "container")
+  --     (block) @fold)
 
-    (statement
-      (statement_keyword "list")
-      (block) @fold)
-  ]]
-  )
+  --   (statement
+  --     (statement_keyword "list")
+  --     (block) @fold)
+  -- ]]
+  -- )
 
-  vim.treesitter.set_query(
-    "yang",
-    "indents",
-    [[
-    (module) @indent
-    (submodule) @indent
-    (statement) @indent
-    (extension_statement) @indent
-    (statement ";" @indent_end)
-    (extension_statement ";" @indent_end)
-    (block "}" @indent_end @branch)
+  -- vim.treesitter.set_query(
+  --   "yang",
+  --   "indents",
+  --   [[
+  --   (module) @indent
+  --   (submodule) @indent
+  --   (statement) @indent
+  --   (extension_statement) @indent
+  --   (statement ";" @indent_end)
+  --   (extension_statement ";" @indent_end)
+  --   (block "}" @indent_end @branch)
 
-    ((string) @aligned_indent
-     (#set! "delimiter" "\"\""))
-  ]]
-  )
+  --   ((string) @aligned_indent
+  --    (#set! "delimiter" "\"\""))
+  -- ]]
+  -- )
 
-  vim.treesitter.set_query(
-    "robot",
-    "highlights",
-    [[
-    (comment) @comment
-    (ellipses) @punctuation.delimiter
+  -- vim.treesitter.set_query(
+  --   "robot",
+  --   "highlights",
+  --   [[
+  --   (comment) @comment
+  --   (ellipses) @punctuation.delimiter
 
-    (section_header) @keyword
-    (extra_text) @comment
+  --   (section_header) @keyword
+  --   (extra_text) @comment
 
-    (setting_statement) @keyword
+  --   (setting_statement) @keyword
 
-    (variable_definition (variable_name) @variable)
+  --   (variable_definition (variable_name) @variable)
 
-    (keyword_definition (name) @function)
-    (keyword_definition (body (keyword_setting) @keyword))
+  --   (keyword_definition (name) @function)
+  --   (keyword_definition (body (keyword_setting) @keyword))
 
-    (test_case_definition (name) @property)
+  --   (test_case_definition (name) @property)
 
-    (keyword_invocation (keyword) @function)
+  --   (keyword_invocation (keyword) @function)
 
-    (argument (text_chunk) @string)
-    (argument (scalar_variable) @string.special)
-    (argument (list_variable) @string.special)
-    (argument (dictionary_variable) @string.special)
-  ]]
-  )
+  --   (argument (text_chunk) @string)
+  --   (argument (scalar_variable) @string.special)
+  --   (argument (list_variable) @string.special)
+  --   (argument (dictionary_variable) @string.special)
+  -- ]]
+  -- )
 
-  vim.treesitter.set_query(
-    "rust",
-    "folds",
-    [[
-    (function_item (block) @fold)
-    (struct_item (field_declaration_list) @fold)
-  ]]
-  )
+  -- vim.treesitter.set_query(
+  --   "rust",
+  --   "folds",
+  --   [[
+  --   (function_item (block) @fold)
+  --   (struct_item (field_declaration_list) @fold)
+  -- ]]
+  -- )
 
   -- vim.treesitter.set_query("jsonnet", "highlights", [[
   --   "if" @conditional
