@@ -301,8 +301,32 @@ require("lazy").setup({
   -- Fancy colorcolumn (shows gradually, goes red when reached)
   {
     "Bekaboo/deadcolumn.nvim",
+    branch = "dev",
     opts = {
-      modes = { "i", "ic", "ix", "R", "Rc", "Rx", "Rv", "Rvc", "Rvx", "n" },
+      modes = { "i", "R", "c", "n", "v" },
+
+      -- This custom scope function makes colorcolumn always visible if any
+      -- currently visible line crosses a colorcolumn. Otherwise, the
+      -- colorcolumn is only displayed when the currently focused line
+      -- approaches it.
+      scope = function()
+        local lines = vim.api.nvim_buf_get_lines(
+          0,
+          vim.fn.line("w0") - 1,
+          vim.fn.line("w$"),
+          false
+        )
+        local longest_on_screen_line =
+          math.max(unpack(vim.tbl_map(vim.fn.strdisplaywidth, lines)))
+
+        local cc = require("deadcolumn.utils").resolve_cc(vim.wo.cc)
+
+        if cc ~= nil and longest_on_screen_line >= cc then
+          return longest_on_screen_line
+        else
+          return vim.fn.strdisplaywidth(vim.api.nvim_get_current_line())
+        end
+      end,
     },
   },
 
