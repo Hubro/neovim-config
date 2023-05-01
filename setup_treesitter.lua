@@ -35,37 +35,6 @@ if success then
     sync_install = true,
     auto_install = true,
 
-    -- Value can be "all", "maintained" (parsers with maintainers), or a
-    -- list of languages
-    -- ensure_installed = {
-    --   -- "abnf",
-    --   "bash",
-    --   "c",
-    --   "css",
-    --   "go",
-    --   "graphql",
-    --   "html",
-    --   "java",
-    --   "javascript",
-    --   "lua",
-    --   "php",
-    --   "python",
-    --   "query",
-    --   "regex",
-    --   "robot",
-    --   "ruby",
-    --   "rust",
-    --   "scala",
-    --   "scss",
-    --   "svelte",
-    --   "toml",
-    --   "typescript",
-    --   "tsx",
-    --   "vue",
-    --   "yaml",
-    --   "yang",
-    -- },
-
     highlight = {
       enable = true,
       -- Can also enable/disable for specific languages
@@ -121,6 +90,48 @@ if success then
         "typescriptreact",
         "svelte",
         "vue",
+      },
+    },
+
+    textobjects = {
+      select = {
+        enable = true,
+        lookahead = true,
+        include_surrounding_whitespace = false,
+
+        keymaps = {
+          ["af"] = "@function.outer",
+          ["if"] = "@function.inner",
+          ["ac"] = "@comment.outer",
+          ["ic"] = "@comment.inner",
+          ["ap"] = "@parameter.outer",
+          ["ip"] = "@parameter.inner",
+        },
+
+        selection_modes = {},
+      },
+
+      swap = {
+        enable = true,
+        swap_next = {
+          ["<leader>+"] = "@parameter.inner",
+        },
+        swap_previous = {
+          ["<leader>-"] = "@parameter.inner",
+        },
+      },
+
+      move = {
+        enable = true,
+        set_jumps = true,
+        goto_next_start = {
+          ["]f"] = "@function.outer",
+          ["]c"] = "@function.outer",
+        },
+        goto_previous_start = {
+          ["[f"] = "@function.outer",
+          ["]c"] = "@function.outer",
+        },
       },
     },
   })

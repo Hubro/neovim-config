@@ -4,7 +4,8 @@
 -- corresponding file changes on disk.
 --
 vim.cmd(
-  "au FocusGained,BufEnter,CursorHold,CursorHoldI * " .. 'if expand("%f") != "[Command Line]" | checktime | endif'
+  "au FocusGained,BufEnter,CursorHold,CursorHoldI * "
+    .. 'if expand("%f") != "[Command Line]" | checktime | endif'
 )
 
 -- Show a warning when a file is reloaded
@@ -24,3 +25,11 @@ vim.cmd(
 
 -- Hide line numbers in the gutter in terminal windows
 vim.cmd([[au TermOpen * setlocal nonumber | setlocal norelativenumber]])
+
+-- Temporarily highlight yanked text
+vim.cmd([[
+  augroup highlight_yank
+    au!
+    au TextYankPost * silent! lua vim.highlight.on_yank { higroup='IncSearch', timeout=300 }
+  augroup END
+]])

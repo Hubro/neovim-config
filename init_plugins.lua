@@ -27,6 +27,7 @@ require("lazy").setup({
     "nvim-treesitter/nvim-treesitter",
     dependencies = {
       "nvim-treesitter/playground",
+      "nvim-treesitter/nvim-treesitter-textobjects",
       "windwp/nvim-ts-autotag",
     },
     config = setup_file("treesitter"),
@@ -36,7 +37,11 @@ require("lazy").setup({
   },
   {
     "neovim/nvim-lspconfig",
-    -- setup = setup_file("lsp"),
+    dependencies = {
+      "nvim-lua/lsp-status.nvim", -- LSP status component
+      "SmiteshP/nvim-navic", -- Code position breadcrumbs status component
+      "folke/neodev.nvim", -- Lua LSP overrides for working with Neovim
+    },
     config = function()
       vim.cmd([[ runtime setup_lsp.lua ]])
     end,
@@ -49,7 +54,6 @@ require("lazy").setup({
   "tpope/vim-fugitive",
   "tpope/vim-sleuth", -- Smartly detect shiftwidth and related settings
   "tpope/vim-eunuch", -- Adds common Unix command helpers like ":Rename"
-  "tpope/vim-unimpaired", -- Pairs of handy bracket mappings
 
   -- EditorConfig support
   "editorconfig/editorconfig-vim",
@@ -57,14 +61,31 @@ require("lazy").setup({
   -- Multiple cursors
   "mg979/vim-visual-multi",
 
+  -- More powerful repeatable movements! (Improves ; and ,)
+  -- {
+  --   "ghostbuster91/nvim-next",
+  --   config = function()
+  --     local builtins = require("nvim-next.builtins")
+
+  --     require("nvim-next").setup({
+  --       default_mappings = true, -- Overrides ; and ,
+  --       repeat_style = "directional",
+  --       items = {
+  --         builtins.f,
+  --         builtins.t,
+  --       },
+  --     })
+  --   end,
+  -- },
+
   -- Automatically close quotes and parentheses
   {
     "jiangmiao/auto-pairs",
     init = function()
       vim.g.AutoPairsShortcutToggle = ""
-      vim.g.AutoPairsShortcutFastWrap = ""
+      vim.g.AutoPairsShortcutFastWrap = "<M-w>"
       vim.g.AutoPairsShortcutJump = ""
-      vim.g.AutoPairsShortcutBackInsert = ""
+      vim.g.AutoPairsShortcutBackInsert = "<M-b>"
     end,
   },
 
@@ -76,6 +97,20 @@ require("lazy").setup({
       "fhill2/telescope-ultisnips.nvim",
     },
     config = setup_file("telescope"),
+  },
+
+  -- Harpoon
+  {
+    "ThePrimeagen/harpoon",
+    config = function(harpoon)
+      local h_mark = require("harpoon.mark")
+      local h_ui = require("harpoon.ui")
+
+      vim.keymap.set({ "n" }, "<Leader>.", h_mark.add_file)
+      vim.keymap.set({ "n" }, "<Leader>h", h_ui.toggle_quick_menu)
+      vim.keymap.set({ "n" }, "<Leader>j", h_ui.nav_next)
+      vim.keymap.set({ "n" }, "<Leader>k", h_ui.nav_prev)
+    end,
   },
 
   -- Document outline with LSP and Tree-sitter backends
@@ -138,6 +173,28 @@ require("lazy").setup({
   -- === Nice extra tools ===
   -- ========================
 
+  -- Copilot (Remember to run ":Copilot setup" to sign in)
+  {
+    "github/copilot.vim",
+    config = function()
+      -- Keep copilot disabled, only invoke explicitly
+      vim.g.copilot_filetypes = { ["*"] = false }
+
+      -- Don't map to the tab key
+      vim.g.copilot_no_tab_map = true
+
+      vim.keymap.set("n", "<Leader>cp", ":Copilot panel<CR>", { silent = true })
+      vim.keymap.set("i", "<A-p>", "<Plug>(copilot-suggest)", { silent = true })
+      vim.keymap.set("i", "<A-j>", "<Plug>(copilot-next)", { silent = true })
+      vim.keymap.set(
+        "i",
+        "<A-k>",
+        "<Plug>(copilot-previous)",
+        { silent = true }
+      )
+    end,
+  },
+
   -- Floating terminal
   "voldikss/vim-floaterm",
 
@@ -170,7 +227,23 @@ require("lazy").setup({
   -- nvim-tree.lua
   {
     "kyazdani42/nvim-tree.lua",
+    dependencies = {
+      "ryanoasis/vim-devicons",
+      "kyazdani42/nvim-web-devicons",
+    },
     config = setup_file("nvim_tree"),
+  },
+
+  -- Mason - Package manager for LSPs, auto-formatters etc.
+  {
+    "williamboman/mason.nvim",
+    dependencies = {
+      "williamboman/mason-lspconfig.nvim",
+    },
+    config = function()
+      require("mason").setup()
+      require("mason-lspconfig").setup()
+    end,
   },
 
   -- Lazygit integration
@@ -180,15 +253,32 @@ require("lazy").setup({
   -- === Bling ===
   -- =============
 
+  -- Notification popups
+  {
+    "rcarriga/nvim-notify",
+    dependencies = {
+      "nvim-telescope/telescope.nvim", -- For :Telescope notify
+    },
+    config = function()
+      local notify = require("notify")
+
+      notify.setup({
+        stages = "slide",
+      })
+
+      vim.notify = notify
+    end,
+  },
+
   -- Git indicators in the gutter
-  "lewis6991/gitsigns.nvim",
+  { "lewis6991/gitsigns.nvim", config = true },
 
   -- Lualine
   {
     "nvim-lualine/lualine.nvim",
     dependencies = {
       "nvim-lua/lsp-status.nvim", -- LSP status component
-      "SmiteshP/nvim-gps", -- Code position breadcrumbs status component
+      "SmiteshP/nvim-navic", -- Code position breadcrumbs status component
     },
     config = setup_file("lualine"),
   },
@@ -204,6 +294,15 @@ require("lazy").setup({
       show_current_context = true,
       -- show_current_context_start = true,
       char = "▎",
+      max_indent_increase = 1,
+    },
+  },
+
+  -- Fancy colorcolumn (shows gradually, goes red when reached)
+  {
+    "Bekaboo/deadcolumn.nvim",
+    opts = {
+      modes = { "i", "ic", "ix", "R", "Rc", "Rx", "Rv", "Rvc", "Rvx", "n" },
     },
   },
 
@@ -233,6 +332,12 @@ require("lazy").setup({
 
   -- Kitty config files
   "fladson/vim-kitty",
+
+  -- eww config files (yuck)
+  "elkowar/yuck.vim",
+
+  -- Hyprlang config files
+  "theRealCarneiro/hyprland-vim-syntax",
 
   -- =====================
   -- === Color schemes ===

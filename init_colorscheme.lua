@@ -112,7 +112,7 @@ local themes = {
     end,
     overrides = {
       IndentBlanklineChar = {
-        guifd = "#e5ded6",
+        guifg = "#e5ded6",
       },
       IndentBlanklineContextChar = {
         guifg = "#9886c1",
@@ -136,12 +136,12 @@ local themes = {
     end,
   },
   catppuccin = {
-    background = "dark",
     colorscheme = "catppuccin-mocha",
     lualine = "auto",
     before = function()
       soft_setup("catppuccin", {
         dim_inactive = { enabled = true },
+        -- transparent_background = true,
       })
     end,
     overrides = {
@@ -156,9 +156,13 @@ local themes = {
     },
   },
   catppuccin_light = {
-    background = "light",
     colorscheme = "catppuccin-latte",
     lualine = "auto",
+    before = function()
+      soft_setup("catppuccin", {
+        dim_inactive = { enabled = true },
+      })
+    end,
   },
 }
 

@@ -38,6 +38,16 @@ soft_require("formatter", function(formatter)
         require("formatter.filetypes.rust").rustfmt,
       },
 
+      -- yang = {
+      --   function()
+      --     return {
+      --       exe = "yangfmt",
+      --       args = {},
+      --       stdin = true,
+      --     }
+      --   end,
+      -- },
+
       ["*"] = {
         require("formatter.filetypes.any").remove_trailing_whitespace,
       },

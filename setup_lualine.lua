@@ -4,7 +4,7 @@ local success, lualine = pcall(require, "lualine")
 if success then
   -- local tabline = require("tabline")
   local lsp_status = require("lsp-status")
-  local gps = require("nvim-gps")
+  local navic = require("nvim-navic")
 
   -- tabline.setup { enable = false }
 
@@ -14,16 +14,29 @@ if success then
     status_symbol = "LSP ✓",
   })
 
-  gps.setup({
-    icons = {
-      ["class-name"] = "☰ ", -- Classes and class-like objects
-      ["function-name"] = "λ ", -- Functions
-      ["method-name"] = " ", -- Methods
-    },
-    -- separator = " ➜  ",
-    -- separator = " / ",
+  navic.setup({
+    highlight = true,
     separator = "  ",
   })
+
+  local navic_loc = function()
+    return navic.get_location()
+  end
+
+  local navic_avail = function()
+    return navic.is_available()
+  end
+
+  -- gps.setup({
+  --   icons = {
+  --     ["class-name"] = "☰ ", -- Classes and class-like objects
+  --     ["function-name"] = "λ ", -- Functions
+  --     ["method-name"] = " ", -- Methods
+  --   },
+  --   -- separator = " ➜  ",
+  --   -- separator = " / ",
+  --   separator = "  ",
+  -- })
 
   lualine.setup({
     options = {
@@ -33,7 +46,8 @@ if success then
     sections = {
       lualine_a = { "mode" },
       lualine_b = { "filename" },
-      lualine_c = { { gps.get_location, cond = gps.is_available } },
+      lualine_c = { { navic.get_location } },
+      --lualine_c = { { navic_loc, cond = navic_avail } },
 
       lualine_x = {},
       lualine_y = {
@@ -64,7 +78,7 @@ if success then
           path = 1, -- Show relative path, not just filename
           separator = "",
         },
-        { gps.get_location, cond = gps.is_available },
+        { navic_loc, cond = navic_avail },
       },
 
       -- lualine_x = { tabline.tabline_tabs },

@@ -1,17 +1,14 @@
 -- Any embedded terminals will use nvr as the default editor
 -- vim.env.EDITOR = [[nvr --nostart -cc split --remote-wait +"set bufhidden=delete"]]
 -- Any embedded terminals will use a neovide popup as default editor
-vim.env.EDITOR = "neovide --geometry 100x60 --wayland-app-id neovide-floating --nofork -- +startinsert"
+vim.env.EDITOR =
+  "neovide --geometry 100x60 --wayland-app-id neovide-floating --nofork -- +startinsert"
 
-local mac_python = "/Users/tomas/.pyenv/versions/neovim/bin/python"
+local mac_python = "/usr/bin/python3"
+--local mac_python = "/Users/tomas/.pyenv/versions/neovim/bin/python"
 local linux_python = "/usr/bin/python"
 
-if vim.fn.has("macunix") == 1 or os.getenv("I_AM_ON_MAC") then
-  vim.g.mapleader = "+"
-else
-  vim.g.python3_host_prog = "/home/tomas/.pyenv/versions/neovim/bin/python"
-  vim.g.mapleader = "\\"
-end
+vim.g.mapleader = " "
 
 if vim.fn.executable(mac_python) == 1 then
   vim.g.python3_host_prog = mac_python

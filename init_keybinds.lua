@@ -6,12 +6,25 @@ local keybinds = {
   { "t", "ń", "<C-\\><C-n>" },
   { "t", "Ǹ", "<C-\\><C-n>" },
 
-  -- Press ESC to remove search highlights and clear text from command line
-  { "n", "<Esc>", ":nohl<CR>:echo<Esc>" },
+  -- Press ESC to remove search highlights and clear text from command line and
+  -- dismiss notifications
+  {
+    "n",
+    "<Esc>",
+    function()
+      vim.cmd(":nohl")
+      vim.cmd(":echo")
+      vim.cmd("silent! exec copilot#Dismiss()")
+      require("close_floats")()
+      soft_require("notify", function(notify)
+        notify.dismiss()
+      end)
+    end,
+  },
 
   -- Press Space to toggle folds
-  { "n", "<Space>", "za" },
-  { "n", "<S-Space>", "zA" },
+  -- { "n", "<Space>", "za" },
+  -- { "n", "<S-Space>", "zA" },
 
   -- Move lines up/down
   { "n", "<A-k>", ":m -2<CR>" },
@@ -137,6 +150,9 @@ local keybinds = {
   -- Telescope - Show LSP references
   { "n", "<Bar>lr", ":Telescope lsp_references<CR>" },
 
+  -- Telescope - Resume last session
+  { "n", "<Bar><Bar>", ":Telescope resume<CR>" },
+
   -- Toggle file tree (nvim-tree.lua)
   { "n", "<Leader>t", ":NvimTreeToggle<CR>" },
   { "n", "gt", ":NvimTreeFindFile<CR>" }, -- Open current file in the tree
@@ -151,13 +167,10 @@ local keybinds = {
   { "n", "<F12>", ":lua toggle_colorscheme()<CR>" },
 
   -- Show diagnostics window ("trouble.nvim" plugin)
-  { "n", "<Leader>d", ":Trouble document_diagnostics<CR>" },
+  { "n", "<Leader>d", ":Trouble workspace_diagnostics<CR>" },
   { "n", "<Leader>q", ":Trouble quickfix<CR>" },
   { "n", ")", "<Plug>(ale_next_wrap)", { noremap = false } },
   { "n", "(", "<Plug>(ale_previous_wrap)", { noremap = false } },
-
-  -- Show inline diagnostics window
-  { "n", "L", ":lua vim.diagnostic.open_float()<CR>" },
 
   -- Floating terminal ("vim-floaterm" plugin)
   { "n", "<C-q>", ":FloatermToggle quick<CR>" },
@@ -233,7 +246,7 @@ _G.apply_keybinds = function(keybinds)
       end
     end
 
-    vim.api.nvim_set_keymap(unpack(bind))
+    vim.keymap.set(unpack(bind))
 
     ::continue::
   end
