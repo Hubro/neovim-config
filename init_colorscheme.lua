@@ -1,23 +1,33 @@
 local soft_setup = require("hubro.soft_setup")
 
-vim.g.hubro_current_theme_mode = "light"
+-- Returns the name of the current theme mode (dark or light)
+local function current_theme_mode()
+  if vim.g.hubro_current_theme_mode ~= nil then
+    return vim.g.hubro_current_theme_mode
+  end
+
+  local current_mode
+
+  if vim.fn.executable("darkman") == 1 then
+    local result = vim.trim(vim.fn.system({ "darkman", "get" }))
+    current_mode = vim.trim(result)
+  else
+    -- Defaults to dark if "darkman" is not installed
+    current_mode = "dark"
+  end
+
+  vim.g.hubro_current_theme_mode = current_mode
+  return current_mode
+end
+
 vim.g.hubro_default_dark_theme = "catppuccin"
 vim.g.hubro_default_light_theme = "dayfox"
 
-if vim.g.hubro_current_theme_mode == "dark" then
+if current_theme_mode() == "dark" then
   vim.g.hubro_current_theme = vim.g.hubro_default_dark_theme
 else
   vim.g.hubro_current_theme = vim.g.hubro_default_light_theme
 end
-
--- Setting a colorscheme before a client is attached to Neovim is apparently
--- pretty buggy, so this workaround waits until the first BufEnter event to set
--- the colorscheme.
---vim.cmd([[
---  aug set_default_colorscheme
---    au BufEnter * ++once lua set_default_colorscheme()
---  aug end
---]])
 
 local themes = {
   gruvbox = {
@@ -208,8 +218,11 @@ function _G.set_default_colorscheme()
   local success = pcall(set_colorscheme, vim.g.hubro_current_theme)
 
   if not success then
-    -- Failed to set default colorscheme, no big deal. The required plugins
-    -- probably aren't installed.
+    -- No big deal, the required plugins probably aren't installed.
+    vim.notify(
+      "Failed to set colorscheme to " .. vim.g.hubro_current_theme,
+      vim.log.levels.WARN
+    )
   end
 end
 
