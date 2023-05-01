@@ -1,4 +1,4 @@
-local soft_require = require("soft_require")
+local soft_require = require("hubro.soft_require")
 
 local default_opts = { noremap = true, silent = true }
 
@@ -17,7 +17,7 @@ local keybinds = {
       vim.cmd(":nohl")
       vim.cmd(":echo")
       vim.cmd("silent! exec copilot#Dismiss()")
-      require("close_floats")()
+      require("hubro.close_floats")()
       soft_require("notify", function(notify)
         notify.dismiss()
       end)
