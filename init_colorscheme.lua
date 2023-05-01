@@ -1,3 +1,5 @@
+local soft_setup = require("soft_setup")
+
 vim.g.hubro_current_theme_mode = "light"
 vim.g.hubro_default_dark_theme = "catppuccin"
 vim.g.hubro_default_light_theme = "dayfox"

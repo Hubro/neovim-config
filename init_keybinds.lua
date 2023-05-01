@@ -1,3 +1,5 @@
+local soft_require = require("soft_require")
+
 local default_opts = { noremap = true, silent = true }
 
 local keybinds = {

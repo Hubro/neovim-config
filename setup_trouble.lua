@@ -1,4 +1,4 @@
-soft_setup("trouble", {
+require("trouble").setup({
   height = 20,
   auto_preview = false,
   action_keys = {
