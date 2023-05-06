@@ -35,26 +35,31 @@ _G.lsp_on_attach = function(client, bufnr)
     return
   end
 
-  local function map(...)
-    vim.api.nvim_buf_set_keymap(bufnr, ...)
+  local function map(mode, lh, rh)
+    local opts = { noremap = true, silent = true, buffer = bufnr }
+    vim.keymap.set(mode, lh, rh, opts)
   end
-  local opts = { noremap = true, silent = true }
 
-  map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-  map("n", "gD", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
-  map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-  -- map("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-  map("n", "gr", "<cmd>Trouble lsp_references<CR>", opts)
-  map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-  map("n", "L", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
-  map("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
-  map("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
-  map("i", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-  map("n", "<Leader>r", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-  map("n", "<Leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+  -- Use nvim-next to hop to diagnostic, which makes it a repeatable motion
+  local next_lspdiag = require("nvim-next.integrations.diagnostic")()
 
-  -- map('n', '(', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  -- map('n', ')', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+  map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>")
+  map("n", "gD", "<cmd>lua vim.lsp.buf.type_definition()<CR>")
+  map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>")
+  -- map("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>")
+  map("n", "gr", "<cmd>Trouble lsp_references<CR>")
+  map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>")
+  map("n", "L", "<cmd>lua vim.diagnostic.open_float()<CR>")
+  map("n", "]d", next_lspdiag.goto_next())
+  map("n", "[d", next_lspdiag.goto_prev())
+  -- map("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>")
+  -- map("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>")
+  map("i", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
+  map("n", "<Leader>r", "<cmd>lua vim.lsp.buf.rename()<CR>")
+  map("n", "<Leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>")
+
+  -- map('n', '(', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
+  -- map('n', ')', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
 end
 
 -- {{{ Custom LSP configs
@@ -130,7 +135,7 @@ lspconfig.util.default_config =
   })
 
 lspconfig.yang_lsp.setup({
-  on_attach = _G.lsp_on_attach,
+  -- on_attach = _G.lsp_on_attach,
   capabilities = {
     textDocument = {
       completion = {
@@ -149,31 +154,6 @@ cssls_capabilities.textDocument.completion.completionItem.snippetSupport = true
 local servers_we_want = {
   "robot_lsp",
   "homeassistant",
-  -- {
-  --   "pylsp",
-  --   {
-  --     settings = {
-  --       pylsp = {
-  --         plugins = {
-  --           autopep8 = { enabled = false },
-  --           jedi_completion = { enabled = true },
-  --           jedi_definition = { enabled = true },
-  --           jedi_hover = { enabled = true },
-  --           jedi_references = { enabled = true },
-  --           jedi_signature_help = { enabled = true },
-  --           jedi_symbols = { enabled = true },
-  --           mccabe = { enabled = false },
-  --           pycodestyle = { enabled = false },
-  --           pydocstyle = { enabled = false },
-  --           pyflakes = { enabled = false },
-  --           pylint = { enabled = false },
-  --           rope_autoimport = { enabled = true },
-  --           yapf = { enabled = false },
-  --         },
-  --       },
-  --     },
-  --   },
-  -- },
   {
     "pyright",
     {

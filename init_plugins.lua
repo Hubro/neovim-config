@@ -29,6 +29,7 @@ require("lazy").setup({
       "nvim-treesitter/playground",
       "nvim-treesitter/nvim-treesitter-textobjects",
       "windwp/nvim-ts-autotag",
+      "ghostbuster91/nvim-next",
     },
     config = setup_file("treesitter"),
     -- setup = function()
@@ -62,21 +63,22 @@ require("lazy").setup({
   "mg979/vim-visual-multi",
 
   -- More powerful repeatable movements! (Improves ; and ,)
-  -- {
-  --   "ghostbuster91/nvim-next",
-  --   config = function()
-  --     local builtins = require("nvim-next.builtins")
+  {
+    "ghostbuster91/nvim-next",
+    config = function()
+      local builtins = require("nvim-next.builtins")
 
-  --     require("nvim-next").setup({
-  --       default_mappings = true, -- Overrides ; and ,
-  --       repeat_style = "directional",
-  --       items = {
-  --         builtins.f,
-  --         builtins.t,
-  --       },
-  --     })
-  --   end,
-  -- },
+      require("nvim-next").setup({
+        default_mappings = {
+          repeat_style = "directional", -- Overrides ; and ,
+        },
+        items = {
+          builtins.f,
+          builtins.t,
+        },
+      })
+    end,
+  },
 
   -- Automatically close quotes and parentheses
   {
@@ -276,7 +278,33 @@ require("lazy").setup({
   },
 
   -- Git indicators in the gutter
-  { "lewis6991/gitsigns.nvim", config = true },
+  {
+    "lewis6991/gitsigns.nvim",
+    dependencies = { "ghostbuster91/nvim-next" },
+    config = function()
+      local next_integration = require("nvim-next.integrations").gitsigns
+
+      require("gitsigns").setup({
+        on_attach = function(bufnr)
+          local gs = require("gitsigns")
+          local next = next_integration(gs)
+
+          vim.keymap.set(
+            "n",
+            "]c",
+            next.next_hunk,
+            { buffer = bufnr, desc = "Next modified hunk" }
+          )
+          vim.keymap.set(
+            "n",
+            "[c",
+            next.prev_hunk,
+            { buffer = bufnr, desc = "Previous modified hunk" }
+          )
+        end,
+      })
+    end,
+  },
 
   -- Lualine
   {
