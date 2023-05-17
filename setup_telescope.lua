@@ -75,12 +75,16 @@ if success then
     i = {
       ["<C-j>"] = actions.move_selection_next,
       ["<C-k>"] = actions.move_selection_previous,
-      ["<C-q>"] = actions.smart_send_to_qflist + custom_actions.open_trouble_quickfix,
-      ["<C-a>"] = actions.smart_add_to_qflist + custom_actions.open_trouble_quickfix,
+      ["<C-q>"] = actions.smart_send_to_qflist
+        + custom_actions.open_trouble_quickfix,
+      ["<C-a>"] = actions.smart_add_to_qflist
+        + custom_actions.open_trouble_quickfix,
     },
     n = {
-      ["<C-q>"] = actions.smart_send_to_qflist + custom_actions.open_trouble_quickfix,
-      ["<C-a>"] = actions.smart_add_to_qflist + custom_actions.open_trouble_quickfix,
+      ["<C-q>"] = actions.smart_send_to_qflist
+        + custom_actions.open_trouble_quickfix,
+      ["<C-a>"] = actions.smart_add_to_qflist
+        + custom_actions.open_trouble_quickfix,
     },
   }
 
