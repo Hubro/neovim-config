@@ -126,9 +126,9 @@ require("nvim-treesitter.configs").setup({
   -- I'm defining all textobject moves through nvim_text, which makes them
   -- repeatable
   nvim_next = {
-    textobjects = {
-      enable = true,
+    enable = true,
 
+    textobjects = {
       move = {
         -- enable = true,
         -- set_jumps = true,
