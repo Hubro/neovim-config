@@ -8,6 +8,10 @@ local keybinds = {
   { "t", "ń", "<C-\\><C-n>" },
   { "t", "Ǹ", "<C-\\><C-n>" },
 
+  -- Shortcuts for saving the document, with and without autocommands
+  { "n", "<Leader>w", ":w<CR>" },
+  { "n", "<Leader>W", ":noauto w<CR>" },
+
   -- Press ESC to remove search highlights and clear text from command line and
   -- dismiss notifications
   {
