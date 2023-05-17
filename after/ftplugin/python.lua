@@ -1,5 +1,5 @@
 -- Options
-vim.wo.colorcolumn = "88" -- Black's default line length
+vim.wo.colorcolumn = "89" -- Black's default line length + 1
 vim.bo.indentkeys = "=elif,=else,=except"
 
 -- Tree-sitter folding
