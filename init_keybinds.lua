@@ -159,6 +159,9 @@ local keybinds = {
   -- Telescope - Show LSP references
   { "n", "<Bar>lr", ":Telescope lsp_references<CR>" },
 
+  -- Telescope - Go to project
+  { "n", "<Leader>gp", ":Telescope nvim-projects<CR>" },
+
   -- Telescope - Resume last session
   { "n", "<Bar><Bar>", ":Telescope resume<CR>" },
 

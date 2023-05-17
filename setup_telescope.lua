@@ -16,6 +16,9 @@ if success then
   -- Ultisnips extension
   telescope.load_extension("ultisnips")
 
+  -- My custom projects extension
+  telescope.load_extension("nvim-projects")
+
   themes.outline = function()
     return themes.get_dropdown({
       previewer = false,

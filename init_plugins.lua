@@ -23,6 +23,25 @@ require("lazy").setup({
   -- === Absolute core plugins ===
   -- =============================
 
+  -- My own projects plugin, of course
+  {
+    name = "nvim-projects",
+    dir = "~/projects/nvim-projects",
+    dependencies = {
+      "rcarriga/nvim-notify",
+      "nvim-telescope/telescope.nvim",
+    },
+    opts = {
+      init_filename = ".nvimrc.lua",
+      project_dirs = {
+        "~/projects",
+        "~/Dropbox/Projects",
+        "~/Dropbox/Avesta/Inhouse projects",
+        "~/Dropbox/Avesta Projects",
+      },
+    },
+  },
+
   {
     "nvim-treesitter/nvim-treesitter",
     dependencies = {
