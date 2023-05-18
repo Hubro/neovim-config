@@ -55,7 +55,7 @@ _G.lsp_on_attach = function(client, bufnr)
   -- map("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>")
   -- map("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>")
   map("i", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
-  map("n", "<Leader>r", "<cmd>lua vim.lsp.buf.rename()<CR>")
+  map("n", "<Leader>lr", "<cmd>lua vim.lsp.buf.rename()<CR>")
   map("n", "<Leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>")
 
   -- map('n', '(', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
@@ -169,7 +169,7 @@ local servers_we_want = {
   },
   "tsserver",
   "svelte",
-  "rust_analyzer",
+  -- "rust_analyzer",   -- Configured by rust-tools.nvim
   "elmls",
   "astro",
   { "cssls", { capabilities = cssls_capabilities } },
