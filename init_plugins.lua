@@ -327,7 +327,19 @@ require("lazy").setup({
         stages = "slide",
       })
 
-      vim.notify = notify
+      local banned_messages = {
+        "No information available",
+      }
+
+      vim.notify = function(msg, ...)
+        for _, banned in ipairs(banned_messages) do
+          if msg == banned then
+            return
+          end
+
+          return notify(msg, ...)
+        end
+      end
     end,
   },
 
