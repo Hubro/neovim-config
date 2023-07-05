@@ -300,14 +300,33 @@ require("lazy").setup({
     end,
   },
 
-  -- nvim-tree.lua
   {
-    "kyazdani42/nvim-tree.lua",
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v2.x",
     dependencies = {
-      "ryanoasis/vim-devicons",
-      "kyazdani42/nvim-web-devicons",
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+      "MunifTanjim/nui.nvim",
+      "s1n7ax/nvim-window-picker",
     },
-    config = setup_file("nvim_tree"),
+    opts = {
+      window = {
+        mappings = {
+          ["<c-x>"] = "open_split",
+          ["<c-v>"] = "open_vsplit",
+        },
+      },
+      filesystem = {
+        filtered_items = {
+          visible = false, -- Toggle with H
+          hide_dotfiles = true,
+          hide_gitignored = true,
+          always_show = {
+            ".gitignore",
+          },
+        },
+      },
+    },
   },
 
   -- Mason - Package manager for LSPs, auto-formatters etc.
