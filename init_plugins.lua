@@ -348,6 +348,13 @@ require("lazy").setup({
   -- === Bling ===
   -- =============
 
+  {
+    "nvim-treesitter/nvim-treesitter-context",
+    opts = {
+      enable = true,
+    },
+  },
+
   -- Notification popups
   {
     "rcarriga/nvim-notify",
