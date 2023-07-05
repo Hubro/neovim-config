@@ -48,6 +48,15 @@ require("lazy").setup({
     },
   },
 
+  -- My own splitrun plugin, of course!
+  --
+  -- Runs a command and puts the result in a new split
+  {
+    name = "nvim-splitrun",
+    dir = "~/projects/nvim-splitrun",
+    opts = {},
+  },
+
   {
     "nvim-treesitter/nvim-treesitter",
     dependencies = {
