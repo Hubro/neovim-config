@@ -39,6 +39,10 @@ formatter.setup({
       require("formatter.filetypes.rust").rustfmt,
     },
 
+    svelte = {
+      require("formatter.filetypes.svelte").prettier,
+    },
+
     -- yang = {
     --   function()
     --     return {
