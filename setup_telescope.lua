@@ -3,6 +3,7 @@ local success, telescope = pcall(require, "telescope")
 -- Don't bother crashing loudly if telescope isn't installed
 if success then
   local actions = require("telescope.actions")
+  local layout_actions = require("telescope.actions.layout")
   local themes = require("telescope.themes")
 
   -- My custom actions
@@ -79,12 +80,14 @@ if success then
         + custom_actions.open_trouble_quickfix,
       ["<C-a>"] = actions.smart_add_to_qflist
         + custom_actions.open_trouble_quickfix,
+      ["<A-p>"] = layout_actions.toggle_preview,
     },
     n = {
       ["<C-q>"] = actions.smart_send_to_qflist
         + custom_actions.open_trouble_quickfix,
       ["<C-a>"] = actions.smart_add_to_qflist
         + custom_actions.open_trouble_quickfix,
+      ["<A-p>"] = layout_actions.toggle_preview,
     },
   }
 
