@@ -28,6 +28,7 @@ require("lazy").setup({
     name = "nvim-projects",
     dir = "~/projects/nvim-projects",
     dependencies = {
+      "nvim-lua/plenary.nvim",
       "rcarriga/nvim-notify",
       "nvim-telescope/telescope.nvim",
     },
@@ -38,7 +39,12 @@ require("lazy").setup({
         "~/Dropbox/Projects",
         "~/Dropbox/Avesta/Inhouse projects",
         "~/Dropbox/Avesta Projects",
+        "~/Dropbox/Telia/src/github",
       },
+      after_jump = function(_)
+        vim.cmd("NeoTreeShow")
+        vim.cmd([[ exec "normal \<c-w>\<c-w>" ]])
+      end,
     },
   },
 
