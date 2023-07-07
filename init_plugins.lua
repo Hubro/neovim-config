@@ -104,7 +104,8 @@ require("lazy").setup({
 
       require("nvim-next").setup({
         default_mappings = {
-          repeat_style = "directional", -- Overrides ; and ,
+          -- repeat_style = "directional", -- Overrides ; and ,
+          repeat_style = "original", -- Overrides ; and ,
         },
         items = {
           builtins.f,
@@ -248,12 +249,9 @@ require("lazy").setup({
   -- Copilot (Remember to run ":Copilot setup" to sign in)
   {
     "github/copilot.vim",
-    config = function()
+    init = function()
       -- Keep copilot disabled, only invoke explicitly
       vim.g.copilot_filetypes = { ["*"] = false }
-
-      -- Don't map to the tab key
-      vim.g.copilot_no_tab_map = true
 
       vim.keymap.set("n", "<Leader>cp", ":Copilot panel<CR>", { silent = true })
       vim.keymap.set("i", "<A-p>", "<Plug>(copilot-suggest)", { silent = true })
@@ -278,7 +276,7 @@ require("lazy").setup({
       auto_preview = false,
       action_keys = {
         toggle_fold = { "zA", "za" },
-        jump = { "<tab" },
+        jump = { "<tab>" },
         jump_close = { "<cr>" }, -- Use <Tab> to jump without closing
       },
     },
