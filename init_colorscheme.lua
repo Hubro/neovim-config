@@ -9,10 +9,19 @@ local function current_theme_mode()
   local current_mode
 
   if vim.fn.executable("darkman") == 1 then
+    -- Dark mode detection on Linux with Sway/Hyprland
     local result = vim.trim(vim.fn.system({ "darkman", "get" }))
     current_mode = vim.trim(result)
+  elseif vim.fn.executable("osascript") == 1 then
+    -- Dark mode detection on MacOS
+    local result = vim.trim(vim.fn.system({
+      "osascript",
+      "-e",
+      'tell application "System Events" to tell appearance preferences to return dark mode',
+    }))
+    current_mode = result == "true" and "dark" or "light"
   else
-    -- Defaults to dark if "darkman" is not installed
+    -- Defaults to dark otherwise
     current_mode = "dark"
   end
 
@@ -254,4 +263,16 @@ function _G.set_lualine_theme(theme)
   })
 end
 
-set_default_colorscheme()
+--
+-- Set default colorscheme on startup
+--
+
+local augroup =
+  vim.api.nvim_create_augroup("SetDefaultColorscheme", { clear = true })
+
+vim.api.nvim_create_autocmd("UIEnter", {
+  group = augroup,
+  callback = function(env)
+    set_default_colorscheme()
+  end,
+})
