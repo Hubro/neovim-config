@@ -207,9 +207,6 @@ require("lazy").setup({
     config = setup_file("cmp"),
   },
 
-  -- Extensible plugin for auto-formatting code
-  { "mhartington/formatter.nvim", config = setup_file("formatter") },
-
   -- ========================
   -- === Nice extra tools ===
   -- ========================
