@@ -10,21 +10,15 @@ vim.wo.foldlevel = 99
 -- Tree-sitter indentation
 vim.bo.indentexpr = "nvim_treesitter#indent()"
 
--- Custom key maps for vim-pythonsense
-local map = function(keybind, command)
-  vim.api.nvim_buf_set_keymap(0, "o", keybind, command, {})
-  vim.api.nvim_buf_set_keymap(0, "v", keybind, command, {})
-end
-map("if", "<Plug>(PythonsenseInnerFunctionTextObject)")
-map("af", "<Plug>(PythonsenseOuterFunctionTextObject)")
-map("iC", "<Plug>(PythonsenseInnerClassTextObject)")
-map("aC", "<Plug>(PythonsenseOuterClassTextObject)")
-map("id", "<Plug>(PythonsenseInnerDocStringTextObject)")
-map("ad", "<Plug>(PythonsenseOuterDocStringTextObject)")
-map("]f", "<Plug>(PythonsenseStartOfNextPythonFunction)")
-map("[f", "<Plug>(PythonsenseEndOfPreviousPythonFunction)")
-map("]C", "<Plug>(PythonsenseStartOfNextPythonClass)")
-map("[C", "<Plug>(PythonsenseEndOfPreviousPythonClass)")
+-- Auto-formatting on save with Black
+local aug = vim.api.nvim_create_augroup("PythonAutoFormat", { clear = true })
+vim.api.nvim_create_autocmd("BufWritePre", {
+  group = aug,
+  buffer = 0,
+  callback = function()
+    vim.cmd(":Black")
+  end,
+})
 
 -- Pyflyby commands
 _G.hubro_pyflyby_tidy_imports = function()
@@ -47,4 +41,6 @@ _G.hubro_pyflyby_tidy_imports = function()
   vim.fn.setpos(".", cursor_pos)
 end
 
-vim.cmd([[ command! PyflybyTidyImports :silent lua hubro_pyflyby_tidy_imports() ]])
+vim.cmd(
+  [[ command! PyflybyTidyImports :silent lua hubro_pyflyby_tidy_imports() ]]
+)
