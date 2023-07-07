@@ -134,6 +134,7 @@ local themes = {
     overrides = {
       IndentBlanklineChar = {
         guifg = "#e5ded6",
+        gui = "nocombine", -- https://github.com/lukas-reineke/indent-blankline.nvim/discussions/569
       },
       IndentBlanklineContextChar = {
         guifg = "#9886c1",
@@ -168,11 +169,15 @@ local themes = {
     overrides = {
       IndentBlanklineContextChar = {
         guifg = "#ca9374",
+        gui = "nocombine", -- https://github.com/lukas-reineke/indent-blankline.nvim/discussions/569
         --guifg = "#cba6f7",
       },
       IndentBlanklineContextStart = {
         guisp = "#ca9374",
         --guisp = "#cba6f7",
+      },
+      TreesitterContext = {
+        guibg = "#3a3a4b",
       },
     },
   },
