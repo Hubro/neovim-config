@@ -140,6 +140,9 @@ local keybinds = {
   { "n", "<C-A-p>", ":Telescope oldfiles<CR>" },
   { "n", "<Bar>h", ":Telescope oldfiles<CR>" }, -- Neovide can't do Ctrl+Alt yet...
 
+  -- Telescope - List buffers
+  { "n", "<Bar>b", ":Telescope buffers theme=ivy previewer=false<CR>" },
+
   -- Telescope - Show document outline using LSP symbols
   { "n", "<Bar>o", ":Telescope lsp_document_symbols theme=outline<CR>" },
 
@@ -161,13 +164,14 @@ local keybinds = {
 
   -- Telescope - Go to project
   { "n", "<Leader>gp", ":Telescope nvim-projects<CR>" },
+  { "n", "<Bar>p", ":Telescope nvim-projects<CR>" },
 
   -- Telescope - Resume last session
   { "n", "<Bar><Bar>", ":Telescope resume<CR>" },
 
   -- Toggle file tree (nvim-tree.lua)
-  { "n", "<Leader>t", ":NvimTreeToggle<CR>" },
-  { "n", "gt", ":NvimTreeFindFile<CR>" }, -- Open current file in the tree
+  { "n", "<Leader>t", ":NeoTreeShowToggle<CR>" },
+  { "n", "gt", ":NeoTreeReveal<CR>" }, -- Open current file in the tree
 
   -- Toggle document outline (See "aerial" in plugins)
   { "n", "<Leader>o", ":AerialOpen float<CR>" },
@@ -202,6 +206,9 @@ local keybinds = {
   -- Press Alt+N to go from block select mode to multiple cursors
   { "x", "<A-n>", "<Plug>(VM-Visual-Cursors)", { noremap = false } },
 
+  -- Remap shift+space in terminal mode in Neovide, as the default is buggy
+  { "t", "<S-Space>", "<Space>", { gui = true } },
+
   -- Zoom in/out in a GUI (uses vim-gui-zoom plugin)
   {
     "n",
@@ -218,9 +225,24 @@ local keybinds = {
   { "n", "<C-0>", ":lua vim.g.neovide_scale_factor = 1<CR>", { gui = true } },
 
   -- Set specific font sizes using Alt+1/2/3
-  { "n", "<A-1>", ":lua vim.opt.guifont = vim.g.hubro_default_font<CR>" },
-  { "n", "<A-2>", ":lua vim.opt.guifont = vim.g.hubro_big_font<CR>" },
-  { "n", "<A-3>", ":lua vim.opt.guifont = vim.g.hubro_huge_font<CR>" },
+  {
+    "n",
+    "<A-1>",
+    ":lua vim.opt.guifont = vim.g.hubro_default_font<CR>",
+    { gui = true },
+  },
+  {
+    "n",
+    "<A-2>",
+    ":lua vim.opt.guifont = vim.g.hubro_big_font<CR>",
+    { gui = true },
+  },
+  {
+    "n",
+    "<A-3>",
+    ":lua vim.opt.guifont = vim.g.hubro_huge_font<CR>",
+    { gui = true },
+  },
 }
 
 -- Disable the bizarre default keymappings on Neovim 0.6
