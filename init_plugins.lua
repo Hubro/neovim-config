@@ -60,7 +60,6 @@ require("lazy").setup({
   {
     "nvim-treesitter/nvim-treesitter",
     dependencies = {
-      "nvim-treesitter/playground",
       "nvim-treesitter/nvim-treesitter-textobjects",
       "windwp/nvim-ts-autotag",
       "ghostbuster91/nvim-next",
@@ -74,8 +73,8 @@ require("lazy").setup({
     "neovim/nvim-lspconfig",
     dependencies = {
       "nvim-lua/lsp-status.nvim", -- LSP status component
-      "SmiteshP/nvim-navic", -- Code position breadcrumbs status component
-      "folke/neodev.nvim", -- Lua LSP overrides for working with Neovim
+      "SmiteshP/nvim-navic",      -- Code position breadcrumbs status component
+      "folke/neodev.nvim",        -- Lua LSP overrides for working with Neovim
     },
     config = function()
       vim.cmd([[ runtime setup_lsp.lua ]])
@@ -124,7 +123,7 @@ require("lazy").setup({
       vim.g.AutoPairsShortcutJump = ""
       vim.g.AutoPairsShortcutBackInsert = "<M-b>"
       vim.g.AutoPairsMultilineClose = 0 -- Never auto jump to next line
-      vim.g.AutoPairsMapCh = 0 -- Don't map to <C-h>
+      vim.g.AutoPairsMapCh = 0          -- Don't map to <C-h>
 
       -- Center the viewport when pressing <CR> when near edge of viewport
       vim.g.AutoPairsCenterLine = 1
@@ -232,7 +231,6 @@ require("lazy").setup({
           vim.keymap.set("n", "<Leader>rc", "<cmd>RustCargo<CR>", opts)
         end,
       },
-
       tools = {
         on_initialized = function()
           require("rust-tools").inlay_hints.enable()
@@ -283,7 +281,7 @@ require("lazy").setup({
   },
 
   -- which-key
-  { "folke/which-key.nvim", config = true },
+  { "folke/which-key.nvim",  config = true },
 
   -- Leap.nvim - Neovim's answer to the mouse, quick on-screen navigation
   {
@@ -413,13 +411,13 @@ require("lazy").setup({
     "nvim-lualine/lualine.nvim",
     dependencies = {
       "nvim-lua/lsp-status.nvim", -- LSP status component
-      "SmiteshP/nvim-navic", -- Code position breadcrumbs status component
+      "SmiteshP/nvim-navic",      -- Code position breadcrumbs status component
     },
     config = setup_file("lualine"),
   },
 
   -- Floating scrollbar
-  { "dstein64/nvim-scrollview", config = true },
+  { "dstein64/nvim-scrollview",     config = true },
 
   -- Indentation lines
   {
@@ -439,7 +437,6 @@ require("lazy").setup({
     branch = "dev",
     opts = {
       modes = { "i", "R", "c", "n", "v" },
-
       -- This custom scope function makes colorcolumn always visible if any
       -- currently visible line crosses a colorcolumn. Otherwise, the
       -- colorcolumn is only displayed when the currently focused line
@@ -452,7 +449,7 @@ require("lazy").setup({
           false
         )
         local longest_on_screen_line =
-          math.max(unpack(vim.tbl_map(vim.fn.strdisplaywidth, lines)))
+            math.max(unpack(vim.tbl_map(vim.fn.strdisplaywidth, lines)))
 
         local cc = require("deadcolumn.utils").resolve_cc(vim.wo.cc)
 
@@ -509,11 +506,13 @@ require("lazy").setup({
   --"cocopon/iceberg.vim", -- Iceberg
   --"morhetz/gruvbox", -- Gruvbox
   --"lifepillar/vim-gruvbox8", -- Gruvbox (Simplified and optimized)
-  ---- "ayu-theme/ayu-vim",        -- Ayu
+  --"ayu-theme/ayu-vim",        -- Ayu
   --"Shatur/neovim-ayu", -- Ayu (Optimized for Neovim)
   --"folke/tokyonight.nvim", -- TokyoNight
   --"dracula/vim", -- Dracula
   --"NLKNguyen/papercolor-theme", -- PaperColor
-  "EdenEast/nightfox.nvim", -- Nightfox
-  { "catppuccin/nvim", name = "catppuccin" }, -- Catppuccin
+  "EdenEast/nightfox.nvim",                                                          -- Nightfox
+  { "catppuccin/nvim",       name = "catppuccin" },                                  -- Catppuccin
+  { "rebelot/kanagawa.nvim", opts = { dimInactive = true, terminalColors = true } }, -- Kanagawa
+  "AlexvZyl/nordic.nvim",                                                            -- Nordic
 })
