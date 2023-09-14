@@ -1,4 +1,5 @@
 vim.wo.colorcolumn = "120"
 
--- For some reason Robot files get XML indentation by default, which is super annoying
-vim.bo.indentexpr = ""
+vim.wo.foldmethod = "expr"
+vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
+vim.wo.foldenable = false

@@ -20,6 +20,10 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
 })
 
+vim.keymap.set("n", "<F10>", function()
+  vim.cmd(":Black")
+end, { buffer = 0 })
+
 -- Pyflyby commands
 _G.hubro_pyflyby_tidy_imports = function()
   local lines_before = vim.fn.line("$")
