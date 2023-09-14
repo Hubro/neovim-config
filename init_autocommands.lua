@@ -5,15 +5,15 @@
 --
 vim.cmd(
   "au FocusGained,BufEnter,CursorHold,CursorHoldI * "
-    .. 'if expand("%f") != "[Command Line]" | checktime | endif'
+  .. 'if expand("%f") != "[Command Line]" | checktime | endif'
 )
 
 -- Show a warning when a file is reloaded
 vim.cmd(
   "autocmd FileChangedShellPost * "
-    .. "echohl WarningMsg | "
-    .. 'echo "File " . expand("<afile>") . " changed on disk, buffer reloaded" | '
-    .. "echohl None"
+  .. "echohl WarningMsg | "
+  .. 'echo "File " . expand("<afile>") . " changed on disk, buffer reloaded" | '
+  .. "echohl None"
 )
 
 -- function run_checktime(timer_id)
@@ -33,3 +33,17 @@ vim.cmd([[
     au TextYankPost * silent! lua vim.highlight.on_yank { higroup='IncSearch', timeout=300 }
   augroup END
 ]])
+
+-- Auto-format on save using LSP
+local auto_format_filetypes = { "astro", "rust", "svelte", "nix", "lua" }
+local auto_format_aug = vim.api.nvim_create_augroup("AutoFormatWithLSP", { clear = true })
+vim.api.nvim_create_autocmd("BufWritePre", {
+  group = auto_format_aug,
+  callback = function()
+    for _, filetype in ipairs(auto_format_filetypes) do
+      if filetype == vim.o.filetype then
+        require("hubro.lspformat")()
+      end
+    end
+  end
+})
