@@ -72,7 +72,7 @@ lspconfig_configs.yang_lsp = {
     filetypes = { "yang" },
     root_dir = function(fname)
       return lsputil.root_pattern("yang.settings")(fname)
-        or lsputil.find_git_ancestor(fname)
+          or lsputil.find_git_ancestor(fname)
 
       -- return lsputil.find_git_ancestor(fname) or
       --   lsputil.root_pattern("yang.settings")(fname) or
@@ -129,10 +129,10 @@ lspconfig_configs.homeassistant = {
 
 -- Default setup config for all LSP servers
 lspconfig.util.default_config =
-  vim.tbl_extend("force", lspconfig.util.default_config, {
-    autostart = true,
-    on_attach = _G.lsp_on_attach,
-  })
+    vim.tbl_extend("force", lspconfig.util.default_config, {
+      autostart = true,
+      on_attach = _G.lsp_on_attach,
+    })
 
 lspconfig.yang_lsp.setup({
   -- on_attach = _G.lsp_on_attach,
@@ -177,8 +177,9 @@ local servers_we_want = {
   "ruff_lsp",
   {
     "lua_ls",
-    { settings = { Lua = { completion = { callSnipper = "Replace" } } } },
+    { settings = { Lua = { completion = { callSnippet = "Replace" } } } },
   },
+  { "rnix",  { capabilities = lsp_status.capabilities } },
 }
 
 for _, server_name in pairs(servers_we_want) do
@@ -195,8 +196,8 @@ for _, server_name in pairs(servers_we_want) do
 
   -- Only try to set up the lsp client if the executable exists, otherwise nvim will whine
   if
-    vim.fn.executable(current_lspconfig.document_config.default_config.cmd[1])
-    == 1
+      vim.fn.executable(current_lspconfig.document_config.default_config.cmd[1])
+      == 1
   then
     current_lspconfig.setup(
       vim.tbl_extend(

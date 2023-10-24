@@ -32,6 +32,14 @@ local keybinds = {
   -- { "n", "<Space>", "za" },
   -- { "n", "<S-Space>", "zA" },
 
+  -- Moving the cursor up/down more than 1 line at a time should add an entry
+  -- to the jump list (<C-o>/<C-i>)
+  --
+  -- ref: https://vi.stackexchange.com/a/7697/1891
+  --
+  { "n", "j", [[(v:count > 1 ? "m'" . v:count : '') . 'j']], { expr = true } },
+  { "n", "k", [[(v:count > 1 ? "m'" . v:count : '') . 'k']], { expr = true } },
+
   -- Move lines up/down
   { "n", "<A-k>", ":m -2<CR>" },
   { "n", "<A-j>", ":m +1<CR>" },
@@ -196,7 +204,7 @@ local keybinds = {
   { "n", "<F1>", ":vsplit<CR>:terminal<CR>i" },
   { "n", "<S-F1>", ":split<CR>:terminal<CR>i" },
 
-  { "n", "<F10>", ":Format<CR>" },
+  { "n", "<F10>", [[:lua require("hubro.lspformat")()<CR>]] },
 
   -- CTRL+Enter creates a new line below the current line, Shift+Enter creates
   -- a line above the current line. (These only work in GUIs.)
@@ -244,12 +252,6 @@ local keybinds = {
     { gui = true },
   },
 }
-
--- Disable the bizarre default keymappings on Neovim 0.6
--- if vim.fn.has("nvim-0.6.0") == 1 then
---   -- This raises an error if the keybind is already deleted, so we ignore it
---   pcall(vim.api.nvim_del_keymap, "n", "Y")
--- end
 
 -- {{{ The magic
 _G.apply_keybinds = function(keybinds)

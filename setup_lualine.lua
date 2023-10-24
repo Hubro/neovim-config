@@ -8,6 +8,7 @@ if success then
 
   -- tabline.setup { enable = false }
 
+  lsp_status.register_progress()
   lsp_status.config({
     diagnostics = false,
     current_function = false,

@@ -29,7 +29,7 @@ local function current_theme_mode()
   return current_mode
 end
 
-vim.g.hubro_default_dark_theme = "catppuccin"
+vim.g.hubro_default_dark_theme = "kanagawa"
 vim.g.hubro_default_light_theme = "dayfox"
 
 if current_theme_mode() == "dark" then
@@ -190,6 +190,14 @@ local themes = {
       })
     end,
   },
+  nordic = {
+    colorscheme = "nordic",
+    lualine = "auto",
+  },
+  kanagawa = {
+    colorscheme = "kanagawa-wave",
+    lualine = "kanagawa",
+  }
 }
 
 function _G.set_colorscheme(name)

@@ -310,12 +310,38 @@ require("lazy").setup({
         },
       },
       filesystem = {
+        use_libuv_file_watcher = true,
         filtered_items = {
           visible = false, -- Toggle with H
           hide_dotfiles = true,
           hide_gitignored = true,
           always_show = {
+            ".github",
             ".gitignore",
+          },
+        },
+      },
+      default_component_configs = {
+        icon = {
+          folder_closed = "",
+          folder_open = "",
+          folder_empty = "",
+        },
+        git_status = {
+          symbols = {
+            -- Change type
+            added     = "", -- or "✚", but this is redundant info if you use git_status_colors on the name
+            modified  = "", -- or "", but this is redundant info if you use git_status_colors on the name
+            deleted   = "✖", -- this can only be used in the git_status source
+            renamed   = "󰁕", -- this can only be used in the git_status source
+
+            -- Status type
+            untracked = "",
+            ignored   = "",
+            unstaged  = "󰄱",
+            unstaged  = "󰄱",
+            staged    = "",
+            conflict  = "",
           },
         },
       },
@@ -340,6 +366,29 @@ require("lazy").setup({
   -- =============
   -- === Bling ===
   -- =============
+
+  {
+    "karb94/neoscroll.nvim",
+    opts = {
+      hide_cursor = true,
+      easing_function = "quadratic",
+      pre_hook = function()
+        --require("treesitter-context").disable()
+      end,
+      post_hook = function()
+        --require("treesitter-context").enable()
+      end,
+    },
+    config = function(_, opts)
+      require("neoscroll").setup(opts)
+      require("neoscroll.config").set_mappings({
+        ["<C-u>"] = { "scroll", { "-vim.wo.scroll", "true", "150" } },
+        ["<C-d>"] = { "scroll", { "vim.wo.scroll", "true", "150" } },
+        ["<C-b>"] = { "scroll", { "-vim.api.nvim_win_get_height(0)", "true", "200" } },
+        ["<C-f>"] = { "scroll", { "vim.api.nvim_win_get_height(0)", "true", "200" } },
+      })
+    end
+  },
 
   {
     "nvim-treesitter/nvim-treesitter-context",
@@ -422,12 +471,24 @@ require("lazy").setup({
   -- Indentation lines
   {
     "lukas-reineke/indent-blankline.nvim",
-    -- mod = "indent_blankline",
+    main = "ibl",
     opts = {
-      show_current_context = true,
       -- show_current_context_start = true,
-      char = "▎",
-      max_indent_increase = 1,
+      indent = {
+        char = "▏",
+        -- char = "┊",
+        -- char = "▍", 
+      },
+      scope = {
+        char = "▎",
+        show_start = false,
+        show_end = false,
+        exclude = {
+          language = {
+            -- ...
+          }
+        }
+      }
     },
   },
 

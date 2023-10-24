@@ -1,12 +1,14 @@
 -- Any embedded terminals will use nvr as the default editor
--- vim.env.EDITOR = [[nvr --nostart -cc split --remote-wait +"set bufhidden=delete"]]
+--vim.env.EDITOR = [[nvr --nostart -cc split --remote-wait +"set bufhidden=delete"]]
 -- Any embedded terminals will use a neovide popup as default editor
-vim.env.EDITOR =
-  "neovide --geometry 100x60 --wayland-app-id neovide-floating --nofork -- +startinsert"
+--vim.env.EDITOR =
+--  "neovide --geometry 100x60 --wayland-app-id neovide-floating --nofork -- +startinsert"
+
+vim.env.PATH = vim.env.HOME .. "/.local/share/nvim/mason/bin:" .. vim.env.PATH
 
 local mac_python = "/usr/bin/python3"
 --local mac_python = "/Users/tomas/.pyenv/versions/neovim/bin/python"
-local linux_python = "/usr/bin/python"
+local linux_python = "python3"
 
 vim.g.mapleader = " "
 
