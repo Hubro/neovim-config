@@ -369,6 +369,7 @@ require("lazy").setup({
 
   {
     "karb94/neoscroll.nvim",
+    enabled = vim.g.neovide == nil,
     opts = {
       hide_cursor = true,
       easing_function = "quadratic",
