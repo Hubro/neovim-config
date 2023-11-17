@@ -172,7 +172,8 @@ require("nvim-treesitter.configs").setup({
     -- enable = { "python" },
     -- disable = { "c", "rust" },
 
-    disable = { "gitcommit" },
+    -- Highlighting is currently kinda broken for some languages:
+    disable = { "gitcommit", "ssh_config" },
   },
 
   incremental_selection = {
