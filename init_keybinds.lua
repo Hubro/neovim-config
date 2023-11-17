@@ -144,6 +144,9 @@ local keybinds = {
   -- Telescope - Find files
   { "n", "<C-p>", ":Telescope find_files<CR>" },
 
+  -- Telescope - Find files tracked by Git
+  { "n", "<M-p>", ":Telescope git_files<CR>" },
+
   -- Telescope - File history
   { "n", "<C-A-p>", ":Telescope oldfiles<CR>" },
   { "n", "<Bar>h", ":Telescope oldfiles<CR>" }, -- Neovide can't do Ctrl+Alt yet...
