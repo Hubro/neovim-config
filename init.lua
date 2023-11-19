@@ -37,6 +37,7 @@ end
 vim.cmd("runtime helpers.lua")
 
 init("options")
+init("filetypes")
 init("keybinds")
 -- init("packer")
 init("plugins")
