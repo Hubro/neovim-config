@@ -69,6 +69,7 @@ require("lazy").setup({
     --   vim.cmd[[ runtime setup_treesitter.lua ]]
     -- end
   },
+
   {
     "neovim/nvim-lspconfig",
     dependencies = {
@@ -249,10 +250,15 @@ require("lazy").setup({
     "github/copilot.vim",
     init = function()
       -- Keep copilot disabled, only invoke explicitly
-      vim.g.copilot_filetypes = { ["*"] = false }
+      --vim.g.copilot_filetypes = { ["*"] = false }
+
+      local suggest = function()
+        require("cmp").abort() -- Hide cmp completion window
+        vim.fn["copilot#Suggest"]()
+      end
 
       vim.keymap.set("n", "<Leader>cp", ":Copilot panel<CR>", { silent = true })
-      vim.keymap.set("i", "<A-p>", "<Plug>(copilot-suggest)", { silent = true })
+      vim.keymap.set("i", "<A-p>", suggest, { silent = true })
       vim.keymap.set("i", "<A-j>", "<Plug>(copilot-next)", { silent = true })
       vim.keymap.set(
         "i",
