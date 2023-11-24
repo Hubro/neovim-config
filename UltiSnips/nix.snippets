@@ -1,3 +1,17 @@
 snippet attribute "Add an attribute" b
 ${1:name} = ${0:{}};
 endsnippet
+
+# Matches `foo.bar.baz = }` or `"moo" = }`
+snippet '([a-zA-Z.]+|"[^"]+")\s*=\s*\}' "Test" rbA
+`!p snip.rv = match.group(1)` = {
+	$0
+};
+endsnippet
+
+# Matches "some.package.override }"
+snippet "([a-zA-Z.]+)\s*\}" "Test" rA
+`!p snip.rv = match.group(1)` {
+	$0
+};
+endsnippet
