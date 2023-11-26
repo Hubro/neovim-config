@@ -114,11 +114,12 @@ lspconfig_configs.robot_lsp = {
 --
 lspconfig_configs.homeassistant = {
   default_config = {
-    cmd = {
-      "/usr/bin/node",
-      "/opt/vscode-home-assistant/out/server/server.js",
-      "--stdio",
-    },
+    cmd = { "home-assistant-lsp", "--stdio" },
+    -- cmd = {
+    --   "/usr/bin/node",
+    --   "/opt/vscode-home-assistant/out/server/server.js",
+    --   "--stdio",
+    -- },
     filetypes = { "yaml" },
     root_dir = lsputil.root_pattern("configuration.yaml"),
     settings = {},
