@@ -3,6 +3,12 @@
 -- If no active LSP servers support it, do nothing
 --
 local function lspformat()
+  -- Sometimes I have to use older Neovim versions...
+  if vim.lsp.get_clients == nil then
+    vim.lsp.buf.format()
+    return
+  end
+
   local clients = vim.lsp.get_clients({ buffer = 0 })
 
   -- Loop over clients
