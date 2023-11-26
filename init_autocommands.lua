@@ -47,3 +47,24 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     end
   end
 })
+
+-- Refresh neo-tree Git status
+--
+-- This should be happening automatically but appears to have been broken for a while.
+-- Ref: https://github.com/nvim-neo-tree/neo-tree.nvim/issues/724
+--
+local refresh_neotree_aug = vim.api.nvim_create_augroup("RefreshNeoTree", { clear = true })
+local refresh_neotree_git_status = function()
+    pcall(function()
+      require("neo-tree.sources.git_status").refresh()
+    end)
+end
+vim.api.nvim_create_autocmd("User", {
+  group = refresh_neotree_aug,
+  pattern = "FugitiveChanged",
+  callback = refresh_neotree_git_status,
+})
+vim.api.nvim_create_autocmd("TabEnter", {
+  group = refresh_neotree_aug,
+  callback = refresh_neotree_git_status,
+})
