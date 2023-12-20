@@ -11,7 +11,8 @@ vim.wo.foldlevel = 99
 vim.bo.indentexpr = "nvim_treesitter#indent()"
 
 -- Auto-formatting on save with Black
-local aug = vim.api.nvim_create_augroup("PythonAutoFormat", { clear = true })
+local aug = vim.api.nvim_create_augroup("PythonAutoFormat", { clear = false })
+vim.api.nvim_clear_autocmds({ group = aug, buffer = 0 })
 vim.api.nvim_create_autocmd("BufWritePre", {
   group = aug,
   buffer = 0,
