@@ -1,3 +1,5 @@
+local restore_view = require("hubro.restore_view")
+
 -- Function for formatting with the first available LSP server
 --
 -- If no active LSP servers support it, do nothing
@@ -14,10 +16,9 @@ local function lspformat()
   -- Loop over clients
   for id, client in pairs(clients) do
     if client.server_capabilities.documentFormattingProvider then
-      local view = vim.fn.winsaveview()
-      vim.lsp.buf.format({ id = id })
-      vim.fn.winrestview(view)
-      return
+      restore_view(function()
+        vim.lsp.buf.format({ id = id })
+      end)
     end
   end
 end

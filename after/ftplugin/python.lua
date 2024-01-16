@@ -1,3 +1,5 @@
+local restore_view = require("hubro.restore_view")
+
 -- Options
 vim.wo.colorcolumn = "89" -- Black's default line length + 1
 vim.bo.indentkeys = "=elif,=else,=except"
@@ -17,12 +19,12 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   group = aug,
   buffer = 0,
   callback = function()
-    vim.cmd(":Black")
+    restore_view(function() vim.cmd(":Black") end)
   end,
 })
 
 vim.keymap.set("n", "<F10>", function()
-  vim.cmd(":Black")
+  restore_view(function() vim.cmd(":Black") end)
 end, { buffer = 0 })
 
 -- Pyflyby commands
