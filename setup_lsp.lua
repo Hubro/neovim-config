@@ -175,7 +175,7 @@ local servers_we_want = {
   "astro",
   { "cssls", { capabilities = cssls_capabilities } },
   "tailwindcss",
-  "ruff_lsp",
+  { "ruff_lsp", { init_options = { settings = { lint = { args = { "--ignore=F401" } } } } } },
   {
     "lua_ls",
     { settings = { Lua = { completion = { callSnippet = "Replace" } } } },
