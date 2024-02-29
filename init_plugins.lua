@@ -171,6 +171,13 @@ require("lazy").setup({
       float = {
         relative = "win",
       },
+      link_tree_to_folds = false,
+      link_folds_to_tree = false,
+      show_guides = true,
+      nerd_font = true,
+      filter_kind = {
+        yang = false, -- In YANG, show all symbol types
+      }
     },
   },
 
