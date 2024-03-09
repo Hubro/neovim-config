@@ -63,3 +63,10 @@ vim.api.nvim_create_autocmd("TabEnter", {
   group = refresh_neotree_aug,
   callback = refresh_neotree_git_status,
 })
+
+-- Execute every Lua file under ./autocommands/
+local au_dir = vim.fn.expand(vim.fn.stdpath("config") .. "/autocommands")
+local au_files = vim.fn.glob(au_dir .. "/*.lua", false, true)
+for _, file in ipairs(au_files) do
+  vim.cmd("luafile " .. file)
+end
