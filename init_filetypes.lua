@@ -8,6 +8,9 @@ vim.filetype.add({
   },
   filename = {
     [".envrc"] = "bash",
+    ["Tiltfile"] = "python",
+    ["Justfile"] = "just",
+    ["justfile"] = "just",
   },
   pattern = {
     ["%.gitconfig%-.*"] = "gitconfig",
