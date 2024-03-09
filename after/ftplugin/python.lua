@@ -2,7 +2,6 @@ local restore_view = require("hubro.restore_view")
 
 -- Options
 vim.wo.colorcolumn = "89" -- Black's default line length + 1
-vim.bo.indentkeys = "=elif,=else,=except"
 
 -- Tree-sitter folding
 vim.wo.foldmethod = "expr"
@@ -11,21 +10,26 @@ vim.wo.foldlevel = 99
 
 -- Tree-sitter indentation
 vim.bo.indentexpr = "nvim_treesitter#indent()"
+vim.bo.indentkeys = "=elif,=else,=except"
 
 -- Auto-formatting on save with Black
-local aug = vim.api.nvim_create_augroup("PythonAutoFormat", { clear = false })
-vim.api.nvim_clear_autocmds({ group = aug, buffer = 0 })
-vim.api.nvim_create_autocmd("BufWritePre", {
-  group = aug,
-  buffer = 0,
-  callback = function()
-    restore_view(function() vim.cmd(":Black") end)
-  end,
-})
-
-vim.keymap.set("n", "<F10>", function()
-  restore_view(function() vim.cmd(":Black") end)
-end, { buffer = 0 })
+--
+-- Actually, ruff does formatting now, and it's built-in to ruff-lsp! Get
+-- fucked, Black!
+--
+--local aug = vim.api.nvim_create_augroup("PythonAutoFormat", { clear = false })
+--vim.api.nvim_clear_autocmds({ group = aug, buffer = 0 })
+--vim.api.nvim_create_autocmd("BufWritePre", {
+--  group = aug,
+--  buffer = 0,
+--  callback = function()
+--    restore_view(function() vim.cmd(":Black") end)
+--  end,
+--})
+--
+--vim.keymap.set("n", "<F10>", function()
+--  restore_view(function() vim.cmd(":Black") end)
+--end, { buffer = 0 })
 
 -- Pyflyby commands
 _G.hubro_pyflyby_tidy_imports = function()
