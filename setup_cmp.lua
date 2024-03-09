@@ -8,11 +8,11 @@ local buffer = function(opts)
 
   local source = {
     name = "buffer",
-    options = { keyword_pattern = [[\k\+]] },
+    option = { keyword_pattern = [[\k\+]] },
   }
 
   if opts.all_buffers then
-    source.options.get_bufnrs = function()
+    source.option.get_bufnrs = function()
       return vim.api.nvim_list_bufs()
     end
   end
@@ -64,13 +64,37 @@ if installed then
       end,
     },
     mapping = cmp.mapping.preset.insert(MAPPING),
-    sources = cmp.config.sources({
-      { name = "ultisnips" },
-      { name = "nvim_lsp" },
-    }, {
-      buffer(),
-      { name = "path" },
-    }),
+    sources = {
+      { name = "ultisnips", group_index = 1 },
+      { name = "nvim_lsp",  group_index = 1 },
+
+      {
+        name = "buffer",
+        group_index = 2,
+        option = {
+          keyword_pattern = [[\k\+]],
+          get_bufnrs = function()
+            return vim.api.nvim_list_bufs()
+          end
+        },
+      },
+      { name = "path", group_index = 2 },
+
+      --{ name = "buffer",    group_index = 2, option = { keyword_pattern = [[\k\+]] } },
+      --{ name = "path",      group_index = 2 },
+
+      -- If nothing else matches, complete words from other buffers
+      --{
+      --  name = "buffer",
+      --  group_index = 3,
+      --  option = {
+      --    keyword_pattern = [[\k\+]],
+      --    get_bufnrs = function()
+      --      return vim.api.nvim_list_bufs()
+      --    end
+      --  },
+      --},
+    },
     formatting = formatting,
     experimental = {
       native_menu = false,
