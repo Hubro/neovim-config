@@ -3,29 +3,62 @@ ${1:name} = ${0:{}};
 endsnippet
 
 # Matches `foo.bar.baz = }` or `"moo" = }`
-snippet '([a-zA-Z.-]+|"[^"]+")\s*=\s*\}' "Test" rbA
+snippet '([a-zA-Z0-9.-]+|"[^"]+")\s*=\s*\}$' "Test" rA
 `!p snip.rv = match.group(1)` = {
 	$0
 };
 endsnippet
 
 # Matches "some.package.override }"
-snippet "([a-zA-Z.]+)\s*\}" "Test" rA
+snippet "([a-zA-Z0-9.]+)\s*\}" "Test" rA
 `!p snip.rv = match.group(1)` {
 	$0
 };
 endsnippet
 
 # Matches `foo.bar.baz = ]` or `"moo" = ]`
-snippet '([a-zA-Z.-]+|"[^"]+")\s*=\s*\]' "Test" rbA
+snippet '([a-zA-Z0-9.-]+|"[^"]+")\s*=\s*\]$' "Test" rA
 `!p snip.rv = match.group(1)` = [
 	$0
 ];
 endsnippet
 
 # Matches "some.package.override ]"
-snippet "([a-zA-Z.]+)\s*\]" "Test" rA
+snippet "([a-zA-Z0-9.]+)\s*\]" "Test" rA
 `!p snip.rv = match.group(1)` [
 	$0
 ];
+endsnippet
+
+# Shortcut for creating a development shell flake for use with nix-direnv
+snippet development-shell "Mini template for a flake with a devshell" b
+{
+	inputs = {
+		# Fun hack to make sure all my projects and my OS use the same version
+		# of packages by default, reducing duplication in the nix store.
+		nixos.url = "/home/tomas/syncthing/dotfiles/nixos";
+		nixpkgs.follows = "nixos/nixpkgs";
+
+		flake-utils.url = "github:numtide/flake-utils";
+	};
+
+	outputs = { self, nixpkgs, flake-utils, ... }:
+		flake-utils.lib.eachDefaultSystem (system:
+			let
+				pkgs = import nixpkgs { inherit system; };
+			in
+			{
+				devShells.default = pkgs.mkShell {
+					buildInputs = with pkgs; [
+						$0
+					];
+
+					shellHook = ''
+						# Environment variables should be set in .envrc, but if
+						# they depend on pkgs then they must be set here
+					'';
+				};
+			}
+		);
+}
 endsnippet
