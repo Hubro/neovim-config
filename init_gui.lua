@@ -25,9 +25,9 @@ local is_neovide = (vim.g.neovide == true)
 -- vim.g.hubro_default_font = "Iosevka Nerd Font:h9.5"
 -- vim.g.hubro_big_font = "Iosevka Nerd Font:h13.5"
 -- vim.g.hubro_huge_font = "Iosevka Nerd Font:h18"
-vim.g.hubro_default_font = "CaskaydiaCove NF Regular:h9.5"
-vim.g.hubro_big_font = "CaskaydiaCove NF Regular:h13.0"
-vim.g.hubro_huge_font = "CaskaydiaCove NF Regular:h18"
+vim.g.hubro_default_font = "CaskaydiaCove Nerd Font:h9.5"
+vim.g.hubro_big_font = "CaskaydiaCove Nerd Font:h13.0"
+vim.g.hubro_huge_font = "CaskaydiaCove Nerd Font:h18"
 
 -- vim.opt.guifont = "SauceCodePro Nerd Font:h9"
 -- vim.opt.guifont = "SauceCodePro Nerd Font:h9:w57"
@@ -54,9 +54,9 @@ if is_neovide then
     vim.g.neovide_refresh_rate = 240
   elseif vim.api.nvim_exec("echo hostname()", true) == "cross" then
     vim.g.neovide_refresh_rate = 144
-    vim.g.hubro_default_font = "CaskaydiaCove NF Regular:h13.0"
-    vim.g.hubro_big_font = "CaskaydiaCove NF Regular:h13.0"
-    vim.g.hubro_huge_font = "CaskaydiaCove NF Regular:h13.0"
+    vim.g.hubro_default_font = "CaskaydiaCove Nerd Font:h13.0"
+    vim.g.hubro_big_font = "CaskaydiaCove Nerd Font:h13.0"
+    vim.g.hubro_huge_font = "CaskaydiaCove Nerd Font:h13.0"
     vim.opt.guifont = vim.g.hubro_default_font
   else
     vim.g.neovide_refresh_rate = 60
