@@ -55,15 +55,10 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 --
 local refresh_neotree_aug = vim.api.nvim_create_augroup("RefreshNeoTree", { clear = true })
 local refresh_neotree_git_status = function()
-    pcall(function()
-      require("neo-tree.sources.git_status").refresh()
-    end)
+  pcall(function()
+    require("neo-tree.sources.git_status").refresh()
+  end)
 end
-vim.api.nvim_create_autocmd("User", {
-  group = refresh_neotree_aug,
-  pattern = "FugitiveChanged",
-  callback = refresh_neotree_git_status,
-})
 vim.api.nvim_create_autocmd("TabEnter", {
   group = refresh_neotree_aug,
   callback = refresh_neotree_git_status,
