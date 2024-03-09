@@ -4,7 +4,7 @@ vim.opt.iskeyword:append("-")
 -- Tree-sitter folding
 vim.wo.foldmethod = "expr"
 vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
-vim.wo.foldlevel = 0
+vim.wo.foldlevel = 1
 
 -- Tree-sitter indentation
 vim.bo.indentexpr = "nvim_treesitter#indent()"
