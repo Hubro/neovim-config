@@ -15,5 +15,6 @@ vim.filetype.add({
   pattern = {
     ["%.gitconfig%-.*"] = "gitconfig",
     ["%.gitignore%-.*"] = "gitignore",
+    [".*/hypr/.*%.conf"] = "hyprlang",
   },
 })

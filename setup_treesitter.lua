@@ -4,16 +4,6 @@ local configs = parsers.get_parser_configs()
 require("nvim-next.integrations").treesitter_textobjects()
 
 ---@diagnostic disable-next-line: inject-field
-configs.hypr = {
-  install_info = {
-    url = "https://github.com/luckasRanarison/tree-sitter-hypr.git",
-    files = { "src/parser.c" },
-    branch = "0e19dd13a3751d2e00285917c5620eb79f470ac5",
-  },
-  filetype = "hypr",
-}
-
----@diagnostic disable-next-line: inject-field
 configs.nu = {
   install_info = {
     url = "https://github.com/LhKipp/tree-sitter-nu.git",
@@ -77,6 +67,7 @@ require("nvim-treesitter.configs").setup({
 
   ensure_installed = {
     "bash",
+    "hyprlang",
     "javascript",
     "nix",
     "python",
