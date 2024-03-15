@@ -35,6 +35,10 @@ _G.lsp_on_attach = function(client, bufnr)
     return
   end
 
+  if client.name == "efm" then
+    require("hubro.config.efm").on_attach(client, bufnr)
+  end
+
   local function map(mode, lh, rh)
     local opts = { noremap = true, silent = true, buffer = bufnr }
     vim.keymap.set(mode, lh, rh, opts)
