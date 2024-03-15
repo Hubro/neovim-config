@@ -35,7 +35,24 @@ vim.cmd([[
 ]])
 
 -- Auto-format on save using LSP
-local auto_format_filetypes = { "astro", "rust", "svelte", "nix", "lua" }
+local auto_format_filetypes = {
+  "astro",
+  "bash",
+  "html",
+  "javascript",
+  "javascriptreact",
+  "json",
+  "jsonc",
+  "lua",
+  "nix",
+  "python",
+  "rust",
+  "sh",
+  "svelte",
+  "typescript",
+  "typescriptreact",
+  "zsh",
+}
 local auto_format_aug = vim.api.nvim_create_augroup("AutoFormatWithLSP", { clear = true })
 vim.api.nvim_create_autocmd("BufWritePre", {
   group = auto_format_aug,
