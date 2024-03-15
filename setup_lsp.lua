@@ -173,7 +173,7 @@ local servers_we_want = {
   -- "rust_analyzer",   -- Configured by rust-tools.nvim
   "elmls",
   "astro",
-  { "cssls", { capabilities = cssls_capabilities } },
+  { "cssls",  { capabilities = cssls_capabilities } },
   "tailwindcss",
   { "ruff_lsp", { init_options = { settings = { lint = { args = { "--ignore=F401" } } } } } },
   {
@@ -181,7 +181,8 @@ local servers_we_want = {
     { settings = { Lua = { completion = { callSnippet = "Replace" } } } },
   },
   -- { "rnix", { capabilities = lsp_status.capabilities } },
-  { "nixd", { capabilities = lsp_status.capabilities } },
+  { "nixd",   { capabilities = lsp_status.capabilities } },
+  { "efm",    require("hubro.config.efm") },
 }
 
 for _, server_name in pairs(servers_we_want) do
