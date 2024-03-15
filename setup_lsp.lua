@@ -68,7 +68,7 @@ end
 --
 lspconfig_configs.yang_lsp = {
   default_config = {
-    cmd = { "yang-language-server" },
+    cmd = { vim.env.HOME .. "/.local/lib/yang-lsp/bin/yang-language-server" },
     filetypes = { "yang" },
     root_dir = function(fname)
       return lsputil.root_pattern("yang.settings")(fname)
