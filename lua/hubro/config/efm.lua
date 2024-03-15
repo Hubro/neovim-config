@@ -99,8 +99,9 @@ M.lsp_config = {
             "%f:%l:%c: %tarning: %m",
             "%f:%l:%c: %tote: %m",
           },
-          lintOnSave = true,
           lintSource = "mypy",
+          lintWorkspace = true,
+          lintOnSave = true,
           rootMarkers = { "mypy.ini" },
         }
       }

@@ -193,7 +193,7 @@ local servers_we_want = {
   { "lua_ls", { settings = { Lua = { completion = { callSnippet = "Replace" } } } }, },
   -- { "rnix", { capabilities = lsp_status.capabilities } },
   { "nixd",   { capabilities = lsp_status.capabilities } },
-  { "efm",    require("hubro.config.efm") },
+  { "efm",    require("hubro.config.efm").lsp_config },
 }
 
 for _, server_name in pairs(servers_we_want) do
