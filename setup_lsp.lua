@@ -166,6 +166,9 @@ local servers_we_want = {
           },
         },
       },
+      handlers = {
+        ["textDocument/publishDiagnostics"] = function() end
+      }
     },
   },
   "tsserver",
