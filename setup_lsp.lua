@@ -178,11 +178,15 @@ local servers_we_want = {
   "astro",
   { "cssls",  { capabilities = cssls_capabilities } },
   "tailwindcss",
-  { "ruff_lsp", { init_options = { settings = { lint = { args = { "--ignore=F401" } } } } } },
-  {
-    "lua_ls",
-    { settings = { Lua = { completion = { callSnippet = "Replace" } } } },
-  },
+  { "ruff_lsp", {
+    init_options = {
+      settings = {
+        -- lint = { args = { "--ignore=F401" } },
+        -- format = { args = { "--line-length=88" } },
+      }
+    }
+  } },
+  { "lua_ls", { settings = { Lua = { completion = { callSnippet = "Replace" } } } }, },
   -- { "rnix", { capabilities = lsp_status.capabilities } },
   { "nixd",   { capabilities = lsp_status.capabilities } },
   { "efm",    require("hubro.config.efm") },
@@ -198,21 +202,13 @@ for _, server_name in pairs(servers_we_want) do
     custom_server_config = {}
   end
 
-  local current_lspconfig = lspconfig[server_name]
+  local config = vim.tbl_extend(
+    "force",
+    lspconfig.util.default_config,
+    custom_server_config
+  )
 
-  -- Only try to set up the lsp client if the executable exists, otherwise nvim will whine
-  if
-      vim.fn.executable(current_lspconfig.document_config.default_config.cmd[1])
-      == 1
-  then
-    current_lspconfig.setup(
-      vim.tbl_extend(
-        "force",
-        lspconfig.util.default_config,
-        custom_server_config
-      )
-    )
-  end
+  lspconfig[server_name].setup(config)
 end
 
 -- Allow projects to define a post-LSP hook for project specific LSP config
