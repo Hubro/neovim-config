@@ -126,9 +126,9 @@ local keybinds = {
   {
     "n",
     "<Leader>s",
-    ":ALEDisableBuffer<CR>:lua vim.diagnostic.disable(0)<CR>",
+    ":lua vim.diagnostic.disable(0)<CR>",
   },
-  { "n", "<Leader>S",    ":ALEEnableBuffer<CR>:lua vim.diagnostic.enable(0)<CR>" },
+  { "n", "<Leader>S",    ":lua vim.diagnostic.enable(0)<CR>" },
 
   -- Some Fugitive shortcuts
   { "n", "<Leader>gs",   ":tab G<CR>" },
