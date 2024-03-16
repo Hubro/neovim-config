@@ -32,11 +32,6 @@ local init = function(name)
   vim.cmd("runtime init_" .. name .. ".lua")
 end
 
--- Source local .nvimrc here if present (DEPRECATE THIS IN FAVOR OF LUA INIT)
-if vim.fn.filereadable(".nvimrc") == 1 then
-  vim.cmd("source .nvimrc")
-end
-
 -- Source local project-specific config here
 if vim.fn.filereadable(".nvimrc.lua") == 1 then
   vim.cmd("source .nvimrc.lua")
@@ -52,11 +47,6 @@ init("gui")
 init("custom_commands")
 init("autocommands")
 init("colorscheme")
-
--- DEPRECATE THIS IN FAVOR OF LUA POST INIT (see below)
-if _G.setup_project then
-  _G.setup_project()
-end
 
 -- Source local project-specific post config here
 if vim.fn.filereadable(".nvimrc-post.lua") == 1 then
