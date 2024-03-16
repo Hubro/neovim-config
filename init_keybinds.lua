@@ -4,16 +4,20 @@ local default_opts = { noremap = true, silent = true }
 
 local keybinds = {
   -- Shortcut so it's easy to exit only with the left hand
-  { "n", "Q",         ":qa<CR>" },
+  { "n",          "Q",         ":qa<CR>" },
 
   -- Alternative key to escape terminal, necessary since the original
   -- keybinding can't be expressed on a Mac keyboard
-  { "t", "ń",         "<C-\\><C-n>" },
-  { "t", "Ǹ",         "<C-\\><C-n>" },
+  { "t",          "ń",         "<C-\\><C-n>" },
+  { "t",          "Ǹ",         "<C-\\><C-n>" },
 
   -- Shortcuts for saving the document, with and without autocommands
-  { "n", "<Leader>w", ":w<CR>" },
-  { "n", "<Leader>W", ":noauto w<CR>" },
+  { "n",          "<Leader>w", ":w<CR>" },
+  { "n",          "<Leader>W", ":noauto w<CR>" },
+
+  -- Shortcut for yank/paste to/from system clipboard
+  { { "n", "v" }, "<Leader>y", '"+y' },
+  { { "n", "v" }, "<Leader>p", '"+p' },
 
   -- Press ESC to remove search highlights and clear text from command line and
   -- dismiss notifications
