@@ -132,15 +132,20 @@ local keybinds = {
     "<Leader>s",
     ":lua vim.diagnostic.disable(0)<CR>",
   },
-  { "n", "<Leader>S",    ":lua vim.diagnostic.enable(0)<CR>" },
+  { "n", "<Leader>S",   ":lua vim.diagnostic.enable(0)<CR>" },
 
-  -- Some Fugitive shortcuts
-  { "n", "<Leader>gs",   ":tab G<CR>" },
-  { "n", "<Leader>gl",   ":tab Git log<CR>" },
-  { "n", "<Leader>gpp",  ":G push<CR>" },
-  { "n", "<Leader>gP",   ":G push -f<CR>" },
-  { "n", "<Leader>gpf",  ":G push -f<CR>" },
-  { "n", "<Leader>gpsu", ":G push -u origin HEAD<CR>" },
+  -- -- Some Fugitive shortcuts
+  -- { "n", "<Leader>gs",   ":tab G<CR>" },
+  -- { "n", "<Leader>gl",   ":tab Git log<CR>" },
+  -- { "n", "<Leader>gpp",  ":G push<CR>" },
+  -- { "n", "<Leader>gP",   ":G push -f<CR>" },
+  -- { "n", "<Leader>gpf",  ":G push -f<CR>" },
+  -- { "n", "<Leader>gpsu", ":G push -u origin HEAD<CR>" },
+
+  -- Some Neogit shortcuts
+  { "n", "<Leader>gs",  ":Neogit<CR>" },
+  { "n", "<Leader>gl",  ":Neogit log<CR>" },
+  { "n", "<Leader>gpp", ":Neogit push<CR>" },
 
   -- Jump to git hunk (gitsigns.nvim)
   -- { "n", "[c", ":silent :Gitsigns prev_hunk<CR>" },
@@ -150,64 +155,64 @@ local keybinds = {
   -- repeatable
 
   -- Git blame current lint (gitsigns.nvim)
-  { "n", "<Leader>gb",   ":silent :Gitsigns blame_line<CR>" },
+  { "n", "<Leader>gb",  ":silent :Gitsigns blame_line<CR>" },
 
   -- Git reset current hunk (gitsigns.nvim)
-  { "n", "<Leader>r",    ":silent :Gitsigns reset_hunk<CR>" },
-  { "n", "<Leader>grr",  ":silent :Gitsigns reset_hunk<CR>" },
-  { "n", "<Leader>grh",  ":silent :Gitsigns reset_hunk<CR>" },
+  { "n", "<Leader>r",   ":silent :Gitsigns reset_hunk<CR>" },
+  { "n", "<Leader>grr", ":silent :Gitsigns reset_hunk<CR>" },
+  { "n", "<Leader>grh", ":silent :Gitsigns reset_hunk<CR>" },
   --
   -- Git reset current buffer (gitsigns.nvim)
-  { "n", "<Leader>R",    ":silent :Gitsigns reset_buffer<CR>" },
-  { "n", "<Leader>grb",  ":silent :Gitsigns reset_buffer<CR>" },
+  { "n", "<Leader>R",   ":silent :Gitsigns reset_buffer<CR>" },
+  { "n", "<Leader>grb", ":silent :Gitsigns reset_buffer<CR>" },
 
   -- Git reset selected lines
-  { "v", "<Leader>gr",   ":'<,'>:Gitsigns reset_hunk<CR>" },
-  { "v", "<Leader>R",    ":'<,'>:Gitsigns reset_hunk<CR>" },
+  { "v", "<Leader>gr",  ":'<,'>:Gitsigns reset_hunk<CR>" },
+  { "v", "<Leader>R",   ":'<,'>:Gitsigns reset_hunk<CR>" },
 
   -- Telescope - Find files
-  { "n", "<C-p>",        ":Telescope find_files<CR>" },
+  { "n", "<C-p>",       ":Telescope find_files<CR>" },
 
   -- Telescope - Find files tracked by Git
-  { "n", "<M-p>",        ":Telescope git_files<CR>" },
+  { "n", "<M-p>",       ":Telescope git_files<CR>" },
 
   -- Telescope - File history
-  { "n", "<C-A-p>",      ":Telescope oldfiles<CR>" },
-  { "n", "<Bar>h",       ":Telescope oldfiles only_cwd=true<CR>" }, -- Change this to only show files in CWD
-  { "n", "<Bar>H",       ":Telescope oldfiles<CR>" },
+  { "n", "<C-A-p>",     ":Telescope oldfiles<CR>" },
+  { "n", "<Bar>h",      ":Telescope oldfiles only_cwd=true<CR>" },  -- Change this to only show files in CWD
+  { "n", "<Bar>H",      ":Telescope oldfiles<CR>" },
 
   -- Telescope - List buffers
-  { "n", "<Bar>b",       ":Telescope buffers theme=ivy previewer=false<CR>" },
+  { "n", "<Bar>b",      ":Telescope buffers theme=ivy previewer=false<CR>" },
 
   -- Telescope - Show document outline using LSP symbols
-  { "n", "<Bar>o",       ":Telescope lsp_document_symbols theme=outline<CR>" },
+  { "n", "<Bar>o",      ":Telescope lsp_document_symbols theme=outline<CR>" },
 
   -- Telescope - Show Ultisnips snippets
-  { "n", "<Bar>s",       ":Telescope ultisnips theme=ultisnips<CR>" },
-  { "i", "<C-s>",        "<Space><BS><Esc>:Telescope ultisnips theme=ultisnips<CR>" },
+  { "n", "<Bar>s",      ":Telescope ultisnips theme=ultisnips<CR>" },
+  { "i", "<C-s>",       "<Space><BS><Esc>:Telescope ultisnips theme=ultisnips<CR>" },
 
   -- Telescope - Live grep
-  { "n", "<Bar>gr",      ":Telescope live_grep<CR>" },
+  { "n", "<Bar>gr",     ":Telescope live_grep<CR>" },
 
   -- Telescope - Git status
-  { "n", "<Bar>gs",      ":Telescope git_status<CR>" },
+  { "n", "<Bar>gs",     ":Telescope git_status<CR>" },
 
   -- Telescope - Show LSP code actions
-  { "n", "<Bar>la",      ":Telescope lsp_code_actions theme=get_dropdown<CR>" },
+  { "n", "<Bar>la",     ":Telescope lsp_code_actions theme=get_dropdown<CR>" },
 
   -- Telescope - Show LSP references
-  { "n", "<Bar>lr",      ":Telescope lsp_references<CR>" },
+  { "n", "<Bar>lr",     ":Telescope lsp_references<CR>" },
 
   -- Telescope - Go to project
-  { "n", "<Bar>p",       ":Telescope nvim-projects<CR>" },
+  { "n", "<Bar>p",      ":Telescope nvim-projects<CR>" },
 
   -- Telescope - Resume last session
-  { "n", "<Bar><Bar>",   ":Telescope resume<CR>" },
+  { "n", "<Bar><Bar>",  ":Telescope resume<CR>" },
 
   -- Toggle file tree (nvim-tree.lua)
-  { "n", "<Leader>t",    ":Neotree toggle reveal_force_cwd<CR>" },
-  { "n", "gt",           ":Neotree reveal<CR>" }, -- Open current file in the tree
-  { "n", "gT",           ":Neotree float reveal_file=<cfile> reveal_force_cwd<CR>" },
+  { "n", "<Leader>t",   ":Neotree toggle reveal_force_cwd<CR>" },
+  { "n", "gt",          ":Neotree reveal<CR>" },  -- Open current file in the tree
+  { "n", "gT",          ":Neotree float reveal_file=<cfile> reveal_force_cwd<CR>" },
 
   -- Toggle document outline (See "aerial" in plugins)
   { "n", "<Leader>o", function()
