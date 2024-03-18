@@ -39,6 +39,11 @@ _G.lsp_on_attach = function(client, bufnr)
     require("hubro.config.efm").on_attach(client, bufnr)
   end
 
+  -- The Ruff LSP only provides diagnostics, let's not set any key bindings
+  if client.name == "ruff" then
+    return
+  end
+
   local function map(mode, lh, rh)
     local opts = { noremap = true, silent = true, buffer = bufnr }
     vim.keymap.set(mode, lh, rh, opts)

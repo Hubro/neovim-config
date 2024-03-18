@@ -4,7 +4,8 @@ local default_priority = 50
 
 local formatting_priorities = {
   svelte = 100,
-  efm = 80,
+  ruff_lsp = 70,
+  efm = 60,
 }
 
 -- Selects one LSP client to use for formatting
