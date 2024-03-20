@@ -94,6 +94,7 @@ M.lsp_config = {
       python = {
         {
           lintCommand = "mypy --show-column-numbers",
+          lintIgnoreExitCode = true,
           lintFormats = {
             "%f:%l:%c: %trror: %m",
             "%f:%l:%c: %tarning: %m",
@@ -102,6 +103,7 @@ M.lsp_config = {
           lintSource = "mypy",
           lintWorkspace = true,
           lintOnSave = true,
+          lintOnOpen = true,
           rootMarkers = { "mypy.ini" },
         }
       }
@@ -120,12 +122,15 @@ M.on_attach = function(client, bufnr)
     desc = "Clears diagnostics from efm-langserver when the document changes",
     callback = function()
       local diagnostics = vim.diagnostic.get(bufnr, { namespace = efm_ns })
+      local filteredDiagnostics = {}
 
       for _, diag in ipairs(diagnostics) do
-        if diag.source == "mypy" then
-          vim.diagnostic.set(efm_ns, bufnr, diagnostics, {})
+        if diag.source ~= "mypy" then
+          table.insert(filteredDiagnostics, diag)
         end
       end
+
+      vim.diagnostic.set(efm_ns, bufnr, filteredDiagnostics, {})
     end
   })
 end
