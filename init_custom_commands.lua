@@ -1,3 +1,6 @@
+local scratch_split = require("hubro.scratch_split")
+local splitlines = require("hubro.splitlines")
+
 local function close_hidden_buffers()
   local visible_buffers = {}
   local closed = 0
@@ -69,3 +72,27 @@ local function close_hidden_buffers()
 end
 
 vim.api.nvim_create_user_command("CloseHiddenBuffers", close_hidden_buffers, {})
+
+local function eval_lua_expr(args)
+  local fn = assert(load("return " .. args["args"]))
+  local success, result = pcall(fn)
+  local text
+
+  if success then
+    text = vim.inspect(result)
+  else
+    text = "Expression failed: " .. result
+  end
+
+  scratch_split({ split_name = "Lua", text = text })
+end
+
+vim.api.nvim_create_user_command(
+  "Lua",
+  eval_lua_expr,
+  {
+    desc = "Evaluate a Lua expression and pretty-print the return value to a new buffer",
+    nargs = "+",
+    complete = "lua",
+  }
+)
