@@ -60,12 +60,14 @@ cmp.setup({
   },
   mapping = cmp.mapping.preset.insert(MAPPING),
   sources = {
-    { name = "ultisnips", group_index = 1 },
-    { name = "nvim_lsp",  group_index = 1 },
+    { name = "ultisnips", group_index = 1, priority = 2 },
+    { name = "nvim_lsp",  group_index = 1, priority = 1 },
 
+    { name = "path",      group_index = 2, priority = 10 },
     {
       name = "buffer",
       group_index = 2,
+      priority = 1,
       option = {
         keyword_pattern = [[\k\+]],
         get_bufnrs = function()
@@ -73,7 +75,6 @@ cmp.setup({
         end
       },
     },
-    { name = "path", group_index = 2 },
 
     --{ name = "buffer",    group_index = 2, option = { keyword_pattern = [[\k\+]] } },
     --{ name = "path",      group_index = 2 },
@@ -100,6 +101,8 @@ cmp.setup({
 cmp.setup.cmdline(":", {
   mapping = cmp.mapping.preset.cmdline(),
   sources = cmp.config.sources({
+    { name = "path" },
+  }, {
     { name = "cmdline" },
   }),
   completion = {
@@ -111,6 +114,7 @@ cmp.setup.cmdline("/", {
   mapping = cmp.mapping.preset.cmdline(),
   sources = {
     {
+      name = "buffer",
       buffer({ all_buffers = true }),
     },
   },
