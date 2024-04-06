@@ -73,9 +73,8 @@ require("lazy").setup({
   {
     "neovim/nvim-lspconfig",
     dependencies = {
-      "nvim-lua/lsp-status.nvim", -- LSP status component
-      "SmiteshP/nvim-navic",      -- Code position breadcrumbs status component
-      "folke/neodev.nvim",        -- Lua LSP overrides for working with Neovim
+      "SmiteshP/nvim-navic", -- Code position breadcrumbs status component
+      "folke/neodev.nvim",   -- Lua LSP overrides for working with Neovim
     },
     config = function()
       vim.cmd([[ runtime setup_lsp.lua ]])
@@ -510,8 +509,8 @@ require("lazy").setup({
   {
     "nvim-lualine/lualine.nvim",
     dependencies = {
-      "nvim-lua/lsp-status.nvim", -- LSP status component
-      "SmiteshP/nvim-navic",      -- Code position breadcrumbs status component
+      "SmiteshP/nvim-navic",        -- Code position breadcrumbs status component
+      "ofseed/copilot-status.nvim", -- Shows what Copilot is up to
     },
     config = setup_file("lualine"),
   },

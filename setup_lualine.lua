@@ -3,17 +3,9 @@ local success, lualine = pcall(require, "lualine")
 -- Don't bother crashing loudly if lualine isn't installed
 if success then
   -- local tabline = require("tabline")
-  local lsp_status = require("lsp-status")
   local navic = require("nvim-navic")
 
   -- tabline.setup { enable = false }
-
-  lsp_status.register_progress()
-  lsp_status.config({
-    diagnostics = false,
-    current_function = false,
-    status_symbol = "LSP ✓",
-  })
 
   navic.setup({
     highlight = true,
@@ -52,9 +44,6 @@ if success then
 
       lualine_x = {},
       lualine_y = {
-        function()
-          return lsp_status.status()
-        end,
         "filetype",
       },
       lualine_z = { "location" },

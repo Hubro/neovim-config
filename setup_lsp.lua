@@ -8,7 +8,6 @@ local lspconfig = require("lspconfig")
 local lspconfig_configs = require("lspconfig.configs")
 local lsputil = require("lspconfig.util")
 
-local lsp_status = require("lsp-status")
 local navic = require("nvim-navic")
 
 -- Neodev must be set up before lspconfig
@@ -23,9 +22,6 @@ require("neodev").setup({})
 -- files (.nvimrc)
 --
 _G.lsp_on_attach = function(client, bufnr)
-  -- Setup LSP-based plugins
-  lsp_status.on_attach(client)
-
   if client.server_capabilities.documentSymbolProvider then
     navic.attach(client, bufnr)
   end
@@ -196,9 +192,9 @@ local servers_we_want = {
     }
   } },
   { "lua_ls", { settings = { Lua = { completion = { callSnippet = "Replace" } } } }, },
-  -- { "rnix", { capabilities = lsp_status.capabilities } },
-  { "nixd",   { capabilities = lsp_status.capabilities } },
-  { "efm",    require("hubro.config.efm").lsp_config },
+  -- "rnix",
+  "nixd",
+  { "efm", require("hubro.config.efm").lsp_config },
 }
 
 for _, server_name in pairs(servers_we_want) do
