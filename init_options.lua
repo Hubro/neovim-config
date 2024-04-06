@@ -8,6 +8,7 @@ vim.opt.mouse = "a"           -- Enable mouse, mostly useful for resizing
 vim.opt.foldmethod = "marker" -- Enable marker folding by default
 vim.opt.signcolumn = "yes"    -- Always show sign column, prevents jumping
 vim.opt.indentkeys = nil
+vim.opt.shortmess:append("I") -- Disable intro message
 
 -- The "behave" command suddenly disappeared in Neovim 0.10.0
 vim.opt.mousemodel = "extend"
