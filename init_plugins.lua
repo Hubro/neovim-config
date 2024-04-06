@@ -419,6 +419,9 @@ require("lazy").setup({
   -- === Bling ===
   -- =============
 
+  -- Improves default vim interfaces
+  { "stevearc/dressing.nvim", opts = {} },
+
   {
     "karb94/neoscroll.nvim",
     enabled = vim.g.neovide == nil,
