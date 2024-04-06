@@ -1,7 +1,7 @@
 local parsers = require("nvim-treesitter.parsers")
 local configs = parsers.get_parser_configs()
 
-require("nvim-next.integrations").treesitter_textobjects()
+-- require("nvim-next.integrations").treesitter_textobjects()
 
 ---@diagnostic disable-next-line: inject-field
 configs.nu = {

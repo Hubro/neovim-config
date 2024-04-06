@@ -41,7 +41,7 @@ _G.lsp_on_attach = function(client, bufnr)
   end
 
   -- Use nvim-next to hop to diagnostic, which makes it a repeatable motion
-  local next_lspdiag = require("nvim-next.integrations.diagnostic")()
+  -- local next_lspdiag = require("nvim-next.integrations.diagnostic")()
 
   map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>")
   map("n", "gD", "<cmd>lua vim.lsp.buf.type_definition()<CR>")
@@ -50,10 +50,10 @@ _G.lsp_on_attach = function(client, bufnr)
   map("n", "gr", "<cmd>Trouble lsp_references<CR>")
   map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>")
   map("n", "L", "<cmd>lua vim.diagnostic.open_float()<CR>")
-  map("n", "]d", next_lspdiag.goto_next())
-  map("n", "[d", next_lspdiag.goto_prev())
-  -- map("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>")
-  -- map("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>")
+  -- map("n", "]d", next_lspdiag.goto_next())
+  -- map("n", "[d", next_lspdiag.goto_prev())
+  map("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>")
+  map("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>")
   map("i", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
   map("n", "<Leader>lr", "<cmd>lua vim.lsp.buf.rename()<CR>")
   map("n", "<Leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>")
