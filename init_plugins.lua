@@ -96,8 +96,15 @@ require("lazy").setup({
   "mg979/vim-visual-multi",
 
   -- More powerful repeatable movements! (Improves ; and ,)
+  --
+  -- This plugin is fucking awesome, but because of a bug, it ruins repeating
+  -- actions with motions like "df".
+  --
+  -- Ref: https://github.com/ghostbuster91/nvim-next/issues/14
+  --
   {
     "ghostbuster91/nvim-next",
+    enabled = false,
     config = function()
       local builtins = require("nvim-next.builtins")
 
@@ -447,9 +454,10 @@ require("lazy").setup({
   },
 
   {
+    -- Annoying in combination with auto-formatting on save
     "nvim-treesitter/nvim-treesitter-context",
     opts = {
-      enable = true,
+      enable = false,
     },
   },
 
@@ -562,6 +570,7 @@ require("lazy").setup({
   -- Fancy colorcolumn (shows gradually, goes red when reached)
   {
     "Bekaboo/deadcolumn.nvim",
+    enabled = false,
     branch = "dev",
     opts = {
       modes = { "i", "R", "c", "n", "v" },
