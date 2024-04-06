@@ -187,15 +187,6 @@ require("lazy").setup({
     },
   },
 
-  -- Asynchronous linter engine
-  {
-    "dense-analysis/ale",
-    init = function()
-      vim.g.ale_linters_explicit = "1" -- Only run stuff I explicitly enable
-      vim.g.ale_disable_lsp = "1"
-    end,
-  },
-
   -- Snippet support
   {
     "SirVer/ultisnips",
@@ -224,17 +215,6 @@ require("lazy").setup({
   -- ========================
   -- === Nice extra tools ===
   -- ========================
-
-  -- More modern version of fugitive, written in Lua specifically for Neovim
-  {
-    "NeogitOrg/neogit",
-    dependencies = {
-      "nvim-lua/plenary.nvim", -- required
-      "sindrets/diffview.nvim",
-      "nvim-telescope/telescope.nvim",
-    },
-    config = true
-  },
 
   -- rust-tools.nvim - Auto-setup of LSP and debugging + nice commands
   {
@@ -603,9 +583,6 @@ require("lazy").setup({
   -- === Lancuage support ===
   -- ========================
 
-  -- Python - Black auto-formatting
-  "psf/black",
-
   -- SystemD - Syntax highlighting
   "wgwoods/vim-systemd-syntax",
 
@@ -628,9 +605,6 @@ require("lazy").setup({
 
   -- eww config files (yuck)
   "elkowar/yuck.vim",
-
-  -- Hyprlang config files
-  "theRealCarneiro/hyprland-vim-syntax",
 
   -- =====================
   -- === Color schemes ===
