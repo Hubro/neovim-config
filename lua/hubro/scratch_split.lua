@@ -13,21 +13,27 @@ BUFFER_OPTIONS = {
   buflisted = false,
 }
 
-local function delete_alt(buf)
-  local alt = vim.api.nvim_buf_call(buf, function()
-    return vim.fn.bufnr("#")
-  end)
-  if alt ~= buf and alt ~= -1 then
-    pcall(vim.api.nvim_buf_delete, alt, { force = true })
+local _set_defaults = function(opts)
+  local opts = opts or {}
+
+  local set_default = function(name, value)
+    if opts[name] == nil then
+      opts[name] = value
+    end
   end
+
+  set_default("split_name", buffer_default_name)
+  set_default("new_split", false)
+  set_default("text", nil)
+  set_default("filetype", nil)
+  set_default("focus", true)
+  -- set_default("command", nil)  -- Implement when/if needed
+
+  return opts
 end
 
 local scratch_split = function(opts)
-  opts = opts or {}
-  opts.split_name = opts.split_name or buffer_default_name
-  opts.new_split = opts.new_split or false
-  opts.text = opts.text or nil
-  -- opts.command = opts.command or nil -- Implement when/if needed
+  opts = _set_defaults(opts)
 
   local win = prev_win[opts.split_name]
   buffer_counter[opts.split_name] = (buffer_counter[opts.split_name] or 0) + 1
@@ -42,9 +48,9 @@ local scratch_split = function(opts)
     local split_command
 
     if (w / 2) > h then -- Assumes the height of a cell is approx 2x the width
-      split_command = "vsplit"
+      split_command = "noa vsplit"
     else
-      split_command = "split"
+      split_command = "noa split"
     end
 
     vim.cmd(split_command)
@@ -69,8 +75,16 @@ local scratch_split = function(opts)
     vim.api.nvim_buf_delete(buf, { force = true })
   end, { buffer = buf })
 
+  if opts.filetype ~= nil then
+    vim.api.nvim_set_option_value("filetype", opts.filetype, { buf = buf })
+  end
+
   for option, value in pairs(BUFFER_OPTIONS) do
     vim.api.nvim_set_option_value(option, value, { buf = buf })
+  end
+
+  if not opts.focus then
+    vim.cmd("noa wincmd p")
   end
 
   return buf

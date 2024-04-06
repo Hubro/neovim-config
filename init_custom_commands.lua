@@ -84,7 +84,7 @@ local function eval_lua_expr(args)
     text = "Expression failed: " .. result
   end
 
-  scratch_split({ split_name = "Lua", text = text })
+  scratch_split({ split_name = "Lua", text = text, filetype = "lua" })
 end
 
 vim.api.nvim_create_user_command(
