@@ -306,7 +306,7 @@ require("lazy").setup({
   },
 
   -- which-key
-  { "folke/which-key.nvim",  config = true },
+  { "folke/which-key.nvim",   config = true },
 
   -- Leap.nvim - Neovim's answer to the mouse, quick on-screen navigation
   {
@@ -401,7 +401,7 @@ require("lazy").setup({
   },
 
   -- Lazygit integration
-  { "kdheepak/lazygit.nvim", command = "LazyGit" },
+  { "kdheepak/lazygit.nvim",  command = "LazyGit" },
 
   -- =============
   -- === Bling ===
@@ -417,10 +417,10 @@ require("lazy").setup({
       hide_cursor = true,
       easing_function = "quadratic",
       pre_hook = function()
-        --require("treesitter-context").disable()
+        -- require("treesitter-context").disable()
       end,
       post_hook = function()
-        --require("treesitter-context").enable()
+        -- require("treesitter-context").enable()
       end,
     },
     config = function(_, opts)
@@ -533,7 +533,7 @@ require("lazy").setup({
       indent = {
         char = "▏",
         -- char = "┊",
-        -- char = "▍", 
+        -- char = "▍",
       },
       scope = {
         char = "▎",
