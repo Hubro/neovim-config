@@ -456,6 +456,7 @@ require("lazy").setup({
     config = function()
       local notify = require("notify")
 
+      ---@diagnostic disable-next-line: missing-fields
       notify.setup({
         stages = "slide",
       })
@@ -464,6 +465,7 @@ require("lazy").setup({
         "No information available",
       }
 
+      ---@diagnostic disable-next-line: duplicate-set-field
       vim.notify = function(msg, ...)
         for _, banned in ipairs(banned_messages) do
           if msg == banned then
