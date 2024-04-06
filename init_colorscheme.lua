@@ -281,11 +281,21 @@ end
 --
 
 local augroup =
-  vim.api.nvim_create_augroup("SetDefaultColorscheme", { clear = true })
+    vim.api.nvim_create_augroup("SetDefaultColorscheme", { clear = true })
 
-vim.api.nvim_create_autocmd("UIEnter", {
-  group = augroup,
-  callback = function(env)
-    set_default_colorscheme()
-  end,
-})
+set_default_colorscheme()
+
+-- vim.api.nvim_create_autocmd("UIEnter", {
+--   group = augroup,
+--   callback = function()
+--     set_default_colorscheme()
+--   end,
+-- })
+--
+-- -- Also set the theme after entering the first buffer
+-- vim.api.nvim_create_autocmd("BufWinEnter", {
+--   group = augroup,
+--   callback = function()
+--     set_default_colorscheme()
+--   end,
+-- })

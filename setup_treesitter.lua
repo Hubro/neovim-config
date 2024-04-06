@@ -13,16 +13,6 @@ configs.nu = {
   filetype = "nu",
 }
 
----@diagnostic disable-next-line: inject-field
-configs.just = {
-  install_info = {
-    url = "https://github.com/IndianBoy42/tree-sitter-just",
-    files = { "src/parser.c", "src/scanner.c" },
-    branch = "main",
-  },
-  filetype = "just",
-}
-
 -- local ts_parsers = require("nvim-treesitter.parsers")
 -- local configs = ts_parsers.get_parser_configs()
 --
