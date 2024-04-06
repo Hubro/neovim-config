@@ -511,10 +511,19 @@ require("lazy").setup({
   {
     "nvim-lualine/lualine.nvim",
     dependencies = {
+      "linrongbin16/lsp-progress.nvim",
       "SmiteshP/nvim-navic",        -- Code position breadcrumbs status component
       "ofseed/copilot-status.nvim", -- Shows what Copilot is up to
     },
     config = setup_file("lualine"),
+  },
+
+  {
+    "linrongbin16/lsp-progress.nvim",
+    opts = {
+      spinner = { "", "", "", "", "", "" },
+      spin_update_time = 75,
+    },
   },
 
   -- Floating scrollbar

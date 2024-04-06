@@ -1,9 +1,19 @@
 local success, lualine = pcall(require, "lualine")
 
+-- Progress bar symbols:      
+
 -- Don't bother crashing loudly if lualine isn't installed
 if success then
   -- local tabline = require("tabline")
   local navic = require("nvim-navic")
+
+  -- Refreshes lualine on LSP update events
+  local augroup = vim.api.nvim_create_augroup("lsp-progress.nvim", { clear = true })
+  vim.api.nvim_create_autocmd("User", {
+    group = augroup,
+    pattern = "LspProgressStatusUpdated",
+    callback = lualine.refresh,
+  })
 
   -- tabline.setup { enable = false }
 
@@ -39,7 +49,11 @@ if success then
     sections = {
       lualine_a = { "mode" },
       lualine_b = { "filename" },
-      lualine_c = { { navic.get_location } },
+      lualine_c = {
+        function()
+          return require("lsp-progress").progress()
+        end,
+      },
       --lualine_c = { { navic_loc, cond = navic_avail } },
 
       lualine_x = {},
