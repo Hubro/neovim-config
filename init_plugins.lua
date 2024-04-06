@@ -182,7 +182,8 @@ require("lazy").setup({
       show_guides = true,
       nerd_font = true,
       filter_kind = {
-        yang = false, -- In YANG, show all symbol types
+        yang = false,  -- In YANG, show all symbol types
+        robot = false, -- In Robot Framework, show all symbol types
       }
     },
   },
