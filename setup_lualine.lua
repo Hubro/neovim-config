@@ -56,7 +56,9 @@ if success then
       },
       --lualine_c = { { navic_loc, cond = navic_avail } },
 
-      lualine_x = {},
+      lualine_x = {
+        "copilot"
+      },
       lualine_y = {
         "filetype",
       },
