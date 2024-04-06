@@ -332,7 +332,7 @@ require("lazy").setup({
 
   {
     "nvim-neo-tree/neo-tree.nvim",
-    branch = "v2.x",
+    branch = "main",
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
@@ -343,7 +343,14 @@ require("lazy").setup({
       window = {
         mappings = {
           ["<c-x>"] = "open_split",
+          ["<m-x>"] = "split_with_window_picker",
           ["<c-v>"] = "open_vsplit",
+          ["<m-v>"] = "vsplit_with_window_picker",
+          ["<c-t>"] = "open_tabnew",
+          ["<bs>"] = "close_node",
+          ["z"] = "",
+          ["zO"] = "expand_all_nodes",
+          ["zM"] = "close_all_nodes",
         },
       },
       filesystem = {
@@ -355,8 +362,14 @@ require("lazy").setup({
           always_show = {
             ".github",
             ".gitignore",
+            ".dockerignore",
           },
         },
+        window = {
+          mappings = {
+            ["/"] = "", -- Disable the annoying filter function
+          }
+        }
       },
       default_component_configs = {
         icon = {
