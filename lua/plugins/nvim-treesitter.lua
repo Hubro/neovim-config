@@ -6,11 +6,6 @@ return {
     "ghostbuster91/nvim-next",
   },
   setup = function()
-    local parsers = require("nvim-treesitter.parsers")
-    local configs = parsers.get_parser_configs()
-
-
-
     ---@diagnostic disable-next-line: missing-fields
     require("nvim-treesitter.configs").setup({
       auto_install = true,
@@ -117,75 +112,5 @@ return {
         },
       },
     })
-
-    -- =======================
-    -- === Query overrides ===
-    -- =======================
-
-    if parsers.has_parser("python") then
-      vim.treesitter.query.set(
-        "python",
-        "folds",
-        [[
-          (function_definition (block) @fold)
-          (class_definition (block) @fold)
-        ]]
-      )
-    end
-
-    if parsers.has_parser("yang") then
-      vim.treesitter.query.set(
-        "yang",
-        "folds",
-        [[
-          (statement
-            (statement_keyword "grouping")
-            (block) @fold)
-
-          (statement
-            (statement_keyword "container")
-            (block) @fold)
-
-          (statement
-            (statement_keyword "list")
-            (block) @fold)
-        ]]
-      )
-    end
-
-    if parsers.has_parser("rust") then
-      vim.treesitter.query.set(
-        "rust",
-        "folds",
-        [[
-          (function_item (block) @fold)
-          (struct_item (field_declaration_list) @fold)
-        ]]
-      )
-    end
-
-    if parsers.has_parser("astro") then
-      vim.treesitter.query.set(
-        "astro",
-        "injections",
-        [[
-          ((script_element
-            (raw_text) @injection.content)
-           (#set! injection.language "javascript"))
-
-          ((style_element
-            (raw_text) @injection.content)
-           (#set! injection.language "css"))
-
-          ((frontmatter
-             (raw_text) @injection.content)
-           (#set! injection.language "typescript"))
-
-          ((interpolation
-             (raw_text) @injection.content)
-           (#set! injection.language "tsx"))
-        ]]
-      )
-    end
   end
 }
