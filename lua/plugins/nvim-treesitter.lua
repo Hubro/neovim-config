@@ -5,7 +5,7 @@ return {
     "windwp/nvim-ts-autotag",
     "ghostbuster91/nvim-next",
   },
-  setup = function()
+  config = function()
     ---@diagnostic disable-next-line: missing-fields
     require("nvim-treesitter.configs").setup({
       auto_install = true,
