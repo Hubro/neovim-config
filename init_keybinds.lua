@@ -183,7 +183,6 @@ local keybinds = {
   { "n", "<Bar>o",       ":Telescope lsp_document_symbols theme=outline<CR>" },
 
   -- Telescope - Show Ultisnips snippets
-  { "n", "<Bar>s",       ":Telescope ultisnips theme=ultisnips<CR>" },
   { "i", "<C-s>",        "<Space><BS><Esc>:Telescope ultisnips theme=ultisnips<CR>" },
 
   -- Telescope - Live grep
@@ -201,8 +200,11 @@ local keybinds = {
   -- Telescope - Go to project
   { "n", "<Bar>p",       ":Telescope nvim-projects<CR>" },
 
-  -- Telescope - Resume last session
+  -- Telescope - Resume last Telescope window
   { "n", "<Bar><Bar>",   ":Telescope resume<CR>" },
+
+  -- Telescope - Show auto-session sessions
+  { "n", "<Bar>s",       function() require("auto-session.session-lens").search_session() end },
 
   -- Toggle file tree (nvim-tree.lua)
   { "n", "<Leader>t",    ":Neotree toggle reveal_force_cwd<CR>" },
