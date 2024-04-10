@@ -29,9 +29,7 @@ local keybinds = {
       vim.cmd(":echo")
       vim.cmd("silent! exec copilot#Dismiss()")
       require("hubro.close_floats")()
-      soft_require("notify", function(notify)
-        notify.dismiss()
-      end)
+      require("notify").dismiss({})
     end,
   },
 
