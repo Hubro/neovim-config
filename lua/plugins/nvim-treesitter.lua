@@ -14,6 +14,7 @@ return {
         "bash",
         "hyprlang",
         "javascript",
+        "markdown",
         "nix",
         "python",
         "robot",
