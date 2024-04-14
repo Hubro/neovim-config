@@ -34,6 +34,6 @@ if is_neovide then
     vim.g.neovide_refresh_rate = 240
   elseif vim.api.nvim_exec("echo hostname()", true) == "cross" then
     vim.g.neovide_refresh_rate = 144
-    vim.opt.guifont = "Iosevka Nerd Font"
+    vim.opt.guifont = "Iosevka Nerd Font:h11.5"
   end
 end
