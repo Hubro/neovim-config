@@ -3,7 +3,7 @@ return {
   branch = "main",
   dependencies = {
     "nvim-lua/plenary.nvim",
-    "nvim-tree/nvim-web-devicons",   -- not strictly required, but recommended
+    "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
     "MunifTanjim/nui.nvim",
     "s1n7ax/nvim-window-picker",
   },
@@ -22,9 +22,10 @@ return {
       },
     },
     filesystem = {
+      hijack_netrw_behavior = "disabled",
       use_libuv_file_watcher = true,
       filtered_items = {
-        visible = false,   -- Toggle with H
+        visible = false, -- Toggle with H
         hide_dotfiles = true,
         hide_gitignored = true,
         always_show = {
@@ -35,7 +36,7 @@ return {
       },
       window = {
         mappings = {
-          ["/"] = "",   -- Disable the annoying filter function
+          ["/"] = "", -- Disable the annoying filter function
         }
       }
     },
