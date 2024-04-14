@@ -19,8 +19,11 @@ return {
     exclude = {
       "/.stversions/",
     },
+    before_jump = function(_)
+      vim.cmd.SessionSave()
+    end,
     after_jump = function(_)
-      -- TODO: Restore session
+      vim.cmd.SessionRestore()
     end,
   },
 }

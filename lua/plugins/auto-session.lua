@@ -1,6 +1,10 @@
 return {
   "rmagatti/auto-session",
   dependencies = { "nvim-telescope/telescope.nvim" },
+  init = function()
+    -- Ref: https://github.com/rmagatti/auto-session?tab=readme-ov-file#recommended-sessionoptions-config
+    vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+  end,
   opts = {
     auto_session_create_enabled = true,
     auto_save_enabled = true,
