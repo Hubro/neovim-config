@@ -123,10 +123,21 @@ return {
 
       local lspclient1 = entry1.source.source.client
       local item1 = entry1:get_completion_item()
-      local score1 = score_lsp_completion_item(lspclient1, item1)
 
       local lspclient2 = entry2.source.source.client
       local item2 = entry2:get_completion_item()
+
+      -- If the LSP provides sortText then trust that. Pyright uses this to
+      -- provide a logical order to completion suggestions.
+      if item1.sortText and item2.sortText then
+        local text_order = cmp.config.compare.sort_text(entry1, entry2)
+
+        if text_order ~= nil then
+          return text_order
+        end
+      end
+
+      local score1 = score_lsp_completion_item(lspclient1, item1)
       local score2 = score_lsp_completion_item(lspclient2, item2)
 
       if score1 > score2 then
