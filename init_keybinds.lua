@@ -251,6 +251,13 @@ local keybinds = {
   -- Remap shift+space in terminal mode in Neovide, as the default is buggy
   { "t", "<S-Space>", "<Space>",                                { gui = true } },
 
+  -- Make Ctrl+Shift+v work for pasting in Neovide
+  { { "i",     "t" }, "<C-S-v>", function()
+    local text = vim.fn.getreg('+')
+    local lines = vim.split(text, "\n", { plain = true })
+    vim.api.nvim_put(lines, "c", false, true)
+  end, { gui = true } },
+
   -- Zoom in/out in a GUI (uses vim-gui-zoom plugin)
   {
     "n",
