@@ -20,6 +20,7 @@ return {
         "robot",
         "tsx",
         "typescript",
+        "vimdoc",
         "yaml",
         "yang",
       },
