@@ -3,9 +3,12 @@ return {
   opts = {
     default_file_explorer = true,
     skip_confirm_for_simple_edits = true,
+    cleanup_delay_ms = 120 * 1000, -- Wait 2 min before deleting hidden oil buffers
     keymaps = {
+      ["<Tab>"] = "actions.preview",
       ["<C-x>"] = "actions.select_split",
       ["<C-v>"] = "actions.select_vsplit",
+      ["<C-p>"] = false,
       ["<C-h>"] = false,
       ["<C-l>"] = false,
       ["yp"] = "actions.copy_entry_path",
