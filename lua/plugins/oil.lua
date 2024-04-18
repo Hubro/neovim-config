@@ -15,4 +15,9 @@ return {
       ["<Leader>yp"] = function() vim.cmd.normal('"+yp') end,
     },
   },
+  config = function(_, opts)
+    require("oil").setup(opts)
+
+    vim.keymap.set("n", "<Leader>-", ":e %:h<CR>")
+  end
 }
