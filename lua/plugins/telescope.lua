@@ -108,6 +108,13 @@ return {
         sorting_strategy = "ascending",
       },
       pickers = {
+        buffers = {
+          mappings = {
+            i = {
+              ["<C-d>"] = actions.delete_buffer
+            }
+          }
+        },
         lsp_document_symbols = {
           sorting_strategy = "ascending",
         },
