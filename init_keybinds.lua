@@ -272,26 +272,6 @@ local keybinds = {
     { gui = true },
   },
   { "n", "<C-0>", ":lua vim.g.neovide_scale_factor = 1<CR>", { gui = true } },
-
-  -- Set specific font sizes using Alt+1/2/3
-  {
-    "n",
-    "<A-1>",
-    ":lua vim.opt.guifont = vim.g.hubro_default_font<CR>",
-    { gui = true },
-  },
-  {
-    "n",
-    "<A-2>",
-    ":lua vim.opt.guifont = vim.g.hubro_big_font<CR>",
-    { gui = true },
-  },
-  {
-    "n",
-    "<A-3>",
-    ":lua vim.opt.guifont = vim.g.hubro_huge_font<CR>",
-    { gui = true },
-  },
 }
 
 -- {{{ The magic
