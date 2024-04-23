@@ -1,6 +1,9 @@
 -- Document outline with LSP and Tree-sitter backends
 return {
   "stevearc/aerial.nvim",
+  dependencies = {
+    "onsails/lspkind.nvim"
+  },
   opts = {
     backends = { "treesitter", "lsp", "markdown" },
     layout = {
@@ -19,8 +22,11 @@ return {
     show_guides = true,
     nerd_font = true,
     filter_kind = {
-      yang = false,  -- In YANG, show all symbol types
-      robot = false, -- In Robot Framework, show all symbol types
+      -- I've written the Aerial queries for these myself, so I want to show
+      -- all symbol types
+      yang = false,
+      robot = false,
+      nix = false,
     }
   },
 }
