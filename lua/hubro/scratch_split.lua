@@ -87,7 +87,7 @@ local scratch_split = function(opts)
     vim.cmd("noa wincmd p")
   end
 
-  return buf
+  return win, buf
 end
 
 return scratch_split

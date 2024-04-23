@@ -1,17 +1,14 @@
 local scratch_split = require("hubro.scratch_split")
 
---- Prints a message to a debug buffer opened using "scratch_split".
----
---- If the split already exists, it's reused.
----
----@param message string
-local function debugprint(message)
-  local buf
+local function _debugprint(message)
+  local win, buf
 
   if _G.debugprint_buf ~= nil and vim.api.nvim_buf_is_loaded(_G.debugprint_buf) then
+    win = _G.debugprint_win
     buf = _G.debugprint_buf
   else
-    buf = scratch_split({ split_name = "debugprint", focus = false })
+    win, buf = scratch_split({ split_name = "debugprint", focus = false })
+    _G.debugprint_win = win
     _G.debugprint_buf = buf
   end
 
@@ -27,6 +24,19 @@ local function debugprint(message)
   end
 
   vim.api.nvim_set_option_value("modifiable", false, { buf = buf })
+
+  vim.api.nvim_win_set_cursor(win, { vim.api.nvim_buf_line_count(buf), 0 })
+end
+
+--- Prints a message to a debug buffer opened using "scratch_split".
+---
+--- If the split already exists, it's reused.
+---
+---@param message string
+local function debugprint(message)
+  vim.defer_fn(function()
+    _debugprint(message)
+  end, 0)
 end
 
 return debugprint
