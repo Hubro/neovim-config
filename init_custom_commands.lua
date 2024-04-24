@@ -15,12 +15,12 @@ local function close_hidden_buffers()
 
   -- Close all non-visible buffers
   for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-    local loaded = vim.api.nvim_buf_is_loaded(buf)
+    -- local loaded = vim.api.nvim_buf_is_loaded(buf)
     local listed = vim.api.nvim_get_option_value("buflisted", { buf = buf })
 
-    -- We only care about loaded and listed buffers, otherwise we'll constantly
-    -- be closing a ton of background utility buffer
-    if not (loaded and listed) then
+    -- We only care about listed buffers, otherwise we'll constantly be closing
+    -- a ton of background utility buffers
+    if not listed then
       goto continue
     end
 
