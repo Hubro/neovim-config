@@ -17,10 +17,17 @@ return {
     float = {
       relative = "win",
     },
+    manage_folds = false,
     link_tree_to_folds = false,
     link_folds_to_tree = false,
     show_guides = true,
     nerd_font = true,
+    icons = {
+      Variable = " ",
+      VariableCollapsed = "  [...]",
+      Key = "󰌋 ",
+      KeyCollapsed = "󰌋  [...]",
+    },
     filter_kind = {
       -- I've written the Aerial queries for these myself, so I want to show
       -- all symbol types
