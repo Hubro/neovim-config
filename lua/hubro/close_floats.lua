@@ -24,9 +24,6 @@ local close_floats = function()
     -- local is_floaterm_border =
 
     if is_floating and not is_focused and not is_decoration then
-      print("KILLING WINDOW:")
-      print(vim.inspect(window_config))
-      print(vim.inspect(first_line))
       pcall(vim.api.nvim_win_close, w, false)
     end
   end
