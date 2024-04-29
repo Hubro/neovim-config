@@ -23,10 +23,15 @@ return {
     show_guides = true,
     nerd_font = true,
     icons = {
-      Variable = " ",
-      VariableCollapsed = "  [...]",
-      Key = "󰌋 ",
-      KeyCollapsed = "󰌋  [...]",
+      ["_"] = {},
+
+      nix = {
+        Variable = " ",
+        VariableCollapsed = "  [...]",
+        Key = "󰌋 ",
+        KeyCollapsed = "󰌋  [...]",
+        Object = "󰘧 "
+      },
     },
     filter_kind = {
       -- I've written the Aerial queries for these myself, so I want to show

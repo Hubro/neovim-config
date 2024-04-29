@@ -6,6 +6,35 @@ return {
     "ghostbuster91/nvim-next",
   },
   config = function()
+    vim.treesitter.query.add_directive(
+      "prefix!",
+      ---comment
+      ---@param match table<integer,TSNode>
+      ---@param pattern integer
+      ---@param bufnr integer
+      ---@param predicate any[]
+      ---@param metadata table
+      function(match, pattern, bufnr, predicate, metadata)
+        local _, match_index, field, prefix_text = unpack(predicate)
+
+        local node = match[match_index]
+
+        if not node then
+          return
+        end
+
+        if not metadata[match_index] then
+          metadata[match_index] = {}
+        end
+
+        if not metadata[match_index][field] then
+          metadata[match_index][field] = vim.treesitter.get_node_text(node, bufnr)
+        end
+
+        metadata[match_index][field] = prefix_text .. metadata[match_index][field]
+      end
+    )
+
     ---@diagnostic disable-next-line: missing-fields
     require("nvim-treesitter.configs").setup({
       auto_install = true,
