@@ -23,7 +23,15 @@ return {
       vim.cmd.SessionSave()
     end,
     after_jump = function(_)
-      vim.cmd.SessionRestore()
+      local as = require("auto-session")
+
+      -- Restore session if one exists, otherwise open Oil
+      if as.session_exists_for_cwd() then
+        as.RestoreSession("")
+        vim.notify("Restored previous session")
+      else
+        vim.cmd.edit "."
+      end
     end,
   },
 }
