@@ -11,6 +11,7 @@ return {
       ["<C-p>"] = false,
       ["<C-h>"] = false,
       ["<C-l>"] = false,
+      ["gt"] = "actions.open_terminal",
       ["yp"] = "actions.copy_entry_path",
       ["<Leader>yp"] = function() vim.cmd.normal('"+yp') end,
     },
