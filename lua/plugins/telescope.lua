@@ -7,6 +7,7 @@ return {
   config = function()
     local telescope = require("telescope")
     local actions = require("telescope.actions")
+    local actions_state = require("telescope.actions.state")
     local layout_actions = require("telescope.actions.layout")
     local themes = require("telescope.themes")
 
@@ -17,6 +18,26 @@ return {
     local custom_actions = {
       open_trouble_quickfix = function(_)
         vim.cmd([[Trouble quickfix]])
+      end,
+      open_dir_in_oil = function(prompt_bufnr)
+        local picker = actions_state.get_current_picker(prompt_bufnr)
+        local entry = actions_state.get_selected_entry()
+        local path = entry[1]
+        local stat = vim.loop.fs_stat(path)
+
+        if stat == nil then
+          return
+        end
+
+        -- Switch focus back to the original window
+        -- From: https://github.com/nvim-telescope/telescope.nvim/blob/master/lua/telescope/actions/set.lua#L127
+        vim.api.nvim_set_current_win(picker.original_win_id)
+
+        if stat and stat.type == "directory" then
+          vim.cmd.e(path)
+        else
+          vim.cmd.e(vim.fn.fnamemodify(path, ":h"))
+        end
       end,
     }
     custom_actions = require("telescope.actions.mt").transform_mod(custom_actions)
@@ -88,6 +109,7 @@ return {
         ["<C-a>"] = actions.smart_add_to_qflist
             + custom_actions.open_trouble_quickfix,
         ["<A-p>"] = layout_actions.toggle_preview,
+        ["<C-->"] = custom_actions.open_dir_in_oil,
       },
       n = {
         ["<C-q>"] = actions.smart_send_to_qflist
@@ -95,6 +117,7 @@ return {
         ["<C-a>"] = actions.smart_add_to_qflist
             + custom_actions.open_trouble_quickfix,
         ["<A-p>"] = layout_actions.toggle_preview,
+        ["<C-->"] = custom_actions.open_dir_in_oil,
       },
     }
 
