@@ -159,8 +159,8 @@ return {
           settings = {
             python = {
               analysis = {
-                diagnosticMode = "off",
-                typeCheckingMode = "off",
+                -- diagnosticMode = "off",
+                -- typeCheckingMode = "off",
               },
             },
           },
