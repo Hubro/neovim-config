@@ -19,19 +19,37 @@ local close_floats = function()
     local is_focused = vim.api.nvim_get_current_win() == w
 
     local buf = vim.api.nvim_win_get_buf(w)
+    local bufname = vim.api.nvim_buf_get_name(buf)
+    local buflisted = vim.api.nvim_get_option_value("buflisted", { buf = buf })
+    local bufhidden = vim.api.nvim_get_option_value("bufhidden", { buf = buf })
     local first_line = vim.api.nvim_buf_get_lines(buf, 0, 1, false)[1]
+
+    -- Don't kill real editor windows
+    local is_editor_window = buflisted and bufhidden == ""
 
     -- Let's not kill borders and scroll bars
     local is_decoration = (
       window_config.width == 1
       or window_config.height == 1
       -- Detects floaterm border:
-      or string.find(first_line, "────────────────────")
+      or string.find(first_line, "────────────────────") ~= nil
     )
 
-    -- local is_floaterm_border =
+    -- Let's not kill backdrops like Zen mode
+    local is_backdrop = (
+      (math.abs(vim.o.columns - window_config.width) < 5)
+      and (math.abs(vim.o.lines - window_config.height) < 5)
+    )
 
-    if is_floating and not is_focused and not is_decoration then
+    local should_kill = (
+      is_floating
+      and not is_focused
+      and not is_editor_window
+      and not is_decoration
+      and not is_backdrop
+    )
+
+    if should_kill then
       pcall(vim.api.nvim_win_close, w, false)
     end
 
