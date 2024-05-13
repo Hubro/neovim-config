@@ -6,7 +6,15 @@
 --
 local close_floats = function()
   for _, w in ipairs(vim.api.nvim_list_wins()) do
-    local window_config = vim.api.nvim_win_get_config(w)
+    local success, window_config = pcall(vim.api.nvim_win_get_config, w)
+
+    -- This sometimes fails, I suspect it's because closing one float sometimes
+    -- also closes another one, such as the Zen window and its backdrop,
+    -- causing the list we're looping over to become outdated part way through.
+    if not success then
+      goto continue
+    end
+
     local is_floating = window_config.relative ~= ""
     local is_focused = vim.api.nvim_get_current_win() == w
 
@@ -26,6 +34,8 @@ local close_floats = function()
     if is_floating and not is_focused and not is_decoration then
       pcall(vim.api.nvim_win_close, w, false)
     end
+
+    ::continue::
   end
 end
 
