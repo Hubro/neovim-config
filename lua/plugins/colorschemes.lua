@@ -14,4 +14,5 @@ return {
   "AlexvZyl/nordic.nvim",                                                            -- Nordic
   "ellisonleao/gruvbox.nvim",
   "kepano/flexoki-neovim",
+  "Shatur/neovim-ayu",
 }
