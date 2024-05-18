@@ -32,6 +32,10 @@ end
 vim.g.hubro_default_dark_theme = "kanagawa"
 vim.g.hubro_default_light_theme = "dayfox"
 
+if vim.fn.hostname() == "cross" or vim.fn.hostname() == "aura" then
+  vim.g.hubro_default_dark_theme = "ayu_oled"
+end
+
 if current_theme_mode() == "dark" then
   vim.g.hubro_current_theme = vim.g.hubro_default_dark_theme
 else
@@ -98,6 +102,17 @@ local themes = {
   ayu_light = {
     colorscheme = "ayu-light",
     lualine = "ayu_light",
+  },
+  ayu_oled = {
+    colorscheme = "ayu-dark",
+    lualine = "ayu_dark",
+    overrides = {
+      Normal = { guibg = "#000000" },
+      Visual = { guibg = "#5f6a75" },
+      ColorColumn = { guibg = "#111111" },
+      LineNr = { guifg = "#444444" },
+      ZenBg = { guibg = "#1a1a1a" }
+    },
   },
   tokyonight = {
     background = "dark",
