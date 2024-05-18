@@ -32,7 +32,7 @@ local close_floats = function()
       window_config.width == 1
       or window_config.height == 1
       -- Detects floaterm border:
-      or string.find(first_line, "────────────────────") ~= nil
+      or (first_line ~= nil and string.find(first_line, "────────────────────") ~= nil)
     )
 
     -- Let's not kill backdrops like Zen mode
