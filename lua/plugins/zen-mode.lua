@@ -14,11 +14,11 @@ return {
     },
 
     on_open = function(win)
-      -- TODO
+      vim.g.neovide_scale_factor = 1.3
     end,
 
     on_close = function()
-      -- TODO
+      vim.g.neovide_scale_factor = 1
     end,
   },
   init = function()

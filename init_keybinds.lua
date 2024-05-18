@@ -218,9 +218,6 @@ local keybinds = {
   end },
   --{ "n", "<Leader>o",   ":AerialNavToggle<CR>" },
 
-  -- Zen mode
-  { "n", "<F11>",     ":silent :ZenMode<CR>" },
-
   -- Toggle light/dark mode
   { "n", "<F12>",     ":lua toggle_colorscheme()<CR>" },
 
