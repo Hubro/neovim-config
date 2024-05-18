@@ -201,8 +201,8 @@ local keybinds = {
   -- Telescope - Resume last Telescope window
   { "n", "<Bar><Bar>",   ":Telescope resume<CR>" },
 
-  -- Telescope - Show auto-session sessions
-  { "n", "<Bar>s",       function() require("auto-session.session-lens").search_session() end },
+  -- Telescope - Show sessions
+  { "n", "<Bar>s",       function() require("hubro.session").session_picker() end },
 
   -- Toggle file tree (nvim-tree.lua)
   { "n", "<Leader>t",    ":Neotree toggle reveal_force_cwd<CR>" },

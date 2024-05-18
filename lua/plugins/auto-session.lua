@@ -34,9 +34,10 @@ return {
         -- ...
       end
     },
-    session_lens = {
-      load_on_setup = true,
-    },
+    -- I'm using my own, much superior picker (see hubro.session)
+    -- session_lens = {
+    --   load_on_setup = true,
+    -- },
   },
   config = function(_, opts)
     require("auto-session").setup(opts)
