@@ -3,10 +3,12 @@
 -- This makes the "autoread" option work, which reloads buffers if the
 -- corresponding file changes on disk.
 --
-vim.cmd(
-  "au FocusGained,BufEnter,CursorHold,CursorHoldI * "
-  .. 'if expand("%f") != "[Command Line]" | checktime | endif'
-)
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
+  pattern = "*",
+  callback = function()
+    pcall(vim.cmd.checktime)
+  end
+})
 
 -- Show a warning when a file is reloaded
 vim.cmd(
