@@ -1,3 +1,4 @@
+local hubrolib = require("hubro.lib")
 local is_neovide = (vim.g.neovide == true)
 
 --vim.opt.guifont = "Iosevka Nerd Font:h9.5"
@@ -35,4 +36,15 @@ if is_neovide then
   elseif vim.api.nvim_exec("echo hostname()", true) == "cross" then
     vim.g.neovide_refresh_rate = 144
   end
+
+  vim.api.nvim_create_autocmd("UiEnter", {
+    once = true,
+    callback = function()
+      vim.defer_fn(function()
+        if hubrolib.workspace_is_empty() then
+          require("hubro.session").session_picker()
+        end
+      end, 50)
+    end
+  })
 end
