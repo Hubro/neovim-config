@@ -19,11 +19,15 @@ return {
     -- })
   end,
   opts = {
+    -- auto_session_enable_last_session = true,
     auto_session_create_enabled = true,
     auto_save_enabled = true,
-    auto_restore_enabled = false, -- nvim-projects handles this
-    auto_session_use_git_branch = true,
-    auto_session_suppress_dirs = { "~/", "~/Desktop", "~/bin" },
+    auto_restore_enabled = true,
+    -- auto_session_use_git_branch = true,
+    auto_session_suppress_dirs = { "/home/tomas/", "/home/tomas/Desktop", "/home/tomas/bin" },
+    cwd_change_handling = {
+      restore_upcoming_session = false, -- nvim-projects handles this
+    },
     pre_save_cmds = {
       function()
         -- ...

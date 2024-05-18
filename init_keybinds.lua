@@ -141,8 +141,8 @@ local keybinds = {
   { "n", "<Leader>gpsu", ":G push -u origin HEAD<CR>" },
 
   -- Jump to git hunk (gitsigns.nvim)
-  -- { "n", "[c", ":silent :Gitsigns prev_hunk<CR>" },
-  -- { "n", "]c", ":silent :Gitsigns next_hunk<CR>" },
+  { "n", "[c",           ":silent :Gitsigns prev_hunk<CR>" },
+  { "n", "]c",           ":silent :Gitsigns next_hunk<CR>" },
   --
   -- These are now enabled through nvim-next instead, to make them
   -- repeatable
@@ -154,14 +154,14 @@ local keybinds = {
   { "n", "<Leader>r",    ":silent :Gitsigns reset_hunk<CR>" },
   { "n", "<Leader>grr",  ":silent :Gitsigns reset_hunk<CR>" },
   { "n", "<Leader>grh",  ":silent :Gitsigns reset_hunk<CR>" },
-  --
+
+  -- Git reset selected lines
+  { "v", "<Leader>r",    ":'<,'>:Gitsigns reset_hunk<CR>" },
+  { "v", "<Leader>gr",   ":'<,'>:Gitsigns reset_hunk<CR>" },
+
   -- Git reset current buffer (gitsigns.nvim)
   { "n", "<Leader>R",    ":silent :Gitsigns reset_buffer<CR>" },
   { "n", "<Leader>grb",  ":silent :Gitsigns reset_buffer<CR>" },
-
-  -- Git reset selected lines
-  { "v", "<Leader>gr",   ":'<,'>:Gitsigns reset_hunk<CR>" },
-  { "v", "<Leader>R",    ":'<,'>:Gitsigns reset_hunk<CR>" },
 
   -- Telescope - Find files
   { "n", "<C-p>",        ":Telescope find_files<CR>" },

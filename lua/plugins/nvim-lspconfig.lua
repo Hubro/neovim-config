@@ -165,7 +165,7 @@ return {
             },
           },
           handlers = {
-            ["textDocument/publishDiagnostics"] = function() end
+            -- ["textDocument/publishDiagnostics"] = function() end
           }
         },
       },

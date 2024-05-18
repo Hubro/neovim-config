@@ -3,7 +3,7 @@ require("hubro.debugprint")($0)
 endsnippet
 
 snippet debugdump "Dumps an object as a debug message" b
-require("hubro.debugprint")(vim.inspect($0))
+require("hubro.debugprint")("$1=" .. vim.inspect($1))
 endsnippet
 
 snippet today
