@@ -40,8 +40,6 @@ M.session_picker = function(opts)
 
   local autosession = require("auto-session")
 
-  opts = opts or {}
-
   local sessions = M.list_sessions()
 
   local displayer = entry_display.create({
@@ -53,8 +51,13 @@ M.session_picker = function(opts)
     }
   })
 
-  pickers.new(opts, {
+  local dropdownOpts = require('telescope.themes').get_dropdown()
+  local defaultOpts = vim.tbl_deep_extend("force", dropdownOpts, {
     prompt_title = "Sessions",
+    layout_config = {
+      width = 70,
+      height = 0.3,
+    },
     finder = finders.new_table({
       results = sessions,
       entry_maker = function(entry)
@@ -103,9 +106,10 @@ M.session_picker = function(opts)
 
       return true
     end,
-  }):find()
-end
+  })
 
-M.session_picker()
+  opts = opts or {}
+  pickers.new(opts, defaultOpts):find()
+end
 
 return M
