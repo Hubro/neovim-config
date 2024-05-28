@@ -109,6 +109,7 @@ local themes = {
     overrides = {
       Normal = { guibg = "#000000" },
       Visual = { guibg = "#5f6a75" },
+      TelescopeSelection = { guibg = "#222222" },
       ColorColumn = { guibg = "#111111" },
       LineNr = { guifg = "#444444" },
       ZenBg = { guibg = "#1a1a1a" }

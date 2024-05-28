@@ -71,7 +71,7 @@ M.session_picker = function(opts)
             return displayer({
               { icon,                     iconhl },
               { entry.project_dir .. "/", "TelescopeResultsComment" },
-              { entry.project_name,       "Bold" },
+              { entry.project_name,       "TelescopeResultsIdentifier" },
             })
           end
         }
