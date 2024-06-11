@@ -2,11 +2,13 @@ return {
   "nvim-telescope/telescope.nvim",
   dependencies = {
     "nvim-lua/plenary.nvim",
+    "nvim-telescope/telescope-live-grep-args.nvim",
     "fhill2/telescope-ultisnips.nvim",
   },
   init = function()
     -- I use these constantly:
     vim.keymap.set("n", "<C-p>", ":Telescope find_files<CR>")
+    vim.keymap.set("n", "<Bar>gr", ":Telescope live_grep_args<CR>") -- 3rd party plugin
     vim.keymap.set("n", "<Bar><Bar>", ":Telescope resume<CR>")
 
     vim.keymap.set("i", "<C-s>", "<Space><BS><Esc>:Telescope ultisnips theme=ultisnips<CR>")
@@ -60,6 +62,9 @@ return {
       end,
     }
     custom_actions = require("telescope.actions.mt").transform_mod(custom_actions)
+
+    -- Live grep with arguments
+    telescope.load_extension("live_grep_args")
 
     -- Ultisnips extension
     telescope.load_extension("ultisnips")
