@@ -4,6 +4,25 @@ return {
     "nvim-lua/plenary.nvim",
     "fhill2/telescope-ultisnips.nvim",
   },
+  init = function()
+    -- I use these constantly:
+    vim.keymap.set("n", "<C-p>", ":Telescope find_files<CR>")
+    vim.keymap.set("n", "<Bar><Bar>", ":Telescope resume<CR>")
+
+    vim.keymap.set("i", "<C-s>", "<Space><BS><Esc>:Telescope ultisnips theme=ultisnips<CR>")
+    vim.keymap.set("n", "<Bar>b", ":Telescope buffers theme=ivy previewer=false<CR>")
+    vim.keymap.set("n", "<Bar>gs", ":Telescope git_status<CR>")
+    vim.keymap.set("n", "<Bar>H", ":Telescope oldfiles<CR>")
+    vim.keymap.set("n", "<Bar>h", ":Telescope oldfiles only_cwd=true<CR>")
+    vim.keymap.set("n", "<Bar>la", ":Telescope lsp_code_actions theme=get_dropdown<CR>")
+    vim.keymap.set("n", "<Bar>lr", ":Telescope lsp_references<CR>")
+    vim.keymap.set("n", "<Bar>o", ":Telescope lsp_document_symbols theme=outline<CR>")
+    vim.keymap.set("n", "<M-p>", ":Telescope git_files<CR>") -- Files tracked by git
+
+    -- My own plugins
+    vim.keymap.set("n", "<Bar>p", ":Telescope nvim-projects<CR>")
+    vim.keymap.set("n", "<Bar>s", function() require("hubro.session").session_picker() end)
+  end,
   config = function()
     local telescope = require("telescope")
     local actions = require("telescope.actions")

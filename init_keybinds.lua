@@ -163,47 +163,6 @@ local keybinds = {
   { "n", "<Leader>R",    ":silent :Gitsigns reset_buffer<CR>" },
   { "n", "<Leader>grb",  ":silent :Gitsigns reset_buffer<CR>" },
 
-  -- Telescope - Find files
-  { "n", "<C-p>",        ":Telescope find_files<CR>" },
-
-  -- Telescope - Find files tracked by Git
-  { "n", "<M-p>",        ":Telescope git_files<CR>" },
-
-  -- Telescope - File history
-  { "n", "<C-A-p>",      ":Telescope oldfiles<CR>" },
-  { "n", "<Bar>h",       ":Telescope oldfiles only_cwd=true<CR>" }, -- Change this to only show files in CWD
-  { "n", "<Bar>H",       ":Telescope oldfiles<CR>" },
-
-  -- Telescope - List buffers
-  { "n", "<Bar>b",       ":Telescope buffers theme=ivy previewer=false<CR>" },
-
-  -- Telescope - Show document outline using LSP symbols
-  { "n", "<Bar>o",       ":Telescope lsp_document_symbols theme=outline<CR>" },
-
-  -- Telescope - Show Ultisnips snippets
-  { "i", "<C-s>",        "<Space><BS><Esc>:Telescope ultisnips theme=ultisnips<CR>" },
-
-  -- Telescope - Live grep
-  { "n", "<Bar>gr",      ":Telescope live_grep<CR>" },
-
-  -- Telescope - Git status
-  { "n", "<Bar>gs",      ":Telescope git_status<CR>" },
-
-  -- Telescope - Show LSP code actions
-  { "n", "<Bar>la",      ":Telescope lsp_code_actions theme=get_dropdown<CR>" },
-
-  -- Telescope - Show LSP references
-  { "n", "<Bar>lr",      ":Telescope lsp_references<CR>" },
-
-  -- Telescope - Go to project
-  { "n", "<Bar>p",       ":Telescope nvim-projects<CR>" },
-
-  -- Telescope - Resume last Telescope window
-  { "n", "<Bar><Bar>",   ":Telescope resume<CR>" },
-
-  -- Telescope - Show sessions
-  { "n", "<Bar>s",       function() require("hubro.session").session_picker() end },
-
   -- Toggle file tree (nvim-tree.lua)
   { "n", "<Leader>t",    ":Neotree toggle reveal_force_cwd<CR>" },
   { "n", "gt",           ":Neotree reveal<CR>" }, -- Open current file in the tree
