@@ -24,13 +24,14 @@ return {
     auto_save_enabled = true,
     auto_restore_enabled = true,
     -- auto_session_use_git_branch = true,
-    auto_session_suppress_dirs = { "/home/tomas/", "/home/tomas/Desktop", "/home/tomas/bin" },
+    auto_session_suppress_dirs = { "/home/tomas", "/home/tomas/Desktop", "/home/tomas/bin" },
     cwd_change_handling = {
       restore_upcoming_session = false, -- nvim-projects handles this
     },
     pre_save_cmds = {
       function()
-        -- ...
+        require("hubro.close_floats")()
+        require("notify").dismiss({})
       end
     },
     post_restore_cmds = {
