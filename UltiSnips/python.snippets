@@ -1,3 +1,9 @@
+snippet contextmanager "A basic contextmanager" b
+@contextmanager
+def ${1:name}($2) -> Iterator[$3]:
+	yield$0
+endsnippet
+
 snippet ifmain
 if __name__ == "__main__":
 	${0:main()}
