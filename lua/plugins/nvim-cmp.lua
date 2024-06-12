@@ -53,9 +53,9 @@ return {
     ---
     --- A higher score means it should go higher up in the list.
     ---
-    ---@type fun(client: vim.lsp.Client, item: lsp.CompletionItem): integer
-    local score_lsp_completion_item = function(client, item)
-      local score = 0
+    ---@type fun(client: vim.lsp.Client, item: lsp.CompletionItem, starting_score: number?): integer
+    local score_lsp_completion_item = function(client, item, starting_score)
+      local score = starting_score or 0
       local kind = vim.lsp.protocol.CompletionItemKind[item.kind]
 
       local kind_score = {
@@ -98,12 +98,12 @@ return {
       if client.name == "pyright" then
         -- Hidden properties should have lower prio
         if item.label:match("^_") then
-          score = score - 1
+          score = score - 100
         end
 
         -- Mangled properties should have even lower prio
         if item.label:match("^__") then
-          score = score - 1
+          score = score - 100
         end
       end
 
@@ -127,18 +127,25 @@ return {
       local lspclient2 = entry2.source.source.client
       local item2 = entry2:get_completion_item()
 
-      -- If the LSP provides sortText then trust that. Pyright uses this to
-      -- provide a logical order to completion suggestions.
+      local item1_initial_score = 0
+      local item2_initial_score = 0
+
+      -- If the LSP provides sortText, then give that a lot of weight.
+      -- Hopefully the LSP knows what its doing.
       if item1.sortText and item2.sortText then
         local text_order = cmp.config.compare.sort_text(entry1, entry2)
 
-        if text_order ~= nil then
-          return text_order
+        if text_order == true then
+          item1_initial_score = item1_initial_score + 30
+        elseif text_order == false then
+          item2_initial_score = item2_initial_score + 30
+        else
+          -- They were equal
         end
       end
 
-      local score1 = score_lsp_completion_item(lspclient1, item1)
-      local score2 = score_lsp_completion_item(lspclient2, item2)
+      local score1 = score_lsp_completion_item(lspclient1, item1, item1_initial_score)
+      local score2 = score_lsp_completion_item(lspclient2, item2, item2_initial_score)
 
       if score1 > score2 then
         return true
