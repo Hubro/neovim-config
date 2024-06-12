@@ -35,4 +35,27 @@ M.workspace_is_empty = function()
   )
 end
 
+-- Returns the directory of the buffer as a nice relative path
+M.buf_dir = function(bufnr)
+  bufnr = bufnr or vim.api.nvim_get_current_buf()
+
+  local filepath = vim.api.nvim_buf_get_name(bufnr)
+
+  -- Remove leading protocol (e.g. "oil://") if any
+  filepath = string.gsub(filepath, "^%a+://", "")
+
+  local is_dir = vim.fn.isdirectory(filepath) == 1
+  local path
+
+  if is_dir then
+    path = filepath
+  else
+    path = vim.fn.fnamemodify(filepath, ":h")
+  end
+
+  -- Makes the path relative to CWD if possible. Otherwise makes it relative to
+  -- "~/" if possible. Otherwise returns the absolute path.
+  return vim.fn.fnamemodify(path, ":p:~:.") -- Make path relative to CWD
+end
+
 return M

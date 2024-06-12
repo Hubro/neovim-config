@@ -6,6 +6,8 @@ return {
     "fhill2/telescope-ultisnips.nvim",
   },
   init = function()
+    local telescope = require("telescope")
+
     -- I use these constantly:
     vim.keymap.set("n", "<C-p>", ":Telescope find_files<CR>")
     vim.keymap.set("n", "<Bar>gr", ":Telescope live_grep_args<CR>") -- 3rd party plugin
@@ -24,6 +26,15 @@ return {
     -- My own plugins
     vim.keymap.set("n", "<Bar>p", ":Telescope nvim-projects<CR>")
     vim.keymap.set("n", "<Bar>s", function() require("hubro.session").session_picker() end)
+    vim.keymap.set("n", "<Bar>GR", function()
+      local dir = require("hubro.lib").buf_dir()
+
+      -- Ref: https://github.com/nvim-telescope/telescope-live-grep-args.nvim/blob/master/lua/telescope/_extensions/live_grep_args.lua
+      telescope.extensions.live_grep_args.live_grep_args({
+        prompt_title = "Live Grep (Args) in '" .. dir .. "'",
+        search_dirs = { dir },
+      })
+    end)
   end,
   config = function()
     local telescope = require("telescope")
