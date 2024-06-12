@@ -6,6 +6,15 @@ snippet debugdump "Dumps an object as a debug message" b
 require("hubro.debugprint")("$1=" .. vim.inspect($1))
 endsnippet
 
+snippet plugin "Lazy plugin definition" b
+return {
+	"$1",
+	init = function()
+	end,
+	opts = {$0},
+}
+endsnippet
+
 snippet today
 Today is the `date +%d.%m.%y`.
 endsnippet
