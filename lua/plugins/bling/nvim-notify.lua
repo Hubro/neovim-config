@@ -1,14 +1,16 @@
 return {
   "rcarriga/nvim-notify",
   dependencies = {
-    "nvim-telescope/telescope.nvim",   -- For :Telescope notify
+    "nvim-telescope/telescope.nvim", -- For :Telescope notify
   },
   config = function()
     local notify = require("notify")
 
     ---@diagnostic disable-next-line: missing-fields
     notify.setup({
+      render = "wrapped-compact",
       stages = "slide",
+      top_down = false,
     })
 
     local banned_messages = {
