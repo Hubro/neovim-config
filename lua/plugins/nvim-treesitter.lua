@@ -78,7 +78,7 @@ return {
         enable = true,
 
         -- The indent expressions for some languages are complete shit
-        disable = { "svelte", "php", "ssh_config", "yaml" },
+        disable = { "svelte", "php", "ssh_config", "yaml", "python" },
       },
 
       autotag = {
