@@ -9,6 +9,11 @@ if __name__ == "__main__":
 	${0:main()}
 endsnippet
 
+snippet aifmain
+if __name__ == "__main__":
+	${0:asyncio.run(main())}
+endsnippet
+
 snippet def
 def ${1:function_name}($2) -> None:
 	${0:pass}
@@ -34,4 +39,8 @@ endsnippet
 
 snippet ipython "Drop into an interactive IPython session"
 import IPython; IPython.embed()
+endsnippet
+
+snippet annotations "" b
+from __future__ import annotations
 endsnippet
