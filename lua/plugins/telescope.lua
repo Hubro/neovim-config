@@ -7,12 +7,15 @@ return {
   },
   init = function()
     local telescope = require("telescope")
+    local builtin = require("telescope.builtin")
 
     -- I use these constantly:
     vim.keymap.set("n", "<C-p>", ":Telescope find_files<CR>")
+    vim.keymap.set("n", "<Bar-f>", ":Telescope find_files<CR>")
     vim.keymap.set("n", "<Bar>gr", ":Telescope live_grep_args<CR>") -- 3rd party plugin
     vim.keymap.set("n", "<Bar><Bar>", ":Telescope resume<CR>")
 
+    -- Nice-to-haves if I ever remember to use them:
     vim.keymap.set("i", "<C-s>", "<Space><BS><Esc>:Telescope ultisnips theme=ultisnips<CR>")
     vim.keymap.set("n", "<Bar>b", ":Telescope buffers theme=ivy previewer=false<CR>")
     vim.keymap.set("n", "<Bar>gs", ":Telescope git_status<CR>")
@@ -23,9 +26,24 @@ return {
     vim.keymap.set("n", "<Bar>o", ":Telescope lsp_document_symbols theme=outline<CR>")
     vim.keymap.set("n", "<M-p>", ":Telescope git_files<CR>") -- Files tracked by git
 
-    -- My own plugins
+    --
+    -- My own extensions:
+    --
+
     vim.keymap.set("n", "<Bar>p", ":Telescope nvim-projects<CR>")
     vim.keymap.set("n", "<Bar>s", function() require("hubro.session").session_picker() end)
+
+    -- Find files in the dir of the current buffer
+    vim.keymap.set("n", "<Bar>F", function()
+      local dir = require("hubro.lib").buf_dir()
+
+      builtin.find_files({
+        prompt_title = "Find Files in '" .. dir .. "'",
+        search_dirs = { dir },
+      })
+    end)
+
+    -- Live grep in the dir of the current buffer
     vim.keymap.set("n", "<Bar>GR", function()
       local dir = require("hubro.lib").buf_dir()
 
