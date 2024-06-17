@@ -53,9 +53,19 @@ M.buf_dir = function(bufnr)
     path = vim.fn.fnamemodify(filepath, ":h")
   end
 
+  -- Make path absolute (not sure if this is necessary, seems to always be
+  -- absolute anyway)
+  path = vim.fn.fnamemodify(path, ":p")
+
   -- Makes the path relative to CWD if possible. Otherwise makes it relative to
-  -- "~/" if possible. Otherwise returns the absolute path.
-  return vim.fn.fnamemodify(path, ":p:~:.") -- Make path relative to CWD
+  -- "~/" if possible. Otherwise does nothing.
+  path = vim.fn.fnamemodify(path, ":~:.")
+
+  if path == "" then
+    path = "./" -- This is more clear than an empty string
+  end
+
+  return path
 end
 
 return M
