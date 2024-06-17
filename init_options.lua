@@ -31,11 +31,17 @@ vim.opt.sessionoptions = {
   "blank",
   "buffers",
   "curdir",
-  "folds",
   "help",
   "resize",
   "tabpages",
   "terminal",
   "winpos",
   "winsize",
+
+  --   auto-session ERROR: Error restoring session! The session might be corrupted.
+  -- Disabling auto save. Please check for errors in your config. Error:
+  -- vim/_editor.lua:0: nvim_exec2()../home/tomas/.local/share/nvim/sessions/%home%to
+  -- omas%Dropbox%Telia%src%github%nso.vim, line 214: Vim(normal):E490: No fold found
+  -- d
+  -- "folds",
 }

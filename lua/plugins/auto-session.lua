@@ -2,21 +2,7 @@ return {
   "rmagatti/auto-session",
   dependencies = { "nvim-telescope/telescope.nvim" },
   init = function()
-    -- Ref: https://github.com/rmagatti/auto-session?tab=readme-ov-file#recommended-sessionoptions-config
-    vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
-
-    -- This just seems to corrupt every single session, needs more tweaking:
-    --
-    -- local group = vim.api.nvim_create_augroup("AutoSaveSession", { clear = true })
-    -- vim.api.nvim_create_autocmd({ "BufEnter" }, {
-    --   group = group,
-    --   callback = function()
-    --     local as = require("auto-session")
-    --     if as.session_exists_for_cwd() then
-    --       as.AutoSaveSession(nil)
-    --     end
-    --   end
-    -- })
+    -- ...
   end,
   opts = {
     -- auto_session_enable_last_session = true,
