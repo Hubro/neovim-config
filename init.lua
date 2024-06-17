@@ -32,10 +32,7 @@ local init = function(name)
   vim.cmd("runtime init_" .. name .. ".lua")
 end
 
--- Source local project-specific config here
-if vim.fn.filereadable(".nvimrc.lua") == 1 then
-  vim.cmd("source .nvimrc.lua")
-end
+require("hubro.nvimrc").load_local_nvimrc()
 
 vim.cmd("runtime helpers.lua")
 
@@ -47,8 +44,3 @@ init("gui")
 init("custom_commands")
 init("autocommands")
 init("colorscheme")
-
--- Source local project-specific post config here
-if vim.fn.filereadable(".nvimrc-post.lua") == 1 then
-  vim.cmd("source .nvimrc-post.lua")
-end
