@@ -16,7 +16,7 @@ return {
           vim.notify("Loaded environment from direnv")
 
           if vim.cmd.LspRestart ~= nil then
-            vim.notify("Restarting LSP servers")
+            -- vim.notify("Restarting LSP servers")
             vim.cmd.LspRestart()
           end
         end
