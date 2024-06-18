@@ -249,6 +249,13 @@ function _G.set_colorscheme(name)
     set_lualine_theme("auto")
   end
 
+  -- Set an appropriate theme for vim-visual-multi
+  if vim.opt.background:get() == "light" then
+    vim.cmd.VMTheme("paper")
+  else
+    vim.cmd.VMTheme("neon")
+  end
+
   vim.g.hubro_current_theme = name
 end
 
