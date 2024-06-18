@@ -11,7 +11,7 @@ return {
 
     -- I use these constantly:
     vim.keymap.set("n", "<C-p>", ":Telescope find_files<CR>")
-    vim.keymap.set("n", "<Bar-f>", ":Telescope find_files<CR>")
+    vim.keymap.set("n", "<Bar>f", ":Telescope find_files<CR>")
     vim.keymap.set("n", "<Bar>gr", ":Telescope live_grep_args<CR>") -- 3rd party plugin
     vim.keymap.set("n", "<Bar><Bar>", ":Telescope resume<CR>")
 
