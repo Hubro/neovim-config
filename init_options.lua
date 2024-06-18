@@ -32,7 +32,6 @@ vim.opt.sessionoptions = {
   "buffers",
   "curdir",
   "help",
-  "resize",
   "tabpages",
   "terminal",
   "winpos",
