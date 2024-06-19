@@ -2,8 +2,10 @@ snippet debugprint "Print a debug message" b
 require("hubro.debugprint")($0)
 endsnippet
 
+# Wraps the argument in a table in case it's a function call that returns
+# multiple values, which vim.inspect doesn't handle
 snippet debugdump "Dumps an object as a debug message" b
-require("hubro.debugprint")("$1=" .. vim.inspect($1))
+require("hubro.debugprint")("{ $1 }=" .. vim.inspect({ $1 }))
 endsnippet
 
 snippet plugin "Lazy plugin definition" b
