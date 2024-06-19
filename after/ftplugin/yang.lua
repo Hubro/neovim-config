@@ -12,5 +12,3 @@ vim.bo.indentexpr = "nvim_treesitter#indent()"
 -- Recompute folds after opening a YANG file, works around this Telescope
 -- bug: https://github.com/nvim-telescope/telescope.nvim/issues/699
 --vim.cmd [[ au BufEnter *.yang :norm zX<CR> ]]
-
-vim.b.ale_linters = { "yang-custom" }

@@ -124,7 +124,7 @@ local keybinds = {
   -- Plugin keybinds
   --
 
-  -- Silence! Disable LSP diagnostics and ALE warnings
+  -- Silence! Disable LSP diagnostics
   {
     "n",
     "<Leader>s",
@@ -178,34 +178,32 @@ local keybinds = {
   --{ "n", "<Leader>o",   ":AerialNavToggle<CR>" },
 
   -- Toggle light/dark mode
-  { "n", "<F12>",     ":lua toggle_colorscheme()<CR>" },
+  { "n", "<F12>",      ":lua toggle_colorscheme()<CR>" },
 
   -- Show diagnostics window ("trouble.nvim" plugin)
-  { "n", "<Leader>d", ":Trouble document_diagnostics<CR>" },
-  { "n", "<Leader>D", ":Trouble workspace_diagnostics<CR>" },
-  { "n", "<Leader>q", ":Trouble quickfix<CR>" },
-  { "n", ")",         "<Plug>(ale_next_wrap)",                  { noremap = false } },
-  { "n", "(",         "<Plug>(ale_previous_wrap)",              { noremap = false } },
+  { "n", "<Leader>td", ":Trouble document_diagnostics<CR>" },
+  { "n", "<Leader>tD", ":Trouble workspace_diagnostics<CR>" },
+  { "n", "<Leader>tq", ":Trouble quickfix<CR>" },
 
   -- Floating terminal ("vim-floaterm" plugin)
-  { "n", "<C-q>",     ":FloatermToggle<CR>" },
+  { "n", "<C-q>",      ":FloatermToggle<CR>" },
 
   -- Open a new embedded terminal in a split
-  { "n", "<F1>",      ":vsplit<CR>:terminal<CR>i" },
-  { "n", "<S-F1>",    ":split<CR>:terminal<CR>i" },
+  { "n", "<F1>",       ":vsplit<CR>:terminal<CR>i" },
+  { "n", "<S-F1>",     ":split<CR>:terminal<CR>i" },
 
-  { "n", "<F10>",     [[:lua require("hubro.lspformat")()<CR>]] },
+  { "n", "<F10>",      [[:lua require("hubro.lspformat")()<CR>]] },
 
   -- CTRL+Enter creates a new line below the current line, Shift+Enter creates
   -- a line above the current line. (These only work in GUIs.)
-  { "i", "<C-CR>",    "<Esc>o" },
-  { "i", "<S-CR>",    "<Esc>O" },
+  { "i", "<C-CR>",     "<Esc>o" },
+  { "i", "<S-CR>",     "<Esc>O" },
 
   -- Press Alt+N to go from block select mode to multiple cursors
-  { "x", "<A-n>",     "<Plug>(VM-Visual-Cursors)",              { noremap = false } },
+  { "x", "<A-n>",      "<Plug>(VM-Visual-Cursors)",              { noremap = false } },
 
   -- Remap shift+space in terminal mode in Neovide, as the default is buggy
-  { "t", "<S-Space>", "<Space>",                                { gui = true } },
+  { "t", "<S-Space>",  "<Space>",                                { gui = true } },
 
   -- Make Ctrl+Shift+v work for pasting in Neovide
   { { "i",     "t" }, "<C-S-v>", function()
