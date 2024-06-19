@@ -1,1 +1,1 @@
-return { "kdheepak/lazygit.nvim", command = "LazyGit" }
+return { "kdheepak/lazygit.nvim", cmd = "LazyGit" }

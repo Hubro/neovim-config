@@ -1,1 +1,1 @@
-return { "stevearc/dressing.nvim", setup = true }
+return { "stevearc/dressing.nvim", config = true }
