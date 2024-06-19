@@ -3,21 +3,27 @@ local soft_require = require("hubro.soft_require")
 local default_opts = { noremap = true, silent = true }
 
 local keybinds = {
+  { "n",          "<C-Tab>",    ":b#<CR>" },
+
   -- Shortcut so it's easy to exit only with the left hand
-  { "n",          "Q",         ":qa<CR>" },
+  { "n",          "Q",          ":qa<CR>" },
+
+  -- Shortcut for vimdiff on current and previous window
+  { "n",          "<Leader>vd", ":diffthis<CR><C-w><C-p>:diffthis<CR><C-w><C-p>" },
+  { "n",          "<Leader>vD", ":diffoff!" },
 
   -- Alternative key to escape terminal, necessary since the original
   -- keybinding can't be expressed on a Mac keyboard
-  { "t",          "ń",         "<C-\\><C-n>" },
-  { "t",          "Ǹ",         "<C-\\><C-n>" },
+  { "t",          "ń",          "<C-\\><C-n>" },
+  { "t",          "Ǹ",          "<C-\\><C-n>" },
 
   -- Shortcuts for saving the document, with and without autocommands
-  { "n",          "<Leader>w", ":w<CR>" },
-  { "n",          "<Leader>W", ":noauto w<CR>" },
+  { "n",          "<Leader>w",  ":w<CR>" },
+  { "n",          "<Leader>W",  ":noauto w<CR>" },
 
   -- Shortcut for yank/paste to/from system clipboard
-  { { "n", "v" }, "<Leader>y", '"+y' },
-  { { "n", "v" }, "<Leader>p", '"+p' },
+  { { "n", "v" }, "<Leader>y",  '"+y' },
+  { { "n", "v" }, "<Leader>p",  '"+p' },
 
   -- Press ESC to remove search highlights and clear text from command line and
   -- dismiss notifications
@@ -164,7 +170,7 @@ local keybinds = {
   { "n", "<Leader>grb",  ":silent :Gitsigns reset_buffer<CR>" },
 
   -- Toggle file tree (nvim-tree.lua)
-  { "n", "<Leader>t",    ":Neotree toggle reveal_force_cwd<CR>" },
+  { "n", "<Leader>tr",   ":Neotree toggle reveal_force_cwd<CR>" },
   { "n", "gt",           ":Neotree reveal<CR>" }, -- Open current file in the tree
   { "n", "gT",           ":Neotree float reveal_file=<cfile> reveal_force_cwd<CR>" },
 
