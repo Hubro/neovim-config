@@ -8,6 +8,7 @@ return {
     "quangnguyen30192/cmp-nvim-ultisnips",
     "onsails/lspkind.nvim", -- LSP icons
   },
+  event = "VeryLazy",
   config = function()
     local cmp = require("cmp")
     local lspkind = require("lspkind")

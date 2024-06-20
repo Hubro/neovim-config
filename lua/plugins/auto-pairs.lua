@@ -1,6 +1,7 @@
 -- Automatically close quotes and parentheses
 return {
   "jiangmiao/auto-pairs",
+  event = "VeryLazy",
   init = function()
     vim.g.AutoPairsShortcutToggle = ""
     vim.g.AutoPairsShortcutFastWrap = "<M-w>"

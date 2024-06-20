@@ -1,5 +1,6 @@
 return {
   "SirVer/ultisnips",
+  event = "VeryLazy",
   init = function()
     vim.g.UltiSnipsEditSplit = "horizontal"
 

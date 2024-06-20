@@ -260,12 +260,12 @@ function _G.set_colorscheme(name)
 end
 
 function _G.set_default_colorscheme()
-  local success = pcall(set_colorscheme, vim.g.hubro_current_theme)
+  local success, error = pcall(set_colorscheme, vim.g.hubro_current_theme)
 
   if not success then
     -- No big deal, the required plugins probably aren't installed.
     vim.notify(
-      "Failed to set colorscheme to " .. vim.g.hubro_current_theme,
+      "Failed to set colorscheme to " .. vim.g.hubro_current_theme .. "\n\n" .. error,
       vim.log.levels.WARN
     )
   end

@@ -1,6 +1,7 @@
 return {
   "lewis6991/gitsigns.nvim",
   dependencies = { "ghostbuster91/nvim-next" },
+  event = "VeryLazy",
   config = function()
     -- local next_integration = require("nvim-next.integrations").gitsigns
 

@@ -1,5 +1,6 @@
 return {
   "direnv/direnv.vim",
+  event = "VeryLazy",
   init = function()
     vim.g.direnv_silent_load = true
 

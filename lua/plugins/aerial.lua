@@ -4,6 +4,20 @@ return {
   dependencies = {
     "onsails/lspkind.nvim"
   },
+  cmd = {
+    "AerialClose",
+    "AerialNext",
+    "AerialNavToggle",
+    "AerialOpen",
+    "AerialOpenAll",
+    "AerialPrev",
+    "AerialNavOpen",
+    "AerialInfo",
+    "AerialNavClose",
+    "AerialCloseAll",
+    "AerialGo",
+    "AerialToggle",
+  },
   opts = {
     backends = { "treesitter", "lsp", "markdown" },
     layout = {

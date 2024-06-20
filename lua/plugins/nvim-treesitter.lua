@@ -5,6 +5,7 @@ return {
     "windwp/nvim-ts-autotag",
     "ghostbuster91/nvim-next",
   },
+  lazy = false,
   config = function()
     vim.treesitter.query.add_directive(
       "prefix!",

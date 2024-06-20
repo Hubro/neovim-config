@@ -1,6 +1,7 @@
 return {
   "lukas-reineke/indent-blankline.nvim",
   main = "ibl",
+  event = "VeryLazy",
   opts = {
     -- show_current_context_start = true,
     indent = {

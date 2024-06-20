@@ -1,5 +1,6 @@
 return {
   "ggandor/leap.nvim",
+  event = "VeryLazy",
   config = function()
     vim.keymap.set({ "n", "x", "o" }, "å", "<Plug>(leap-forward-to)")
     vim.keymap.set({ "n", "x", "o" }, "Å", "<Plug>(leap-backward-to)")

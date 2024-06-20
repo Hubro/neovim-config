@@ -1,6 +1,8 @@
 return {
   name = "nvim-projects",
   dir = "~/projects/nvim-projects",
+  event = "VeryLazy",
+  cmd = { "Project" },
   dependencies = {
     "nvim-lua/plenary.nvim",
     "rcarriga/nvim-notify",

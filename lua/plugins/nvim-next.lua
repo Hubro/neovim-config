@@ -8,6 +8,7 @@
 return {
   "ghostbuster91/nvim-next",
   enabled = false,
+  event = "VeryLazy",
   config = function()
     local builtins = require("nvim-next.builtins")
 

@@ -3,6 +3,7 @@ return {
   dependencies = {
     "nvim-telescope/telescope.nvim", -- For :Telescope notify
   },
+  lazy = false,
   config = function()
     local notify = require("notify")
 

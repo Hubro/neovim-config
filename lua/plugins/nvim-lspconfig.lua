@@ -4,6 +4,7 @@ return {
     "SmiteshP/nvim-navic", -- Code position breadcrumbs status component
     "folke/neodev.nvim",   -- Lua LSP overrides for working with Neovim
   },
+  event = "VeryLazy",
   config = function()
     local lspconfig = require("lspconfig")
     local lspconfig_configs = require("lspconfig.configs")

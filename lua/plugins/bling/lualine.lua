@@ -5,6 +5,7 @@ return {
     "SmiteshP/nvim-navic",        -- Code position breadcrumbs status component
     "ofseed/copilot-status.nvim", -- Shows what Copilot is up to
   },
+  event = "VeryLazy",
   config = function()
     local lualine = require("lualine")
 

@@ -1,5 +1,6 @@
 return {
   "gbprod/substitute.nvim",
+  event = "VeryLazy",
   init = function()
     local sub = require("substitute")
     vim.keymap.set("n", "s", sub.operator)

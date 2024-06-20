@@ -1,6 +1,7 @@
 return {
   "karb94/neoscroll.nvim",
   enabled = vim.g.neovide == nil,
+  event = "VeryLazy",
   opts = {
     hide_cursor = true,
     easing_function = "quadratic",

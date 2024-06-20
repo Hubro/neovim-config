@@ -5,6 +5,7 @@ return {
     "neovim/nvim-lspconfig",
     "mfussenegger/nvim-dap",
   },
+  ft = "rust",
   opts = {
     server = {
       on_attach = function(client, bufnr)

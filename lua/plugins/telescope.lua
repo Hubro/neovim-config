@@ -5,6 +5,7 @@ return {
     "nvim-telescope/telescope-live-grep-args.nvim",
     "fhill2/telescope-ultisnips.nvim",
   },
+  cmd = { "Telescope" },
   init = function()
     local telescope = require("telescope")
     local builtin = require("telescope.builtin")

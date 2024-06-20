@@ -1,12 +1,13 @@
 return {
   "github/copilot.vim",
+  event = "VeryLazy",
   init = function()
     -- Keep copilot disabled, only invoke explicitly
     vim.g.copilot_filetypes = { ["*"] = false }
     vim.g.copilot_no_tab_map = true
 
     local suggest = function()
-      require("cmp").abort()   -- Hide cmp completion window
+      require("cmp").abort() -- Hide cmp completion window
       vim.fn["copilot#Suggest"]()
     end
 
