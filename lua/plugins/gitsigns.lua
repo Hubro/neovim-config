@@ -8,20 +8,14 @@ return {
     require("gitsigns").setup({
       on_attach = function(bufnr)
         local gs = require("gitsigns")
-        -- local next = next_integration(gs)
+        local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
+        local next_hunk, prev_hunk = ts_repeat_move.make_repeatable_move_pair(
+          gs.next_hunk,
+          gs.prev_hunk
+        )
 
-        -- vim.keymap.set(
-        --   "n",
-        --   "]c",
-        --   next.next_hunk,
-        --   { buffer = bufnr, desc = "Next modified hunk" }
-        -- )
-        -- vim.keymap.set(
-        --   "n",
-        --   "[c",
-        --   next.prev_hunk,
-        --   { buffer = bufnr, desc = "Previous modified hunk" }
-        -- )
+        vim.keymap.set({ "n", "x", "o" }, "]c", next_hunk)
+        vim.keymap.set({ "n", "x", "o" }, "[c", prev_hunk)
       end,
     })
   end,

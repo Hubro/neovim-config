@@ -146,13 +146,6 @@ local keybinds = {
   { "n", "<Leader>gpf",  ":G push -f<CR>" },
   { "n", "<Leader>gpsu", ":G push -u origin HEAD<CR>" },
 
-  -- Jump to git hunk (gitsigns.nvim)
-  { "n", "[c",           ":silent :Gitsigns prev_hunk<CR>" },
-  { "n", "]c",           ":silent :Gitsigns next_hunk<CR>" },
-  --
-  -- These are now enabled through nvim-next instead, to make them
-  -- repeatable
-
   -- Git blame current lint (gitsigns.nvim)
   { "n", "<Leader>gb",   ":silent :Gitsigns blame_line<CR>" },
 

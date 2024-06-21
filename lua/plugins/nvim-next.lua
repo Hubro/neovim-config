@@ -18,8 +18,9 @@ return {
         repeat_style = "original", -- Overrides ; and ,
       },
       items = {
-        builtins.f,
-        builtins.t,
+        -- Broken: https://github.com/ghostbuster91/nvim-next/issues/14
+        -- builtins.f,
+        -- builtins.t,
       },
     })
   end,

@@ -49,16 +49,18 @@ return {
       map("n", "gr", "<cmd>Trouble lsp_references<CR>")
       map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>")
       map("n", "L", "<cmd>lua vim.diagnostic.open_float()<CR>")
-      -- map("n", "]d", next_lspdiag.goto_next())
-      -- map("n", "[d", next_lspdiag.goto_prev())
-      map("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>")
-      map("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>")
       map("i", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
       map("n", "<Leader>lr", "<cmd>lua vim.lsp.buf.rename()<CR>")
       map("n", "<Leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>")
 
-      -- map('n', '(', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
-      -- map('n', ')', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
+      local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
+      local next_diag, prev_diag = ts_repeat_move.make_repeatable_move_pair(
+        vim.diagnostic.goto_next,
+        vim.diagnostic.goto_prev
+      )
+
+      map({ "n", "x", "o" }, "]d", next_diag)
+      map({ "n", "x", "o" }, "[d", prev_diag)
     end
 
     -- {{{ Custom LSP configs

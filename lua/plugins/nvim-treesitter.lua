@@ -7,6 +7,15 @@ return {
   },
   lazy = false,
   config = function()
+    local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
+
+    vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move)
+    vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_opposite)
+    vim.keymap.set({ "n", "x", "o" }, "f", ts_repeat_move.builtin_f_expr, { expr = true })
+    vim.keymap.set({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F_expr, { expr = true })
+    vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t_expr, { expr = true })
+    vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T_expr, { expr = true })
+
     vim.treesitter.query.add_directive(
       "prefix!",
       ---comment
@@ -100,7 +109,7 @@ return {
         select = {
           enable = true,
           lookahead = true,
-          include_surrounding_whitespace = false,
+          include_surrounding_whitespace = true,
 
           keymaps = {
             ["af"] = "@function.outer",
@@ -112,6 +121,19 @@ return {
           },
 
           selection_modes = {},
+        },
+
+        move = {
+          enable = true,
+          set_jumps = true,
+          goto_next_start = {
+            ["]f"] = "@function.outer",
+            -- ["]c"] = "@class.outer",
+          },
+          goto_previous_start = {
+            ["[f"] = "@function.outer",
+            -- ["[c"] = "@class.outer",
+          },
         },
 
         swap = {
@@ -127,22 +149,23 @@ return {
 
       -- I'm defining all textobject moves through nvim_text, which makes them
       -- repeatable
-      nvim_next = {
-        enable = true,
+      -- nvim_next = {
+      --   enable = true,
 
-        textobjects = {
-          move = {
-            -- enable = true,
-            -- set_jumps = true,
-            goto_next_start = {
-              ["]f"] = "@function.outer",
-            },
-            goto_previous_start = {
-              ["[f"] = "@function.outer",
-            },
-          },
-        },
-      },
+      --   textobjects = {
+      --     move = {
+      --       enable = true,
+      --       set_jumps = true,
+      --       goto_next_start = {
+      --         ["]f"] = "@function.outer",
+      --         ["<leader>gnf"] = "@function.outer",
+      --       },
+      --       goto_previous_start = {
+      --         ["[f"] = "@function.outer",
+      --       },
+      --     },
+      --   },
+      -- },
     })
   end
 }
