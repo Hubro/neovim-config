@@ -8,9 +8,11 @@ local formatting_priorities = {
   efm = 60,
 }
 
--- Selects one LSP client to use for formatting
+--- Selects one LSP client to use for formatting
+---@param lsp_clients table<vim.lsp.Client>
+---@return vim.lsp.Client
 local function _select_formatter(lsp_clients)
-  local winner = {}
+  local winner
   local prio = 0
 
   for _, client in ipairs(lsp_clients) do
@@ -23,7 +25,7 @@ local function _select_formatter(lsp_clients)
 
     if client_prio > prio then
       prio = client_prio
-      winner = { client }
+      winner = client
     elseif client_prio == prio then
       vim.notify(
         "More than one connected LSP server has the same formatting priority",
@@ -63,17 +65,20 @@ local function lspformat()
     return
   end
 
+  --- @type vim.lsp.Client
+  local formatting_client
+
   if #clients > 1 then
-    clients = _select_formatter(clients)
+    formatting_client = _select_formatter(clients)
+  else
+    formatting_client = clients[1]
   end
 
-  for _, client in pairs(clients) do
-    restore_view(function()
-      -- Use a long timeout, in case we're using "nix run" and we've just
-      -- garbage collected or something
-      vim.lsp.buf.format({ id = client.id, timeout_ms = 30000 })
-    end)
-  end
+  restore_view(function()
+    -- Use a long timeout, in case we're using "nix run" and we've just
+    -- garbage collected or something
+    vim.lsp.buf.format({ id = formatting_client.id, timeout_ms = 30000 })
+  end)
 end
 
 lspformat()
