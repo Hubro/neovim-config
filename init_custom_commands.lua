@@ -96,3 +96,9 @@ vim.api.nvim_create_user_command(
     complete = "lua",
   }
 )
+
+vim.api.nvim_create_user_command(
+  "ClearWorkspace",
+  require("hubro.clear_workspace"),
+  {}
+)

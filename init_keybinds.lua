@@ -8,6 +8,8 @@ local keybinds = {
   -- Shortcut so it's easy to exit only with the left hand
   { "n",          "Q",          ":qa<CR>" },
 
+  { "n",          "<Leader>cw", require("hubro.clear_workspace") },
+
   -- Shortcut for vimdiff on current and previous window
   { "n",          "<Leader>vd", ":diffthis<CR><C-w><C-p>:diffthis<CR><C-w><C-p>" },
   { "n",          "<Leader>vD", ":diffoff!" },
