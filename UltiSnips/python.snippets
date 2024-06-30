@@ -1,3 +1,7 @@
+snippet LOG "Create a LOG constant" b
+LOG = logging.getLogger(${0:__name__})
+endsnippet
+
 snippet contextmanager "A basic contextmanager" b
 @contextmanager
 def ${1:name}($2) -> Iterator[$3]:
