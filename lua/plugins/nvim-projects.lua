@@ -1,6 +1,8 @@
 return {
-  name = "nvim-projects",
-  dir = "~/projects/nvim-projects",
+  "Hubro/nvim-projects",
+  dev = true,
+  --dir = "~/projects/nvim-projects",
+  -- name = "nvim-projects",
   event = "VeryLazy",
   cmd = { "Project" },
   dependencies = {

@@ -18,5 +18,9 @@ function setup_file(name)
 end
 
 require("lazy").setup("plugins", {
-  -- Config
+  dev = {
+    path = "~/projects",
+    pattern = { "Hubro" },
+    fallback = true,
+  },
 })
