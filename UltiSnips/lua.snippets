@@ -1,3 +1,15 @@
+snippet "\s*=}" "= { ... }" rA
+ = {
+	$0
+},
+endsnippet
+
+snippet } "{ ... }" bA
+	{
+		$0
+	},
+endsnippet
+
 snippet debugprint "Print a debug message" b
 require("hubro.debugprint")($0)
 endsnippet
