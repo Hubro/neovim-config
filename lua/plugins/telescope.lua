@@ -24,7 +24,6 @@ return {
     vim.keymap.set("n", "<Bar>h", ":Telescope oldfiles only_cwd=true<CR>")
     vim.keymap.set("n", "<Bar>la", ":Telescope lsp_code_actions theme=get_dropdown<CR>")
     vim.keymap.set("n", "<Bar>lr", ":Telescope lsp_references<CR>")
-    vim.keymap.set("n", "<Bar>o", ":Telescope lsp_document_symbols theme=outline<CR>")
     vim.keymap.set("n", "<M-p>", ":Telescope git_files<CR>") -- Files tracked by git
 
     --
