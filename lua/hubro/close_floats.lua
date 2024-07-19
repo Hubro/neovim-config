@@ -7,6 +7,8 @@
 local close_floats = function()
   for _, w in ipairs(vim.api.nvim_list_wins()) do
     local success, window_config = pcall(vim.api.nvim_win_get_config, w)
+    local win_width = vim.api.nvim_win_get_width(w)
+    local win_height = vim.api.nvim_win_get_height(w)
 
     -- This sometimes fails, I suspect it's because closing one float sometimes
     -- also closes another one, such as the Zen window and its backdrop,
@@ -29,16 +31,16 @@ local close_floats = function()
 
     -- Let's not kill borders and scroll bars
     local is_decoration = (
-      window_config.width == 1
-      or window_config.height == 1
+      win_width == 1
+      or win_height == 1
       -- Detects floaterm border:
       or (first_line ~= nil and string.find(first_line, "────────────────────") ~= nil)
     )
 
     -- Let's not kill backdrops like Zen mode
     local is_backdrop = (
-      (math.abs(vim.o.columns - window_config.width) < 5)
-      and (math.abs(vim.o.lines - window_config.height) < 5)
+      (math.abs(vim.o.columns - win_width) < 5)
+      and (math.abs(vim.o.lines - win_height) < 5)
     )
 
     local should_kill = (
