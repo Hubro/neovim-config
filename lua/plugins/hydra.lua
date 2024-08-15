@@ -51,5 +51,15 @@ return {
         { "h", function() ts_swap.swap_previous("@parameter.inner") end, {} },
       },
     })
+
+    hydra({
+      name = "Move statement",
+      mode = "n",
+      body = "<Leader>ms",
+      heads = {
+        { "j", function() ts_swap.swap_next("@statement.outer") end,     { desc = "Down" } },
+        { "k", function() ts_swap.swap_previous("@statement.outer") end, { desc = "Up" } },
+      },
+    })
   end
 }
