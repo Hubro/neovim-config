@@ -8,7 +8,16 @@ M.list_sessions = function()
   local session_files = scan_dir(M.root_dir, { add_dirs = false, depth = 1 })
 
   local sessions = vim.tbl_map(function(path)
-    local project_path = vim.fn.fnamemodify(path, ":t:r"):gsub("%%", "/")
+    local session_filename = vim.fn.fnamemodify(path, ":t:r")
+    local project_path
+
+    -- Newer versions of nvim escape forward slashes as "%2F"
+    if path:find("%2F", 1, true) ~= nil then
+      project_path = session_filename:gsub("%%2F", "/")
+    else
+      project_path = session_filename:gsub("%%", "/")
+    end
+
     local project_name = vim.fn.fnamemodify(project_path, ":t")
     local project_dir = vim.fn.fnamemodify(project_path, ":h")
 
@@ -33,10 +42,10 @@ M.session_picker = function(opts)
   local actions = require("telescope.actions")
   local action_state = require("telescope.actions.state")
   local pickers = require("telescope.pickers")
-  local entry_display = require('telescope.pickers.entry_display')
+  local entry_display = require("telescope.pickers.entry_display")
   local finders = require("telescope.finders")
-  local utils = require('telescope.utils')
-  local conf = require('telescope.config').values
+  local utils = require("telescope.utils")
+  local conf = require("telescope.config").values
 
   local autosession = require("auto-session")
 
@@ -51,11 +60,11 @@ M.session_picker = function(opts)
     }
   })
 
-  local dropdownOpts = require('telescope.themes').get_dropdown()
-  local defaultOpts = vim.tbl_deep_extend("force", dropdownOpts, {
+  local dropdown_opts = require("telescope.themes").get_dropdown()
+  local defaultOpts = vim.tbl_deep_extend("force", dropdown_opts, {
     prompt_title = "Sessions",
     layout_config = {
-      width = 70,
+      width = 90,
       height = 0.3,
     },
     finder = finders.new_table({
@@ -92,7 +101,7 @@ M.session_picker = function(opts)
 
         local entry = action_state.get_selected_entry()
 
-        autosession.RestoreSession(entry.path)
+        autosession.RestoreSessionFile(entry.path)
       end)
 
       -- Delete a session
