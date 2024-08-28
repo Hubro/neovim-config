@@ -56,6 +56,6 @@ return {
   config = function(_, opts)
     require("oil").setup(opts)
 
-    vim.keymap.set("n", "<Leader>-", ":e %:h<CR>")
+    vim.keymap.set("n", "<Leader>-", ":Oil<CR>", { silent = true })
   end
 }
