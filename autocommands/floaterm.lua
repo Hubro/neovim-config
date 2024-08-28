@@ -40,5 +40,16 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set({ "n", "t" }, "<A-n>", function()
       vim.cmd("FloatermNew")
     end, opts)
+
+    -- Ctrl+Shift+V already works for pasting from the system
+    -- clipboard, these binds make it more practical to paste
+    -- from a register
+    vim.keymap.set({ "n", "t" }, "<C-S-R>", function()
+      local register = vim.fn.getcharstr()
+      local text = vim.fn.getreg(register)
+      local lines = vim.split(text, "\n", { plain = true })
+      vim.api.nvim_put(lines, "c", false, true)
+    end, opts)
+    vim.keymap.set({ "n", "t" }, "<C-S-P>", '<C-S-R>"', { remap = true })
   end
 })
