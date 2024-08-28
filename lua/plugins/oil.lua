@@ -16,8 +16,27 @@ return {
     },
   },
   init = function()
-    local oil = require("oil")
     local actions = require("oil.actions")
+
+    local yank_entry_path = function(opts)
+      opts = opts or {}
+      opts.absolute = opts.absolute or false;
+
+      return function()
+        if opts.absolute then
+          actions.yank_entry.callback()
+        else
+          actions.yank_entry.callback({ modify = ":." })
+        end
+
+        print(
+          "Copied path to register "
+          .. vim.v.register
+          .. ": "
+          .. vim.fn.getreg(vim.v.register)
+        )
+      end
+    end
 
     -- For some reason the keymaps option is really f***ing buggy so I'm
     -- setting them with an autocommand instead.
@@ -26,16 +45,10 @@ return {
       group = group,
       pattern = "oil",
       callback = function()
-        vim.keymap.set("n", "yp", function()
-          actions.copy_entry_path.callback()
-          print(
-            "Copied path to register "
-            .. vim.v.register
-            .. ": "
-            .. vim.fn.getreg(vim.v.register)
-          )
-        end, { buffer = true })
+        vim.keymap.set("n", "yp", yank_entry_path(), { buffer = true })
+        vim.keymap.set("n", "yP", yank_entry_path({ absolute = true }), { buffer = true })
         vim.keymap.set("n", "<Leader>yp", '"+yp', { buffer = true, remap = true })
+        vim.keymap.set("n", "<Leader>yp", '"+yP', { buffer = true, remap = true })
         vim.keymap.set("n", "<Leader>-", actions.parent.callback, { buffer = true })
       end
     })
