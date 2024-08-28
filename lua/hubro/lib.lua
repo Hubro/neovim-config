@@ -1,5 +1,16 @@
 M = {}
 
+---Returns true if the cwd is inside a Git repository
+---@return boolean
+M.in_repo = function()
+  local result = vim.system(
+    { "git", "rev-parse", "--is-inside-work-tree" },
+    { text = true }
+  ):wait()
+
+  return result.code == 0 and vim.trim(result.stdout) == "true"
+end
+
 ---Buffer type
 ---@class Buffer
 ---@field bufnr number
