@@ -173,11 +173,24 @@ return {
           name = "buffer",
           group_index = 2,
           priority = 1,
+          ---@param entry cmp.Entry
+          ---@param ctx cmp.Context
+          entry_filter = function(entry, ctx)
+            local kinds = require("cmp.types").lsp.CompletionItemKind
+            local kind = kinds[entry:get_kind()]
+
+            -- Filter out huge text entries like Base64 encoded chunks
+            if kind == "Text" and #entry:get_insert_text() > 128 then
+              return false
+            end
+
+            return true
+          end,
           option = {
             keyword_pattern = [[\k\+]],
             get_bufnrs = function()
               return vim.api.nvim_list_bufs()
-            end
+            end,
           },
         },
 
@@ -209,7 +222,8 @@ return {
       ---@diagnostic disable-next-line: missing-fields
       formatting = {
         format = lspkind.cmp_format({
-          with_text = true,
+          mode = "symbol_text",
+          maxwidth = 50,
           menu = {
             buffer = "[buf]",
             nvim_lsp = "[LSP]",
