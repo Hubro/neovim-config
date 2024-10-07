@@ -153,6 +153,13 @@ return {
     local cssls_capabilities = vim.lsp.protocol.make_client_capabilities()
     cssls_capabilities.textDocument.completion.completionItem.snippetSupport = true
 
+    -- For some LSP servers, we only case about code actions
+    local only_code_actions_handlers = {}
+    for name, _ in ipairs(vim.lsp.handlers) do
+      only_code_actions_handlers[name] = function() end
+    end
+    only_code_actions_handlers["textDocument/codeAction"] = vim.lsp.handlers["textDocument/codeAction"]
+
     local servers_we_want = {
       "robot_lsp",
       "homeassistant",
@@ -172,7 +179,20 @@ return {
           }
         },
       },
-      "tsserver",
+      {
+        "pylsp",
+        {
+          handlers = only_code_actions_handlers,
+          settings = {
+            pylsp = {
+              plugins = {
+                "pylsp-rope"
+              }
+            }
+          }
+        }
+      },
+      -- "tsserver",   -- Deprecated in favor of ts_ls
       "svelte",
       -- "rust_analyzer",   -- Configured by rust-tools.nvim
       "elmls",
