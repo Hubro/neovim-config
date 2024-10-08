@@ -20,7 +20,16 @@ return {
 
     -- Handler for when a buffer is connected to a language server
     --
+    ---@param client vim.lsp.Client
+    ---@param bufnr number
     local lsp_on_attach = function(client, bufnr)
+      local filetype = vim.api.nvim_get_option_value("filetype", { buf = bufnr })
+
+      -- For Python, only run setup for basedpyright
+      if filetype == "python" and client.name ~= "basedpyright" then
+        return
+      end
+
       if client.server_capabilities.documentSymbolProvider then
         navic.attach(client, bufnr)
       end
@@ -55,8 +64,8 @@ return {
 
       local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
       local next_diag, prev_diag = ts_repeat_move.make_repeatable_move_pair(
-        vim.diagnostic.goto_next,
-        vim.diagnostic.goto_prev
+        function() vim.diagnostic.jump({ count = 1, float = true }) end,
+        function() vim.diagnostic.jump({ count = -1, float = true }) end
       )
 
       map({ "n", "x", "o" }, "]d", next_diag)
