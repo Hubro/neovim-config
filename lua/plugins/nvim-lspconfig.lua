@@ -164,13 +164,14 @@ return {
       "robot_lsp",
       "homeassistant",
       {
-        "pyright",
+        "basedpyright",
         {
           settings = {
-            python = {
+            basedpyright = {
               analysis = {
-                -- diagnosticMode = "off",
-                -- typeCheckingMode = "off",
+                typeCheckingMode = "strict",  -- Sane default for new projects
+                diagnosticMode = "workspace", -- "openFilesOnly" / "off"
+                autoImportCompletions = true,
               },
             },
           },
