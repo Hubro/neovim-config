@@ -59,8 +59,17 @@ return {
       map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>")
       map("n", "L", "<cmd>lua vim.diagnostic.open_float()<CR>")
       map("i", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
-      map("n", "<Leader>lr", "<cmd>lua vim.lsp.buf.rename()<CR>")
       map("n", "<Leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>")
+
+      map("n", "<Leader>lr", function()
+        local rename_opts = {}
+
+        if filetype == "python" then
+          rename_opts["name"] = "basedpyright"
+        end
+
+        vim.lsp.buf.rename(nil, rename_opts)
+      end)
 
       local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
       local next_diag, prev_diag = ts_repeat_move.make_repeatable_move_pair(
