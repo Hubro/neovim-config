@@ -180,11 +180,7 @@ local keybinds = {
 
   -- Toggle light/dark mode
   { "n", "<F12>",      ":lua toggle_colorscheme()<CR>" },
-
-  -- Show diagnostics window ("trouble.nvim" plugin)
-  { "n", "<Leader>td", ":Trouble document_diagnostics<CR>" },
-  { "n", "<Leader>tD", ":Trouble workspace_diagnostics<CR>" },
-  { "n", "<Leader>tq", ":Trouble quickfix<CR>" },
+  { "n", "<F12>",     ":lua toggle_colorscheme()<CR>" },
 
   -- Floating terminal ("vim-floaterm" plugin)
   { "n", "<C-q>",      ":FloatermToggle<CR>" },
