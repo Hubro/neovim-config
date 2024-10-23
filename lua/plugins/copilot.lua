@@ -11,6 +11,11 @@ return {
       vim.fn["copilot#Suggest"]()
     end
 
+    local accept = function()
+      require("cmp").abort() -- Hide cmp completion window
+      return vim.fn["copilot#Accept"]()
+    end
+
     local accept_word = function()
       vim.schedule(suggest)
       return vim.fn["copilot#AcceptWord"]()
@@ -22,7 +27,7 @@ return {
     end
 
     vim.keymap.set("i", "<A-p>", suggest, { silent = true })
-    vim.keymap.set("i", "<C-e>", 'copilot#Accept("")', { expr = true, replace_keycodes = false })
+    vim.keymap.set("i", "<C-e>", accept, { expr = true, replace_keycodes = false })
     vim.keymap.set("i", "<A-l>", accept_word, { expr = true, remap = true, replace_keycodes = true })
     vim.keymap.set("i", "<A-h>", accept_line, { expr = true, remap = true, replace_keycodes = true })
     vim.keymap.set("n", "<Leader>cp", ":Copilot panel<CR>", { silent = true })

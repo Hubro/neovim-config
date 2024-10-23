@@ -163,7 +163,7 @@ return {
           vim.fn["UltiSnips#Anon"](args.body)
         end,
       },
-      mapping = cmp.mapping.preset.insert(MAPPING),
+      mapping = MAPPING,
       sources = {
         { name = "ultisnips", group_index = 1, priority = 2 },
         { name = "nvim_lsp",  group_index = 1, priority = 1 },
