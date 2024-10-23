@@ -110,3 +110,8 @@ vim.api.nvim_create_user_command(
   function(cmd) clear_workspace({ force = cmd.bang }) end,
   { bang = true }
 )
+
+local trim_whitespace = require("hubro.trim_whitespace")
+
+vim.api.nvim_create_user_command("TrimWhitespace", trim_whitespace, {})
+vim.api.nvim_create_user_command("StripWhitespace", trim_whitespace, {})
