@@ -4,7 +4,12 @@ return {
   opts = {
     default_file_explorer = true,
     skip_confirm_for_simple_edits = true,
+    watch_for_changes = true,
     cleanup_delay_ms = 120 * 1000, -- Wait 2 min before deleting hidden oil buffers
+    lsp_file_methods = {
+      enabled = true,
+      timeout_ms = 10000,
+    },
     keymaps = {
       ["π"] = "actions.preview", -- Altgr+P
       ["<C-x>"] = "actions.select_split",
