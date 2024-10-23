@@ -97,8 +97,16 @@ vim.api.nvim_create_user_command(
   }
 )
 
+local clear_workspace = require("hubro.clear_workspace")
+
 vim.api.nvim_create_user_command(
   "ClearWorkspace",
-  require("hubro.clear_workspace"),
-  {}
+  function(cmd) clear_workspace({ force = cmd.bang }) end,
+  { bang = true }
+)
+
+vim.api.nvim_create_user_command(
+  "CW",
+  function(cmd) clear_workspace({ force = cmd.bang }) end,
+  { bang = true }
 )
