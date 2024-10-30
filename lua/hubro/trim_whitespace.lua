@@ -1,8 +1,6 @@
 local function trim_whitespace()
   local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
 
-  require("hubro.debugprint")("{ lines }=" .. vim.inspect({ lines }))
-
   for i, line in ipairs(lines) do
     local last_char = line:sub(-1)
 
