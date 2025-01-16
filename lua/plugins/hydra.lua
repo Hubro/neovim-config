@@ -6,6 +6,26 @@ return {
     local hydra = require("hydra")
     local ts_swap = require("nvim-treesitter.textobjects.swap")
     local ts_move = require("nvim-treesitter.textobjects.move")
+    local ts_select = require("nvim-treesitter.incremental_selection")
+
+    local ts_select_hydra = hydra({
+      name = "Tree-sitter incremental selection",
+      mode = "x",
+      heads = {
+        { "j",     ts_select.node_decremental, { desc = "Decrease selection", mode = "x", } },
+        { "k",     ts_select.node_incremental, { desc = "Increase selection", mode = "x", } },
+        { "<Esc>", "<Esc>",                    { desc = "Exit", mode = "x", exit_before = true } },
+      },
+      config = {
+        desc = "Tree-sitter incremental selection",
+      }
+    })
+
+    vim.keymap.set({ "n", "x" }, "<Leader>k", function()
+      print("TEST")
+      ts_select.init_selection()
+      ts_select_hydra:activate()
+    end, { desc = "Tree-sitter incremental selection" })
 
     hydra({
       name = "Window resize",
