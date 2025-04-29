@@ -18,6 +18,9 @@ M.list_sessions = function()
       project_path = session_filename:gsub("%%", "/")
     end
 
+    project_path = project_path:gsub("%%20", " ")
+    project_path = project_path:gsub("%%2E", ".")
+
     local project_name = vim.fn.fnamemodify(project_path, ":t")
     local project_dir = vim.fn.fnamemodify(project_path, ":h")
 
