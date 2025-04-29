@@ -69,3 +69,27 @@ endsnippet
 snippet annotations "" b
 from __future__ import annotations
 endsnippet
+
+snippet appdaemon-state-change-callback "AppDaemon state change callback" b
+def ${1:function_name}(
+	self,
+	entity: str,
+	attribute: str | None,
+	old_state: str,
+	new_state: str,
+	kwargs: dict[str, Any],
+):
+	${0:pass}
+endsnippet
+
+snippet appdaemon-event-callback "AppDaemon event callback"
+def ${1:function_name}(
+	event_name: str, data: dict[str, Any], kwargs: dict[str, Any]
+):
+	${0:pass}
+endsnippet
+
+snippet appdaemon-schedule-callback "AppDaemon schedule callback"
+def ${1:function_name}(kwargs: dict[str, Any]):
+	${0:pass}
+endsnippet

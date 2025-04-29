@@ -4,7 +4,7 @@ local default_priority = 50
 
 local formatting_priorities = {
   svelte = 100,
-  ruff_lsp = 70,
+  ruff = 70,
   efm = 60,
 }
 

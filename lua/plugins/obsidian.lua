@@ -1,3 +1,5 @@
+local personal_notes_path = "~/Documents/Obsidian/Personal"
+local telia_notes_path = "~/Documents/Obsidian/Telia"
 local health_log_path = "Health log"
 local journal_path = "Journal/Entries"
 
@@ -46,12 +48,13 @@ return {
         title = "Journal entry - " .. os.date("%Y-%m-%d %A"),
         id = os.date("%Y-%m-%d - %A"),
         dir = journal_path,
-        template = "Journal entry.md",
         no_write = true,
       }
 
       if not note:exists() then
-        client:write_note(note)
+        client:write_note(note, {
+          template = "Journal entry.md",
+        })
       end
 
       client:open_note(note)
@@ -62,10 +65,26 @@ return {
   opts = {
     callbacks = {
       enter_note = function()
+        vim.bo.expandtab = false
         vim.bo.tabstop = 4
+        vim.bo.shiftwidth = 0
       end
     },
-    new_notes_location = "0 - 🏠 Inbox",
+    ---@param title string|?
+    ---@return string
+    note_id_func = function(title)
+      if title ~= nil then
+        return title
+      else
+        return tostring(os.date("%Y-%m-%d", os.time()))
+      end
+    end,
+    open_app_foreground = true,
+    picker = {
+      note_mappings = {
+        new = nil,
+      },
+    },
     templates = {
       substitutions = {
         health_log_path = health_log_path,
@@ -81,15 +100,23 @@ return {
     workspaces = {
       {
         name = "Personal",
-        path = "~/Documents/Obsidian/Personal",
+        path = personal_notes_path,
         overrides = {
+          -- FIXME: This function is currently retarded, as it forces every new
+          -- note to the inbox even if something else was explicitly provided.
+          --
+          ---@param spec { id: string, dir: obsidian.Path, title: string|? }
+          ---@return string|obsidian.Path The full path to the new note.
+          -- note_path_func = function(spec)
+          --   return personal_notes_path .. "/0 - 🏠 Inbox/" .. spec.title .. ".md"
+          -- end,
           daily_notes = {
             folder = "Health log",
             date_format = "%Y-%m-%d - %A",
             template = "Health log entry.md",
           },
           templates = {
-            folder = "~/Documents/Obsidian/Personal/Templates",
+            folder = personal_notes_path .. "/Templates",
           },
         },
       },
@@ -98,7 +125,7 @@ return {
         path = "~/Documents/Obsidian/Telia",
         overrides = {
           templates = {
-            folder = "~/Documents/Obsidian/Telia/Templates",
+            folder = telia_notes_path .. "/Templates",
           },
         },
       },

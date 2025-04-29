@@ -2,7 +2,8 @@ local hubrolib = require("hubro.lib")
 local is_neovide = (vim.g.neovide == true)
 
 --vim.opt.guifont = "Iosevka Nerd Font:h9.5"
-vim.opt.guifont = "Iosevka Nerd Font"
+--vim.opt.guifont = "Iosevka Nerd Font:h13:#e-subpixelantialias:#h-full"
+vim.opt.guifont = "CaskaydiaCove Nerd Font Propo:h12"
 vim.opt.guicursor = table.concat({
   "n-v-c:block",
   "i-ci-ve:ver25",
@@ -27,6 +28,10 @@ if is_neovide then
   vim.g.neovide_floating_shadow = false
   vim.g.neovide_hide_mouse_when_typing = true
   vim.g.neovide_cursor_smooth_blink = true
+
+  -- Simulate Alacritty (ref: https://neovide.dev/configuration.html#text-gamma-and-contrast)
+  vim.g.neovide_text_contrast = 0.1
+  vim.g.neovide_text_gamma = 0.8
 
   -- Background transparency
   vim.g.neovide_transparency = 0.93

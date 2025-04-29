@@ -96,7 +96,7 @@ return {
         end
       end
 
-      if client.name == "pyright" then
+      if client.name:match("pyright") then
         -- Hidden properties should have lower prio
         if item.label:match("^_") then
           score = score - 100

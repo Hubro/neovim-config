@@ -10,7 +10,7 @@ snippet '([a-zA-Z0-9.-]+|"[^"]+")\s*=\s*\}$' "Test" rA
 endsnippet
 
 # Matches "some.package.override }"
-snippet "([a-zA-Z0-9.]+)\s*\}" "Test" rA
+snippet "([a-zA-Z0-9.]+)\s*\}$" "Test" rA
 `!p snip.rv = match.group(1)` {
 	$0
 };
@@ -24,10 +24,17 @@ snippet '([a-zA-Z0-9.-]+|"[^"]+")\s*=\s*\]$' "Test" rA
 endsnippet
 
 # Matches "some.package.override ]"
-snippet "([a-zA-Z0-9.]+)\s*\]" "Test" rA
+snippet "([a-zA-Z0-9.]+)\s*\]$" "Test" rA
 `!p snip.rv = match.group(1)` [
 	$0
 ];
+endsnippet
+
+# Doesn't work for some reason
+snippet '([a-zA-Z0-9.-]+|"[^"]+")\s*=\s*\'\'$' "Multi-line string" rA
+`!p snip.rv = match.group(1)` = ''
+	$0
+'';
 endsnippet
 
 # Shortcut for creating a development shell flake for use with nix-direnv

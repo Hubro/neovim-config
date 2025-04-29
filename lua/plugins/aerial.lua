@@ -1,4 +1,7 @@
 -- Document outline with LSP and Tree-sitter backends
+--
+-- Alternative for future consideration: https://github.com/SmiteshP/nvim-navbuddy
+--
 return {
   "stevearc/aerial.nvim",
   dependencies = {

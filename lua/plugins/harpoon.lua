@@ -1,5 +1,6 @@
 return {
   "ThePrimeagen/harpoon",
+  enabled = false,
   event = "VeryLazy",
   config = function(harpoon)
     local h_mark = require("harpoon.mark")

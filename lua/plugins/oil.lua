@@ -73,7 +73,7 @@ return {
         vim.keymap.set("n", "yp", yank_entry_path(), { buffer = true })
         vim.keymap.set("n", "yP", yank_entry_path({ absolute = true }), { buffer = true })
         vim.keymap.set("n", "<Leader>yp", '"+yp', { buffer = true, remap = true })
-        vim.keymap.set("n", "<Leader>yp", '"+yP', { buffer = true, remap = true })
+        vim.keymap.set("n", "<Leader>yP", '"+yP', { buffer = true, remap = true })
         vim.keymap.set("n", "<Leader>-", actions.parent.callback, { buffer = true })
         vim.keymap.set("n", "<Leader><C-p>", find_in_dir, { buffer = true })
         vim.keymap.set("n", "<Bar>GR", grep_in_dir, { buffer = true })

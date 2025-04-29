@@ -187,9 +187,16 @@ return {
           settings = {
             basedpyright = {
               analysis = {
-                typeCheckingMode = "strict",  -- Sane default for new projects
-                diagnosticMode = "workspace", -- "openFilesOnly" / "off"
+                -- typeCheckingMode = "strict",  -- Sane default for new projects
+                typeCheckingMode = "standard", -- Sane default for old projects and standalone files
+                diagnosticMode = "workspace",  -- "openFilesOnly" / "off"
                 autoImportCompletions = true,
+                diagnosticSeverityOverrides = {
+                  reportUnusedImport = false,
+                  reportUnusedClass = false,
+                  reportUnusedFunction = false,
+                  reportUnusedVariable = false,
+                },
               },
             },
           },
@@ -218,18 +225,32 @@ return {
       "astro",
       { "cssls",       { capabilities = cssls_capabilities } },
       { "tailwindcss", { filetypes = { "astro", "svelte" } } },
-      { "ruff_lsp", {
-        init_options = {
-          settings = {
-            -- lint = { args = { "--ignore=F401" } },
-            -- format = { args = { "--line-length=88" } },
-          }
-        }
+      { "ruff", {
+        -- init_options = {
+        --   settings = {
+        --     lint = { args = { "--ignore=F401" } },
+        --     format = { args = { "--line-length=88" } },
+        --   }
+        -- }
       } },
       { "lua_ls", { settings = { Lua = { completion = { callSnippet = "Replace" } } } }, },
       -- "rnix",
       "nixd",
       { "efm",    require("hubro.config.efm").lsp_config },
+
+      { "yamlls", {
+        settings = {
+          yaml = {
+            schemas = {
+              ["kubernetes"] = { "k8s/**/*.yaml", "resources/**/*.yaml" },
+              -- ["https://raw.githubusercontent.com/instrumenta/kubernetes-json-schema/master/v1.18.0-standalone-strict/all.json"] = { "k8s/*", "resources/*" },
+              ["https://raw.githubusercontent.com/cappyzawa/concourse-pipeline-jsonschema/master/concourse_jsonschema.json"] = { "concourse/**/*.yaml" },
+              ["http://json.schemastore.org/kustomization"] = { "kustomization.yaml" },
+              ["https://json.schemastore.org/github-workflow.json"] = { "/.github/workflows/*" },
+            }
+          }
+        }
+      } }
     }
 
     for _, server_name in pairs(servers_we_want) do

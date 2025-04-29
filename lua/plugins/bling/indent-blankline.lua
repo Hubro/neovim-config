@@ -1,5 +1,6 @@
 return {
   "lukas-reineke/indent-blankline.nvim",
+  enabled = false, -- Config crashes for no reason, try again later
   main = "ibl",
   event = "VeryLazy",
   opts = {
