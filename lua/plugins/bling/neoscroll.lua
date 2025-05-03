@@ -5,6 +5,8 @@ return {
   opts = {
     hide_cursor = true,
     easing_function = "quadratic",
+    duration_multiplier = 0.7,
+    mappings = { '<C-u>', '<C-d>', '<C-b>', '<C-f>', '<C-y>', '<C-e>', 'zt', 'zz', 'zb' },
     pre_hook = function()
       -- require("treesitter-context").disable()
     end,
@@ -12,13 +14,4 @@ return {
       -- require("treesitter-context").enable()
     end,
   },
-  config = function(_, opts)
-    require("neoscroll").setup(opts)
-    require("neoscroll.config").set_mappings({
-      ["<C-u>"] = { "scroll", { "-vim.wo.scroll", "true", "150" } },
-      ["<C-d>"] = { "scroll", { "vim.wo.scroll", "true", "150" } },
-      ["<C-b>"] = { "scroll", { "-vim.api.nvim_win_get_height(0)", "true", "200" } },
-      ["<C-f>"] = { "scroll", { "vim.api.nvim_win_get_height(0)", "true", "200" } },
-    })
-  end
 }
