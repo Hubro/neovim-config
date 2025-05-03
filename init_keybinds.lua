@@ -132,14 +132,6 @@ local keybinds = {
   -- Plugin keybinds
   --
 
-  -- Silence! Disable LSP diagnostics
-  {
-    "n",
-    "<Leader>s",
-    ":lua vim.diagnostic.disable(0)<CR>",
-  },
-  { "n", "<Leader>S",    ":lua vim.diagnostic.enable(0)<CR>" },
-
   -- Some Fugitive shortcuts
   { "n", "<Leader>gs",   ":tab G<CR>" },
   { "n", "<Leader>gl",   ":tab Git log<CR>" },
