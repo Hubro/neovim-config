@@ -78,6 +78,14 @@ local function lspformat()
     -- Use a long timeout, in case we're using "nix run" and we've just
     -- garbage collected or something
     vim.lsp.buf.format({ id = formatting_client.id, timeout_ms = 30000 })
+
+    -- When formatting with Ruff (Python), also organize imports
+    vim.lsp.buf.code_action({
+      apply = true,
+      filter = function(action)
+        return action.kind == "source.organizeImports.ruff"
+      end
+    })
   end)
 end
 
