@@ -13,6 +13,19 @@ return {
     local cmp = require("cmp")
     local lspkind = require("lspkind")
 
+    cmp.register_source("hass_entities", {
+      complete = function(_, _, callback)
+        require("hubro.homeassistant").entity_ids(function(entity_ids)
+          local items = vim.tbl_map(
+            function(entity_id) return { label = entity_id } end,
+            entity_ids
+          )
+
+          callback(items)
+        end)
+      end
+    })
+
     local buffer = function(opts)
       if not opts then
         opts = {}
