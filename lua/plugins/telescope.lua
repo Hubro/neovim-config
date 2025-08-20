@@ -17,7 +17,6 @@ return {
     vim.keymap.set("n", "<Bar><Bar>", ":Telescope resume<CR>")
 
     -- Nice-to-haves if I ever remember to use them:
-    vim.keymap.set("i", "<C-s>", "<Space><BS><Esc>:Telescope ultisnips theme=ultisnips<CR>")
     vim.keymap.set("n", "<Bar>gs", ":Telescope git_status<CR>")
     vim.keymap.set("n", "<Bar>gb", ":Telescope git_branches")
     vim.keymap.set("n", "<Bar>gc", ":Telescope git_commits")
