@@ -54,7 +54,7 @@ local function lspformat()
 
   for _, client in ipairs(vim.lsp.get_clients()) do
     if vim.lsp.buf_is_attached(buf, client.id)
-        and client.supports_method("textDocument/formatting")
+        and client:supports_method("textDocument/formatting")
         and client.server_capabilities.documentFormattingProvider then
       table.insert(clients, client)
     end
