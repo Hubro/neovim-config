@@ -1,7 +1,10 @@
 local scratch_split = require("hubro.scratch_split")
 local splitlines = require("hubro.splitlines")
 
-local function close_hidden_buffers()
+local function close_hidden_buffers(opts)
+  opts = opts or {}
+  opts.thorough = opts.thorough or false
+
   local visible_buffers = {}
   local closed = 0
   local terminals = 0
@@ -16,11 +19,14 @@ local function close_hidden_buffers()
   -- Close all non-visible buffers
   for _, buf in ipairs(vim.api.nvim_list_bufs()) do
     -- local loaded = vim.api.nvim_buf_is_loaded(buf)
-    local listed = vim.api.nvim_get_option_value("buflisted", { buf = buf })
+    local is_listed = vim.api.nvim_get_option_value("buflisted", { buf = buf })
+    local is_visible = vim.tbl_contains(visible_buffers, buf)
+    local is_modified = vim.api.nvim_get_option_value("modified", { buf = buf }) == true
+    local is_terminal = vim.api.nvim_get_option_value("buftype", { buf = buf }) == "terminal"
 
     -- We only care about listed buffers, otherwise we'll constantly be closing
     -- a ton of background utility buffers
-    if not listed then
+    if not is_listed and not opts.thorough then
       goto continue
     end
 
@@ -29,7 +35,7 @@ local function close_hidden_buffers()
     end
 
     -- Also don't close buffer if it's unsaved
-    if vim.api.nvim_get_option_value("modified", { buf = buf }) == true then
+    if is_modified then
       goto continue
     end
 
@@ -50,7 +56,8 @@ local function close_hidden_buffers()
     -- print("BUFFER FILETYPE: " .. vim.inspect(vim.api.nvim_get_option_value("filetype", { buf = buf })))
     -- print("BUFFER READONLY: " .. vim.inspect(vim.api.nvim_get_option_value("readonly", { buf = buf })))
 
-    vim.api.nvim_buf_delete(buf, {})
+    vim.api.nvim_buf_delete(buf, { force = true })
+
     closed = closed + 1
 
     ::continue::
@@ -71,7 +78,9 @@ local function close_hidden_buffers()
   print(message)
 end
 
-vim.api.nvim_create_user_command("CloseHiddenBuffers", close_hidden_buffers, {})
+vim.api.nvim_create_user_command("CloseHiddenBuffers", function(cmd)
+  close_hidden_buffers({ thorough = cmd.bang })
+end, { bang = true })
 
 local function eval_lua_expr(args)
   local fn = assert(load("return " .. args["args"]))
