@@ -24,7 +24,8 @@ return {
       "/.stversions/",
     },
     before_jump = function(_)
-      vim.cmd.SessionSave()
+      local as = require("auto-session")
+      as.AutoSaveSession()
     end,
     after_jump = function(_)
       local as = require("auto-session")
