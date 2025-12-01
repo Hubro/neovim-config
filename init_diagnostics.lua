@@ -1,8 +1,8 @@
 vim.diagnostic.config({
-  -- virtual_text = true,
-  virtual_lines = {
-    severity = { min = vim.diagnostic.severity.INFO },
-  },
+  virtual_text = true,
+  -- virtual_lines = {
+  --   severity = { min = vim.diagnostic.severity.INFO },
+  -- },
   float = {
     suffix = function(diagnostic)
       return string.format(
