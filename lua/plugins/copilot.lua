@@ -1,6 +1,8 @@
 return {
   "github/copilot.vim",
-  event = "VeryLazy",
+  enabled = true,
+  cmd = { "Copilot" },
+  keys = { "<A-p>", "<Leader>cp" },
   init = function()
     -- Keep copilot disabled, only invoke explicitly
     vim.g.copilot_filetypes = { ["*"] = false }
@@ -25,12 +27,12 @@ return {
         copilot_lsp_started = true
       end
 
-      require("cmp").abort() -- Hide cmp completion window
+      -- require("cmp").abort() -- Hide cmp completion window
       vim.fn["copilot#Suggest"]()
     end
 
     local accept = function()
-      require("cmp").abort() -- Hide cmp completion window
+      -- require("cmp").abort() -- Hide cmp completion window
       return vim.fn["copilot#Accept"]()
     end
 

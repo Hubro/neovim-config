@@ -1,6 +1,5 @@
 return {
   "rmagatti/auto-session",
-  dependencies = { "nvim-telescope/telescope.nvim" },
   lazy = false,
   init = function()
     -- ...
@@ -11,7 +10,7 @@ return {
     auto_save_enabled = true,
     auto_restore_enabled = true,
     -- auto_session_use_git_branch = true,
-    auto_session_suppress_dirs = { "/home/tomas", "/home/tomas/Desktop", "/home/tomas/bin" },
+    auto_session_suppress_dirs = { "/home", "/home/tomas", "/home/tomas/Desktop", "/home/tomas/bin" },
     cwd_change_handling = {
       restore_upcoming_session = false, -- nvim-projects handles this
     },
@@ -33,6 +32,5 @@ return {
   },
   config = function(_, opts)
     require("auto-session").setup(opts)
-    require("telescope").load_extension("session-lens")
   end
 }

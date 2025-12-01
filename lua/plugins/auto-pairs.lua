@@ -2,6 +2,7 @@
 return {
   "jiangmiao/auto-pairs",
   event = "VeryLazy",
+  enabled = false, -- Stupid vim plugin that crashes randomly on Neovim
   init = function()
     vim.g.AutoPairsShortcutToggle = ""
     vim.g.AutoPairsShortcutFastWrap = "<M-w>"

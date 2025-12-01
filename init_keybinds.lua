@@ -8,7 +8,8 @@ local keybinds = {
   -- Shortcut so it's easy to exit only with the left hand
   { "n",          "Q",          ":qa<CR>" },
 
-  { "n",          "<Leader>cw", require("hubro.clear_workspace") },
+  -- Run macro 'q' on all selected lines
+  { "v",          "q",          ":'<,'>norm @q<CR>" },
 
   -- Shortcut for vimdiff on current and previous window
   { "n",          "<Leader>vd", ":diffthis<CR><C-w><C-p>:diffthis<CR><C-w><C-p>" },
@@ -35,7 +36,7 @@ local keybinds = {
     function()
       vim.cmd(":nohl")
       vim.cmd(":echo")
-      vim.cmd("silent! exec copilot#Dismiss()")
+      -- vim.cmd("silent! exec copilot#Dismiss()")
       require("hubro.close_floats")()
       require("notify").dismiss({})
     end,
@@ -50,8 +51,8 @@ local keybinds = {
   --
   -- ref: https://vi.stackexchange.com/a/7697/1891
   --
-  { "n", "j",                     [[(v:count > 10 ? "m'" . v:count : '') . 'j']], { expr = true } },
-  { "n", "k",                     [[(v:count > 10 ? "m'" . v:count : '') . 'k']], { expr = true } },
+  { "n", "j",                     [[(v:count > 10 ? "m'" . v:count : '') . 'j']],           { expr = true } },
+  { "n", "k",                     [[(v:count > 10 ? "m'" . v:count : '') . 'k']],           { expr = true } },
 
   -- Move lines up/down
   { "n", "<A-k>",                 ":m -2<CR>" },
@@ -133,33 +134,33 @@ local keybinds = {
   --
 
   -- Some Fugitive shortcuts
-  { "n", "<Leader>gs",   ":tab G<CR>" },
-  { "n", "<Leader>gl",   ":tab Git log<CR>" },
-  { "n", "<Leader>gpp",  ":G push<CR>" },
-  { "n", "<Leader>gP",   ":G push -f<CR>" },
-  { "n", "<Leader>gpf",  ":G push -f<CR>" },
-  { "n", "<Leader>gpsu", ":G push -u origin HEAD<CR>" },
+  { "n", "<Leader>gs",            ":tab G<CR>" },
+  { "n", "<Leader>gl",            ":tab Git log<CR>" },
+  { "n", "<Leader>gpp",           ":G push<CR>" },
+  { "n", "<Leader>gP",            ":G push -f<CR>" },
+  { "n", "<Leader>gpf",           ":G push -f<CR>" },
+  { "n", "<Leader>gpsu",          ":G push -u origin HEAD<CR>" },
 
   -- Git blame current lint (gitsigns.nvim)
-  { "n", "<Leader>gb",   ":silent :Gitsigns blame_line<CR>" },
+  { "n", "<Leader>gb",            ":silent :Gitsigns blame_line<CR>" },
 
   -- Git reset current hunk (gitsigns.nvim)
-  { "n", "<Leader>r",    ":silent :Gitsigns reset_hunk<CR>" },
-  { "n", "<Leader>grr",  ":silent :Gitsigns reset_hunk<CR>" },
-  { "n", "<Leader>grh",  ":silent :Gitsigns reset_hunk<CR>" },
+  { "n", "<Leader>r",             ":silent :Gitsigns reset_hunk<CR>" },
+  { "n", "<Leader>grr",           ":silent :Gitsigns reset_hunk<CR>" },
+  { "n", "<Leader>grh",           ":silent :Gitsigns reset_hunk<CR>" },
 
   -- Git reset selected lines
-  { "v", "<Leader>r",    ":'<,'>:Gitsigns reset_hunk<CR>" },
-  { "v", "<Leader>gr",   ":'<,'>:Gitsigns reset_hunk<CR>" },
+  { "v", "<Leader>r",             ":'<,'>:Gitsigns reset_hunk<CR>" },
+  { "v", "<Leader>gr",            ":'<,'>:Gitsigns reset_hunk<CR>" },
 
   -- Git reset current buffer (gitsigns.nvim)
-  { "n", "<Leader>R",    ":silent :Gitsigns reset_buffer<CR>" },
-  { "n", "<Leader>grb",  ":silent :Gitsigns reset_buffer<CR>" },
+  { "n", "<Leader>R",             ":silent :Gitsigns reset_buffer<CR>" },
+  { "n", "<Leader>grb",           ":silent :Gitsigns reset_buffer<CR>" },
 
   -- Toggle file tree (nvim-tree.lua)
-  { "n", "<Leader>tr",   ":Neotree toggle reveal_force_cwd<CR>" },
-  { "n", "gt",           ":Neotree reveal<CR>" }, -- Open current file in the tree
-  { "n", "gT",           ":Neotree float reveal_file=<cfile> reveal_force_cwd<CR>" },
+  { "n", "<Leader>tr",            ":Neotree toggle reveal_force_cwd<CR>" },
+  { "n", "gt",                    ":Neotree reveal<CR>" }, -- Open current file in the tree
+  { "n", "gT",                    ":Neotree float reveal_file=<cfile> reveal_force_cwd<CR>" },
 
   -- Toggle document outline (See "aerial" in plugins)
   { "n", "<Leader>o", function()

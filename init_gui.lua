@@ -3,7 +3,7 @@ local is_neovide = (vim.g.neovide == true)
 
 --vim.opt.guifont = "Iosevka Nerd Font:h9.5"
 --vim.opt.guifont = "Iosevka Nerd Font:h13:#e-subpixelantialias:#h-full"
-vim.opt.guifont = "CaskaydiaCove Nerd Font Propo:h12"
+--vim.opt.guifont = "CaskaydiaCove Nerd Font Propo:h12"
 vim.opt.guicursor = table.concat({
   "n-v-c:block",
   "i-ci-ve:ver25",
@@ -33,8 +33,8 @@ if is_neovide then
   vim.g.neovide_text_contrast = 0.1
   vim.g.neovide_text_gamma = 0.8
 
-  -- Background transparency
-  vim.g.neovide_transparency = 0.93
+  -- Background opacity
+  vim.g.neovide_opacity = 0.93
 
   if vim.api.nvim_exec("echo hostname()", true) == "aura" then
     vim.g.neovide_refresh_rate = 240

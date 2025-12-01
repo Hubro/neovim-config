@@ -58,6 +58,7 @@ return {
       map("n", "L", "<cmd>lua vim.diagnostic.open_float()<CR>")
       map("i", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
       map("n", "<Leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>")
+      map("n", "<Leader>lA", "<cmd>lua vim.lsp.buf.code_action({ apply=true })<CR>")
 
       map("n", "<Leader>lr", function()
         local rename_opts = {}
@@ -78,6 +79,8 @@ return {
       map({ "n", "x", "o" }, "]d", next_diag)
       map({ "n", "x", "o" }, "[d", prev_diag)
     end
+
+    _G.lsp_on_attach = lsp_on_attach
 
     -- {{{ Custom LSP configs
 
@@ -182,6 +185,14 @@ return {
       {
         "basedpyright",
         {
+          root_dir = function(fname)
+            local root = lsputil.find_git_ancestor(fname) or vim.fs.dirname(fname)
+
+            if root:find("/site%-packages/", 1, true) then
+              return nil
+            end
+            return root
+          end,
           settings = {
             basedpyright = {
               analysis = {
@@ -203,22 +214,22 @@ return {
           }
         },
       },
-      {
-        "pylsp",
-        {
-          handlers = only_code_actions_handlers,
-          settings = {
-            pylsp = {
-              plugins = {
-                "pylsp-rope"
-              }
-            }
-          }
-        }
-      },
-      -- "tsserver",   -- Deprecated in favor of ts_ls
+      -- {
+      --   "pylsp",
+      --   {
+      --     handlers = only_code_actions_handlers,
+      --     settings = {
+      --       pylsp = {
+      --         plugins = {
+      --           "pylsp-rope"
+      --         }
+      --       }
+      --     }
+      --   }
+      -- },
+      "ts_ls",
       "svelte",
-      -- "rust_analyzer",   -- Configured by rust-tools.nvim
+      -- "rust_analyzer",   -- Configured by plugins/rustaceanvim
       "elmls",
       "astro",
       { "cssls",       { capabilities = cssls_capabilities } },
@@ -248,7 +259,11 @@ return {
             }
           }
         }
-      } }
+      } },
+
+      { "clangd", {
+        cmd = { "clangd", "--query-driver=/home/tomas/.platformio/**" },
+      } },
     }
 
     for _, server_name in pairs(servers_we_want) do

@@ -4,6 +4,7 @@ return {
   priority = 1000,
   opts = {
     input = { enabled = true },
+    -- scroll = { enabled = vim.g.neovide == nil },
     indent = {
       enabled = true,
       animate = {
@@ -15,6 +16,9 @@ return {
           total = 200,      -- maximum duration
         },
       },
+    },
+    picker = {
+      enabled = true,
     },
   },
 }

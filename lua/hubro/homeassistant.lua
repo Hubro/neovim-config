@@ -5,7 +5,7 @@ M.entity_ids = function(callback)
   local token = vim.env.HASS_TOKEN or vim.env.HOME_ASSISTANT_TOKEN
 
   if not api_url then
-    vim.notify("HOME_ASSISTANT_API is not set", vim.log.levels.ERROR)
+    vim.notify("HOME_ASSISTANT_URL is not set", vim.log.levels.ERROR)
     return
   end
 
