@@ -82,6 +82,10 @@ vim.api.nvim_create_user_command("CloseHiddenBuffers", function(cmd)
   close_hidden_buffers({ thorough = cmd.bang })
 end, { bang = true })
 
+vim.api.nvim_create_user_command("CHB", function(cmd)
+  close_hidden_buffers({ thorough = cmd.bang })
+end, { bang = true })
+
 local function eval_lua_expr(args)
   local fn = assert(load("return " .. args["args"]))
   local success, result = pcall(fn)
