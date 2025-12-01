@@ -4,10 +4,11 @@ return {
   opts = {
     height = 20,
     auto_preview = false,
-    action_keys = {
-      toggle_fold = { "zA", "za" },
-      jump = { "<tab>" },
-      jump_close = { "<cr>" }, -- Use <Tab> to jump without closing
+    keys = {
+      zA = "fold_toggle",
+      za = "fold_toggle",
+      ["<Tab>"] = "jump",
+      ["<CR>"] = "jump_close", -- Use <Tab> to jump without closing
     },
   },
   init = function()
