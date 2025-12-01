@@ -1,8 +1,9 @@
 return {
   "neovim/nvim-lspconfig",
+  tag = "v1.8.0",
   dependencies = {
     "SmiteshP/nvim-navic", -- Code position breadcrumbs status component
-    "folke/neodev.nvim",   -- Lua LSP overrides for working with Neovim
+    "folke/lazydev.nvim"
   },
   event = "VeryLazy",
   config = function()
@@ -11,9 +12,6 @@ return {
     local lsputil = require("lspconfig.util")
 
     local navic = require("nvim-navic")
-
-    -- Neodev must be set up before lspconfig
-    require("neodev").setup({})
 
     -- Globally disables dianostics for language servers!
     --vim.lsp.handlers["textDocument/publishDiagnostics"] = function () end
