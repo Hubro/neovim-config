@@ -1,9 +1,3 @@
---
--- EFM config for setup_lsp.lua
---
-
-local M = {}
-
 local efm_format_with_prettierd = {
   formatCommand = "nix run nixpkgs#prettierd ${INPUT}",
   formatStdin = true,
@@ -32,7 +26,7 @@ local efm_lint_with_shellcheck = {
   env = { "http_proxy=", "HTTP_PROXY=", "https_proxy=", "HTTPS_PROXY=" },
 }
 
-M.lsp_config = {
+return {
   filetypes = {
     "sh", "bash", "zsh",
     "html", "css",
@@ -108,31 +102,5 @@ M.lsp_config = {
         }
       }
     },
-  }
+  },
 }
-
-M.on_attach = function(client, bufnr)
-  local efm_ns = vim.lsp.diagnostic.get_namespace(client.id)
-
-  local augroup = vim.api.nvim_create_augroup("efm-clear-diagnostics-buf-" .. bufnr, {})
-
-  vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI" }, {
-    group = augroup,
-    buffer = bufnr,
-    desc = "Clears diagnostics from efm-langserver when the document changes",
-    callback = function()
-      local diagnostics = vim.diagnostic.get(bufnr, { namespace = efm_ns })
-      local filteredDiagnostics = {}
-
-      for _, diag in ipairs(diagnostics) do
-        if diag.source ~= "mypy" then
-          table.insert(filteredDiagnostics, diag)
-        end
-      end
-
-      vim.diagnostic.set(efm_ns, bufnr, filteredDiagnostics, {})
-    end
-  })
-end
-
-return M

@@ -15,7 +15,7 @@ return {
     keymap = {
       preset = "default",
 
-      ["<Tab>"] = { "accept" },
+      ["<Tab>"] = { "accept", "fallback" },
       ["<C-u>"] = { "scroll_documentation_up", "scroll_signature_up" },
       ["<C-d>"] = { "scroll_documentation_down", "scroll_signature_down" },
     },
@@ -23,7 +23,7 @@ return {
     appearance = {
       -- "mono" (default) for "Nerd Font Mono" or "normal" for "Nerd Font"
       -- Adjusts spacing to ensure icons are aligned
-      nerd_font_variant  =    "mono"
+      nerd_font_variant = "mono"
     },
 
     -- (Default) Only show the documentation popup when manually triggered
@@ -65,7 +65,16 @@ return {
     -- Default list of enabled providers defined so that you can extend it
     -- elsewhere in your config, without redefining it, due to `opts_extend`
     sources = {
-      default = { "lsp", "path", "snippets", "buffer" },
+      default = { "lazydev", "lsp", "path", "snippets", "buffer" },
+
+      providers = {
+        lazydev = {
+          name = "LazyDev",
+          module = "lazydev.integrations.blink",
+          -- make lazydev completions top priority (see `:h blink.cmp`)
+          score_offset = 100,
+        },
+      },
     },
 
     -- Experimental signature help support
@@ -85,7 +94,7 @@ return {
         },
       },
       keymap = {
-        preset = "inherit",   -- Inherit the main keymap from above ^
+        preset = "inherit", -- Inherit the main keymap from above ^
       },
     },
   },

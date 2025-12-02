@@ -3,7 +3,6 @@ return {
   dependencies = {
     "williamboman/mason-lspconfig.nvim",
   },
-  event = "VeryLazy",
   config = function()
     require("mason").setup()
     require("mason-lspconfig").setup()
