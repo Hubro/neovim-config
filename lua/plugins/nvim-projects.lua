@@ -11,7 +11,7 @@ return {
     "nvim-telescope/telescope.nvim",
   },
   opts = {
-    init_filename = ".nvimrc.lua",
+    -- init_filename = ".nvimrc.lua",
     project_dirs = {
       "~/projects",
       "~/syncthing/dotfiles",
@@ -25,14 +25,14 @@ return {
     },
     before_jump = function(_)
       local as = require("auto-session")
-      as.AutoSaveSession()
+      as.auto_save_session()
     end,
     after_jump = function(_)
       local as = require("auto-session")
 
       -- Restore session if one exists, otherwise open Oil
       if as.session_exists_for_cwd() then
-        as.RestoreSession("")
+        as.restore_session()
         vim.notify("Restored previous session")
       else
         vim.cmd.edit "."
