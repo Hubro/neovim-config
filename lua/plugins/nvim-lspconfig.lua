@@ -15,7 +15,7 @@ return {
       }
     )
 
-    vim.lsp.enable({
+    local my_lsps = {
       "robot_lsp",
       "homeassistant",
       "basedpyright",
@@ -28,6 +28,12 @@ return {
       "efm",
       "yamlls",
       "clangd",
-    })
+    }
+
+    for _, value in ipairs(my_lsps) do
+      vim.lsp.config(value, { on_attach = lsp_on_attach })
+    end
+
+    vim.lsp.enable(my_lsps)
   end,
 }
