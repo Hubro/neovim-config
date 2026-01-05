@@ -27,12 +27,12 @@ return {
         copilot_lsp_started = true
       end
 
-      -- require("cmp").abort() -- Hide cmp completion window
+      require("blink-cmp").hide()
       vim.fn["copilot#Suggest"]()
     end
 
     local accept = function()
-      -- require("cmp").abort() -- Hide cmp completion window
+      require("blink-cmp").hide()
       return vim.fn["copilot#Accept"]()
     end
 
