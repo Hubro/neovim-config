@@ -4,6 +4,7 @@ local default_priority = 50
 
 local formatting_priorities = {
   svelte = 100,
+  ["rust-analyzer"] = 100,
   ruff = 70,
   efm = 60,
 }
