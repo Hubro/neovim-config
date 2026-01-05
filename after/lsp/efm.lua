@@ -15,7 +15,7 @@ local efm_format_with_prettierd = {
 }
 
 local efm_lint_with_shellcheck = {
-  lintCommand = "nix run nixpkgs#shellcheck -- -f gcc -x -",
+  lintCommand = "nix run nixpkgs#shellcheck -- -s bash -f gcc -x -",
   lintSource = "shellcheck",
   lintStdin = true,
   lintFormats = {

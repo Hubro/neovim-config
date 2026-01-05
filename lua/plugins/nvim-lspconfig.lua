@@ -8,20 +8,14 @@ return {
   config = function()
     local lsp_on_attach = require("hubro.lsp_on_attach")
 
-    vim.lsp.config("*",
-      {
-        on_attach = lsp_on_attach,
-        autostart = true,
-      }
-    )
-
     local my_lsps = {
       "robot_lsp",
-      "homeassistant",
+      -- "homeassistant",
       "basedpyright",
       -- "pylsp",
       "ts_ls",
       "tailwindcss",
+      "svelte",
       "ruff",
       "lua_ls",
       "nixd",
@@ -31,7 +25,10 @@ return {
     }
 
     for _, value in ipairs(my_lsps) do
-      vim.lsp.config(value, { on_attach = lsp_on_attach })
+      vim.lsp.config(
+        value,
+        { on_attach = lsp_on_attach, autostart = true }
+      )
     end
 
     vim.lsp.enable(my_lsps)
