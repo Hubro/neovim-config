@@ -2,7 +2,7 @@
 return {
   "mrcjkb/rustaceanvim",
   version = '^6',
-  ft = "rust",
+  lazy = false,
   init = function()
     vim.g.rustaceanvim = {
       tools = {
@@ -15,7 +15,7 @@ return {
           },
         },
         on_attach = function(client, bufnr)
-          _G.lsp_on_attach(client, bufnr)
+          require("hubro.lsp_on_attach")(client, bufnr)
 
           local opts = { noremap = true, silent = true, buffer = bufnr }
           vim.keymap.set("n", "K", ":RustLsp hover actions<CR>", opts)
