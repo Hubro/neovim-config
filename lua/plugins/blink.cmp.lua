@@ -18,6 +18,9 @@ return {
       ["<Tab>"] = { "accept", "fallback" },
       ["<C-u>"] = { "scroll_documentation_up", "scroll_signature_up" },
       ["<C-d>"] = { "scroll_documentation_down", "scroll_signature_down" },
+      ["<A-k>"] = { "show_signature" },
+      ["<C-j>"] = { "snippet_forward" },
+      ["<C-k>"] = { "snippet_backward" },
     },
 
     appearance = {
@@ -30,7 +33,7 @@ return {
     completion = {
       documentation = { auto_show = true },
 
-      ghost_text = { enabled = true },
+      -- ghost_text = { enabled = true },
 
       menu = {
         draw = {
