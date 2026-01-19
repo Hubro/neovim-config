@@ -18,8 +18,9 @@ return {
 
     -- Nice-to-haves if I ever remember to use them:
     vim.keymap.set("n", "<Bar>gs", ":Telescope git_status<CR>")
-    vim.keymap.set("n", "<Bar>gb", ":Telescope git_branches")
-    vim.keymap.set("n", "<Bar>gc", ":Telescope git_commits")
+    vim.keymap.set("n", "<Bar>gb", ":Telescope git_branches<CR>")
+    vim.keymap.set("n", "<Bar>gc", ":Telescope git_commits<CR>")
+    vim.keymap.set("n", "<Bar>gf", ":Telescope git_files<CR>")
     vim.keymap.set("n", "<Bar>b", ":Telescope buffers theme=ivy previewer=false<CR>")
     vim.keymap.set("n", "<Bar>H", ":Telescope oldfiles<CR>")
     vim.keymap.set("n", "<Bar>h", ":Telescope oldfiles only_cwd=true<CR>")
