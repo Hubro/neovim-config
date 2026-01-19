@@ -1,9 +1,9 @@
-local soft_require = require("hubro.soft_require")
-
 local default_opts = { noremap = true, silent = true }
 
 local keybinds = {
   { "n",          "<C-Tab>",    ":b#<CR>" },
+
+  { "i",          "<A-w>",      require("hubro.teleport_closing_pair") },
 
   -- Shortcut so it's easy to exit only with the left hand
   { "n",          "Q",          ":qa<CR>" },
@@ -90,11 +90,6 @@ local keybinds = {
 
   -- Pressing # in visual mode should do the same as *, but backwards.
   { "v", "#",                     '"sy?<C-r>s<CR>gn' },
-
-  -- Text wrapping keybinds inspired by Sublime Text
-  { "i", "<A-w>",                 "<Esc>0gqq0A" }, -- Wrap the current line while in insert mode
-  { "i", "<A-q>",                 "<Esc>0V{gqA" }, -- Wrap the current paragraph in insert mode
-  { "n", "<A-q>",                 "gqip" },        -- Wrap the current paragraph in normal mode
 
   -- Faster mouse scrolling while holding alt
   { "n", "<A-ScrollWheelUp>",     "12<C-y>" },
