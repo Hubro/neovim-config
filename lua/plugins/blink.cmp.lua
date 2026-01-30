@@ -3,7 +3,8 @@ return {
 
   -- TODO: Add UltiSnips support using "blink.compat" + "cmp-nvim-ultisnips"
   dependencies = {
-    { 'nvim-mini/mini.icons', version = false },
+    { "nvim-mini/mini.icons", version = false },
+    "folke/lazydev.nvim",
   },
 
   version = "1.*",
