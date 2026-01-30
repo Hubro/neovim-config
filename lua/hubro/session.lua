@@ -104,7 +104,7 @@ M.session_picker = function(opts)
 
         local entry = action_state.get_selected_entry()
 
-        autosession.RestoreSessionFile(entry.path)
+        autosession.restore_session_file(entry.path)
       end)
 
       -- Delete a session
