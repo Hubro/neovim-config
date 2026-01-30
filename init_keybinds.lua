@@ -36,9 +36,9 @@ local keybinds = {
     function()
       vim.cmd(":nohl")
       vim.cmd(":echo")
-      -- vim.cmd("silent! exec copilot#Dismiss()")
+      vim.cmd("silent! exec copilot#Dismiss()")
+      require("snacks.notifier").hide()
       require("hubro.close_floats")()
-      require("notify").dismiss({})
     end,
   },
 
