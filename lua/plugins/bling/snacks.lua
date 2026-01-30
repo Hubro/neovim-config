@@ -2,6 +2,11 @@ return {
   "folke/snacks.nvim",
   lazy = false,
   priority = 1000,
+  init = function()
+    local notifier = require("snacks.notifier")
+
+    vim.keymap.set("n", "<Bar>n", function() notifier.show_history() end, { silent = true })
+  end,
   opts = {
     input = { enabled = true },
     -- scroll = { enabled = vim.g.neovide == nil },
@@ -19,6 +24,10 @@ return {
     },
     picker = {
       enabled = true,
+    },
+    ---@class snacks.notifier.Config
+    notifier = {
+      timeout = 3000,
     },
   },
 }
