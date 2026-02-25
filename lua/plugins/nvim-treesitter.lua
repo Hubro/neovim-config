@@ -1,7 +1,8 @@
 return {
   "nvim-treesitter/nvim-treesitter",
+  branch = "master",
   dependencies = {
-    "nvim-treesitter/nvim-treesitter-textobjects",
+    { "nvim-treesitter/nvim-treesitter-textobjects", branch = "master" },
     "windwp/nvim-ts-autotag",
     "ghostbuster91/nvim-next",
   },
