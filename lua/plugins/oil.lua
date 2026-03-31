@@ -12,12 +12,14 @@ return {
     },
     keymaps = {
       ["π"] = "actions.preview", -- Altgr+P
-      ["<C-x>"] = "actions.select_split",
-      ["<C-v>"] = "actions.select_vsplit",
+      ["<Leader><C-s>"] = "actions.select_split",
+      ["<Leader><C-v>"] = "actions.select_vsplit",
+      ["<Leader><C-o>"] = "actions.open_external",
       ["<C-p>"] = false,
       ["<C-h>"] = false,
       ["<C-l>"] = false,
       ["gt"] = "actions.open_terminal",
+      ["cd"] = "actions.cd",
     },
   },
   init = function()
