@@ -1,7 +1,7 @@
 -- rust-tools.nvim - Auto-setup of LSP and debugging + nice commands
 return {
   "mrcjkb/rustaceanvim",
-  version = '^6',
+  version = "^8",
   lazy = false,
   init = function()
     vim.g.rustaceanvim = {
