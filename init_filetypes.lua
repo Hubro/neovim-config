@@ -24,8 +24,10 @@ vim.filetype.add({
     ["xsh"] = 'xonsh',
     ["xonsh"] = 'xonsh',
   },
+  content = { { pattern = '^#!.*\\<xonsh\\>' } }
 })
 
+-- Rust scripts (executable single-file Rust projects)
 vim.filetype.add({
   pattern = {
     [".*"] = function(_, bufnr)
