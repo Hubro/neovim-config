@@ -22,6 +22,9 @@ return {
       "efm",
       "yamlls",
       "clangd",
+      "nu",
+      -- "rust-analyzer",   -- Managed by rustaceanvim
+      "taplo", -- For TOML files
     }
 
     for _, value in ipairs(my_lsps) do
@@ -32,10 +35,5 @@ return {
     end
 
     vim.lsp.enable(my_lsps)
-
-    -- My Tree-sitter parser for roboot files doesn't handle variables embedded
-    -- in keywords, so I'm overriding the syntax highlighting of keywords using
-    -- the LSP semantic token for now. See :Inspect.
-    vim.api.nvim_set_hl(0, "@lsp.type.keywordNameCall.robot", { link = "Function" })
   end,
 }

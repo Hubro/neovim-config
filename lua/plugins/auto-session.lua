@@ -8,6 +8,7 @@ return {
     auto_save = true,
     auto_create = true,
     auto_restore = true,
+    auto_delete_empty_sessions = false,
     suppressed_dirs = { "/home", "/home/tomas", "/home/tomas/Desktop", "/home/tomas/bin" },
     pre_save_cmds = {
       function()

@@ -3,21 +3,32 @@ return {
   event = "InsertEnter",
 
   -- Ref: https://github.com/windwp/nvim-autopairs?tab=readme-ov-file#default-values
-  opts = {
-  },
-
-  -- From the old Vim plugin, for reference:
   --
-  -- init = function()
-  --   vim.g.AutoPairsShortcutToggle = ""
-  --   vim.g.AutoPairsShortcutFastWrap = "<M-w>"
-  --   vim.g.AutoPairsShortcutJump = ""
-  --   vim.g.AutoPairsShortcutBackInsert = "<M-b>"
-  --   vim.g.AutoPairsMultilineClose = 0 -- Never auto jump to next line
-  --   vim.g.AutoPairsMapCh = 0          -- Don't map to <C-h>
-  --   -- vim.g.AutoPairsMapCR = 0          -- Don't map Enter, it keeps fucking up the fucking Python indentation!!!
-
-  --   -- Center the viewport when pressing <CR> when near edge of viewport
-  --   vim.g.AutoPairsCenterLine = 0
-  -- end,
+  -- Defaults:
+  -- {
+  --     enabled = function(bufnr) return true end, -- control if auto-pairs should be enabled when attaching to a buffer
+  --     disable_filetype = { "TelescopePrompt", "spectre_panel" }
+  --     disable_in_macro = true  -- disable when recording or executing a macro
+  --     disable_in_visualblock = false -- disable when insert after visual block mode
+  --     disable_in_replace_mode = true
+  --     ignored_next_char = [=[[%w%%%'%[%"%.%`%$]]=]
+  --     enable_moveright = true
+  --     enable_afterquote = true  -- add bracket pairs after quote
+  --     enable_check_bracket_line = true  --- check bracket in same line
+  --     enable_bracket_in_quote = true --
+  --     enable_abbr = false -- trigger abbreviation
+  --     break_undo = true -- switch for basic rule break undo sequence
+  --     check_ts = false
+  --     map_cr = true
+  --     map_bs = true  -- map the <BS> key
+  --     map_c_h = false  -- Map the <C-h> key to delete a pair
+  --     map_c_w = false -- map <c-w> to delete a pair if possible
+  -- }
+  opts = {
+    ignored_next_char = "",
+  },
+  init = function()
+    -- Shift+Backspace to undo a closing auto-pairs character
+    vim.keymap.set("i", "<S-BS>", "<Del>", {})
+  end,
 }

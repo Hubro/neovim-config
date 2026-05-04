@@ -17,6 +17,7 @@ return {
     vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t_expr, { expr = true })
     vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T_expr, { expr = true })
 
+    ---@diagnostic disable-next-line: missing-parameter
     vim.treesitter.query.add_directive(
       "prefix!",
       ---comment
@@ -45,6 +46,18 @@ return {
         metadata[match_index][field] = prefix_text .. metadata[match_index][field]
       end
     )
+
+    local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+    parser_config.xonsh = {
+      install_info = {
+        url = "https://github.com/FoamScience/tree-sitter-xonsh",
+        files = { "src/parser.c", "src/scanner.c" }, -- note that some parsers also require src/scanner.c or src/scanner.cc
+        branch = "main",                             -- default branch in case of git repo if different from master
+        generate_requires_npm = true,                -- if stand-alone parser without npm dependencies
+        requires_generate_from_grammar = true,       -- if folder contains pre-generated src/parser.c
+      },
+      filetype = "xonsh",                            -- if filetype does not match the parser name
+    }
 
     ---@diagnostic disable-next-line: missing-fields
     require("nvim-treesitter.configs").setup({
@@ -150,7 +163,7 @@ return {
         },
       },
 
-      -- I'm defining all textobject moves through nvim_text, which makes them
+      -- I'm defining all textobject moves through nvim_next, which makes them
       -- repeatable
       -- nvim_next = {
       --   enable = true,

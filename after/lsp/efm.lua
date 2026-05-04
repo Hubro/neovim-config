@@ -36,6 +36,7 @@ return {
     "svelte", "astro",
     "nix",
     "python",
+    "nu",
   },
   init_options = {
     documentFormatting = true,
@@ -82,6 +83,12 @@ return {
       nix = {
         {
           formatCommand = "nix run nixpkgs#alejandra -- -q -",
+          formatStdin = true,
+        }
+      },
+      nu = {
+        {
+          formatCommand = "nufmt --stdin",
           formatStdin = true,
         }
       },

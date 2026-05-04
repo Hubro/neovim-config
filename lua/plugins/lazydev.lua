@@ -1,14 +1,12 @@
 return {
   "folke/lazydev.nvim",
-  lazy = false,
-  priority = 99999999,
+  ft = "lua",
+  enabled = true,
   opts = {
     library = {
+      "lua",
       "lazy.nvim",
-      "LazyDev",
-      "LazyVim",
-      -- See the configuration section for more details
-      -- Load luvit types when the `vim.uv` word is found
+      "lazydev.nvim",
       { path = "${3rd}/luv/library", words = { "vim%.uv" } },
     },
   },

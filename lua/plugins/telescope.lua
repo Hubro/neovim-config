@@ -63,9 +63,6 @@ return {
     local layout_actions = require("telescope.actions.layout")
     local themes = require("telescope.themes")
 
-    -- If there's a .ripgreprc file in the current directory, always use it
-    vim.env.RIPGREP_CONFIG_PATH = ".ripgreprc"
-
     -- My custom actions
     local custom_actions = {
       open_trouble_quickfix = function(_)

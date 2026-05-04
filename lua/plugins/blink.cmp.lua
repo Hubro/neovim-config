@@ -14,14 +14,18 @@ return {
   opts = {
     -- See :h blink-cmp-config-keymap
     keymap = {
-      preset = "default",
+      preset = "none",
 
+      ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
+      ["<C-p>"] = { "select_prev", "fallback_to_mappings" },
+      ["<C-n>"] = { "select_next", "fallback_to_mappings" },
+      ["<C-e>"] = { "hide", "fallback" },
       ["<Tab>"] = { "accept", "fallback" },
-      ["<C-u>"] = { "scroll_documentation_up", "scroll_signature_up" },
-      ["<C-d>"] = { "scroll_documentation_down", "scroll_signature_down" },
-      ["<A-k>"] = { "show_signature" },
-      ["<C-j>"] = { "snippet_forward" },
-      ["<C-k>"] = { "snippet_backward" },
+      ["<C-u>"] = { "scroll_documentation_up", "scroll_signature_up", "fallback" },
+      ["<C-d>"] = { "scroll_documentation_down", "scroll_signature_down", "fallback" },
+      ["<A-k>"] = { "show_signature", "hide_signature", "fallback" },
+      ["<C-j>"] = { "snippet_forward", "fallback" },
+      ["<C-k>"] = { "snippet_backward", "fallback" },
     },
 
     appearance = {

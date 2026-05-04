@@ -23,7 +23,7 @@ return {
           end
 
           for _, client in ipairs(vim.lsp.get_clients()) do
-            vim.cmd.LspRestart(client.name)
+            vim.cmd.lsp("restart", client.name)
           end
         end
       end

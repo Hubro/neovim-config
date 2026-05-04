@@ -7,6 +7,13 @@ return {
         ["https://raw.githubusercontent.com/cappyzawa/concourse-pipeline-jsonschema/master/concourse_jsonschema.json"] = { "concourse/**/*.yaml" },
         ["http://json.schemastore.org/kustomization"] = { "kustomization.yaml" },
         ["https://json.schemastore.org/github-workflow.json"] = { "/.github/workflows/*" },
+      },
+      customTags = {
+        -- ESPHome
+        "!secret scalar", "!include scalar", "!lambda scalar",
+
+        -- Home Assistant
+        "!include_dir_merge_named scalar",
       }
     }
   }
