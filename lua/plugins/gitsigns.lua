@@ -3,19 +3,22 @@ return {
   dependencies = { "ghostbuster91/nvim-next" },
   event = "VeryLazy",
   config = function()
-    -- local next_integration = require("nvim-next.integrations").gitsigns
-
     require("gitsigns").setup({
-      on_attach = function(bufnr)
+      on_attach = function()
         local gs = require("gitsigns")
-        local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
-        local next_hunk, prev_hunk = ts_repeat_move.make_repeatable_move_pair(
-          gs.next_hunk,
-          gs.prev_hunk
-        )
+        local ts_repeat_move = require("nvim-treesitter-textobjects.repeatable_move")
+        local hunk = ts_repeat_move.make_repeatable_move(function(opts)
+          if opts.forward then
+            gs.nav_hunk("next")
+          else
+            gs.nav_hunk("prev")
+          end
+        end)
+        -- local next_hunk = ts_repeat_move.make_repeatable_move(function() gs.nav_hunk("next") end)
+        -- local prev_hunk = ts_repeat_move.make_repeatable_move(function() gs.nav_hunk("prev") end)
 
-        vim.keymap.set({ "n", "x", "o" }, "]c", next_hunk)
-        vim.keymap.set({ "n", "x", "o" }, "[c", prev_hunk)
+        vim.keymap.set({ "n", "x", "o" }, "]c", function() hunk({ forward = true }) end)
+        vim.keymap.set({ "n", "x", "o" }, "[c", function() hunk({ forward = false }) end)
       end,
     })
   end,

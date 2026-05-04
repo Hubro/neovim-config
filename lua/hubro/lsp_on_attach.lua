@@ -79,12 +79,15 @@ return function(client, bufnr)
     vim.lsp.buf.rename(nil, rename_opts)
   end)
 
-  local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
-  local next_diag, prev_diag = ts_repeat_move.make_repeatable_move_pair(
-    function() vim.diagnostic.jump({ count = 1, float = true }) end,
-    function() vim.diagnostic.jump({ count = -1, float = true }) end
-  )
+  local ts_repeat_move = require("nvim-treesitter-textobjects.repeatable_move")
+  local diag = ts_repeat_move.make_repeatable_move(function(opts)
+    if opts.forward then
+      vim.diagnostic.jump({ count = 1, float = true })
+    else
+      vim.diagnostic.jump({ count = -1, float = true })
+    end
+  end)
 
-  map({ "n", "x", "o" }, "]d", next_diag)
-  map({ "n", "x", "o" }, "[d", prev_diag)
+  map({ "n", "x", "o" }, "]d", function() diag({ forward = true }) end)
+  map({ "n", "x", "o" }, "[d", function() diag({ forward = false }) end)
 end
