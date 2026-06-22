@@ -79,4 +79,50 @@ M.buf_dir = function(bufnr)
   return path
 end
 
+-- Returns a list of buffer IDs in the order they were last visited
+M.get_recent_buffers = function()
+  local current_buf = vim.api.nvim_get_current_buf()
+  local jumplist, current_idx = unpack(vim.fn.getjumplist())
+  local seen = { [current_buf] = true } -- Don't include the current buffer in the output
+  local bufs = {}
+
+  -- Walk backwards from current position for most-recent-first order
+  for i = current_idx, 1, -1 do
+    local buf = jumplist[i].bufnr
+
+    if not seen[buf] and vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].buflisted then
+      seen[buf] = true
+      bufs[#bufs + 1] = buf
+    end
+  end
+
+  return bufs
+end
+
+-- Returns the previously focused buffer, regardless of window or tab
+M.get_previous_buffer = function()
+  -- Previous window in current tab?
+  if vim.fn.winnr("$") > 1 then
+    local win = vim.fn.win_getid(vim.fn.winnr("#"))
+    if win ~= 0 and win ~= vim.api.nvim_get_current_win() then
+      return vim.api.nvim_win_get_buf(win)
+    end
+  end
+
+  if vim.fn.tabpagenr("$") > 1 then
+    local tnr = vim.fn.tabpagenr("#")
+
+    if tnr == 0 then
+      error("no previous tab")
+    end
+
+    local tab = vim.api.nvim_list_tabpages()[tnr]
+    local win = vim.api.nvim_tabpage_get_win(tab)
+
+    return vim.api.nvim_win_get_buf(win)
+  end
+
+  error("only one tab and one window")
+end
+
 return M

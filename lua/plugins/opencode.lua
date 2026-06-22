@@ -12,14 +12,8 @@ return {
       -- Your configuration, if any — see `lua/opencode/config.lua`, or "goto definition" on the type or field.
     }
 
-    -- Recommended/example keymaps.
     Snacks.keymap.set(
-      { "n", "x" }, "<C-a>",
-      function() opencode.ask("@this: ", { submit = true }) end,
-      { desc = "Ask opencode…" })
-
-    Snacks.keymap.set(
-      { "n", "x" }, "<C-x>",
+      { "n", "x" }, "<Leader>x",
       function() opencode.select() end,
       { desc = "Execute opencode action…" })
 
@@ -38,23 +32,55 @@ return {
       function() return opencode.operator("@this ") .. "_" end,
       { desc = "Add line to opencode", expr = true })
 
-    Snacks.keymap.set(
-      "n", "<S-C-u>",
-      function() opencode.command("session.half.page.up") end,
-      { desc = "Scroll opencode up" })
+    local group = vim.api.nvim_create_augroup("OpenCodeKeybinds", { clear = true })
+    vim.api.nvim_create_autocmd({ "TermOpen", "BufWinEnter" }, {
+      group = group,
+      pattern = "term://*:opencode --port",
+      callback = function(ev)
+        Snacks.keymap.set(
+          "n", "<C-u>",
+          function() opencode.command("session.half.page.up") end,
+          { desc = "Scroll opencode up", buffer = ev.buf })
 
-    Snacks.keymap.set(
-      "n", "<S-C-d>",
-      function() opencode.command("session.half.page.down") end,
-      { desc = "Scroll opencode down" })
+        Snacks.keymap.set(
+          "n", "<C-d>",
+          function() opencode.command("session.half.page.down") end,
+          { desc = "Scroll opencode down", buffer = ev.buf })
 
-    -- You may want these if you stick with the opinionated "<C-a>" and "<C-x>" above — otherwise consider "<leader>o…".
-    Snacks.keymap.set(
-      "n", "+", "<C-a>",
-      { desc = "Increment under cursor", noremap = true })
+        Snacks.keymap.set(
+          "n", "<C-b>",
+          function() opencode.command("session.page.up") end,
+          { desc = "Scroll opencode up", buffer = ev.buf })
 
-    Snacks.keymap.set(
-      "n", "-", "<C-x>",
-      { desc = "Decrement under cursor", noremap = true })
+        Snacks.keymap.set(
+          "n", "<C-f>",
+          function() opencode.command("session.page.down") end,
+          { desc = "Scroll opencode down", buffer = ev.buf })
+
+        Snacks.keymap.set(
+          "n", "gg",
+          function() opencode.command("session.first") end,
+          { desc = "Go to first message", buffer = ev.buf })
+
+        Snacks.keymap.set(
+          "n", "<C-f>",
+          function() opencode.command("session.last") end,
+          { desc = "Go to last message", buffer = ev.buf })
+
+        Snacks.keymap.set(
+          "n", "<C-f>",
+          function() opencode.command("session.last") end,
+          { desc = "Go to last message", buffer = ev.buf })
+
+        Snacks.keymap.set(
+          { "n", "t" }, "<C-o>",
+          function()
+            local buf = require("hubro.lib").get_previous_buffer()
+            local path = vim.fn.fnamemodify(vim.fn.bufname(buf), ':~:.')
+            vim.api.nvim_put({ "./" .. path }, "c", true, true)
+          end,
+          { desc = "Insert path of active buffer", buffer = ev.buf })
+      end,
+    })
   end,
 }
