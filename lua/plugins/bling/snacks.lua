@@ -2,11 +2,6 @@ return {
   "folke/snacks.nvim",
   lazy = false,
   priority = 1000,
-  init = function()
-    local notifier = require("snacks.notifier")
-
-    vim.keymap.set("n", "<Bar>n", function() notifier.show_history() end, { silent = true })
-  end,
   opts = {
     input = { enabled = true },
     -- scroll = { enabled = vim.g.neovide == nil },
@@ -29,5 +24,170 @@ return {
     notifier = {
       timeout = 3000,
     },
+    ---@class snacks.terminal.Config
+    terminal = {
+      win = {
+        border = "rounded"
+      },
+      -- ...
+    }
   },
+  init = function()
+    local Snacks = require("snacks")
+    local notifier = require("snacks.notifier")
+
+    local term_counter = 0
+    local term_focus = 1
+    ---@type snacks.terminal.Opts
+    local term_opts =
+    {
+      win = {
+        title_pos = "left",
+        title = "Quick terminal",
+      },
+      auto_close = false,
+    }
+    ---@type snacks.win[]
+    local terminals = {}
+
+    local function resolve_snacks_term(buf)
+      for _, t in ipairs(Snacks.terminal.list()) do
+        if t.buf == buf then
+          return t
+        end
+      end
+    end
+
+    ---@param term snacks.win
+    ---@return snacks.win|nil
+    local function tindex(term)
+      return vim.iter(ipairs(terminals)):find(function(_, t)
+        return t == term
+      end)
+    end
+
+    local function refresh_titles()
+      for i, t in ipairs(terminals) do
+        t:set_title(("Quick terminal [%d/%d]"):format(i, #terminals))
+      end
+    end
+
+    local function cycle_terminal(term, dir)
+      if #terminals < 1 then
+        return nil
+      elseif #terminals < 2 then
+        return terminals[1]
+      end
+
+      local term_index = vim.iter(ipairs(terminals)):find(function(_, t)
+        return t == term
+      end)
+      local next_index = term_index + dir
+
+      if next_index > #terminals then
+        next_index = 1
+      elseif next_index < 1 then
+        next_index = #terminals
+      end
+
+      return terminals[next_index]
+    end
+
+    Snacks.keymap.set("n", "<Bar>n", function() notifier.show_history() end)
+
+    Snacks.keymap.set("n", "<C-q>", function()
+      if #terminals > 0 then
+        terminals[term_focus]:toggle()
+      else
+        term_counter = term_counter + 1
+        local term = Snacks.terminal.toggle("fish", vim.tbl_extend("force", term_opts, {
+          env = {
+            QUICK_TERMINAL_ID = tostring(term_counter)
+          }
+        }))
+        table.insert(terminals, term)
+      end
+
+      refresh_titles()
+    end)
+
+    local aug = vim.api.nvim_create_augroup("SnacksTerminalCustomization", { clear = true })
+    vim.api.nvim_create_autocmd("FileType", {
+      group = aug,
+      pattern = "snacks_terminal",
+      callback = function(ev)
+        local term = resolve_snacks_term(ev.buf)
+        local opts = { buffer = ev.buf }
+
+        Snacks.keymap.set({ "t", "n", }, "<C-q>", function()
+          term:hide()
+        end, opts)
+
+        Snacks.keymap.set({ "t", "n", }, "<A-n>", function()
+          local term_index = tindex(term)
+
+          term_counter = term_counter + 1
+
+          local new_term = Snacks.terminal.open("fish", vim.tbl_extend("force", term_opts, {
+            env = {
+              QUICK_TERMINAL_ID = tostring(term_counter)
+            }
+          }))
+          table.insert(terminals, term_index + 1, new_term)
+
+          term_focus = term_index + 1
+
+          refresh_titles()
+
+          vim.schedule(function()
+            term:hide()
+          end)
+        end, opts)
+
+        Snacks.keymap.set({ "t", "n", }, "<A-h>", function()
+          cycle_terminal(term, -1):show()
+          term_focus = term_focus - 1
+
+          vim.schedule(function()
+            term:hide()
+          end)
+        end, opts)
+
+        Snacks.keymap.set({ "t", "n", }, "<A-l>", function()
+          cycle_terminal(term, 1):show()
+          term_focus = term_focus + 1
+
+          vim.schedule(function()
+            term:hide()
+          end)
+        end, opts)
+      end
+    })
+
+    vim.api.nvim_create_autocmd("TermClose", {
+      group = aug,
+      callback = function(ev)
+        if vim.bo[ev.buf].filetype ~= "snacks_terminal" then
+          return
+        end
+
+        local term = resolve_snacks_term(ev.buf)
+        local prev = cycle_terminal(term, -1)
+
+        if prev ~= nil and prev:buf_valid() then
+          prev:show()
+          term_focus = term_focus - 1
+        end
+
+        terminals = vim.tbl_filter(function(t)
+          return t ~= term
+        end, terminals)
+        refresh_titles()
+
+        vim.defer_fn(function()
+          term:destroy()
+        end, 100)
+      end
+    })
+  end,
 }
