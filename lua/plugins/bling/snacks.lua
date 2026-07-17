@@ -93,6 +93,19 @@ return {
       return terminals[next_index]
     end
 
+    local function move_terminal(term, dir)
+      local term_index = tindex(term)
+      local new_index = term_index + dir
+
+      if new_index < 1 or new_index > #terminals then
+        return
+      end
+
+      terminals[term_index], terminals[new_index] = terminals[new_index], terminals[term_index]
+      term_focus = new_index
+      refresh_titles()
+    end
+
     Snacks.keymap.set("n", "<Bar>n", function() notifier.show_history() end)
 
     Snacks.keymap.set("n", "<C-q>", function()
@@ -160,6 +173,14 @@ return {
           vim.schedule(function()
             term:hide()
           end)
+        end, opts)
+
+        Snacks.keymap.set({ "t", "n", }, "<A-H>", function()
+          move_terminal(term, -1)
+        end, opts)
+
+        Snacks.keymap.set({ "t", "n", }, "<A-L>", function()
+          move_terminal(term, 1)
         end, opts)
       end
     })
