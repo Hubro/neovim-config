@@ -37,7 +37,10 @@ return {
     local notifier = require("snacks.notifier")
 
     local term_counter = 0
+    ---
+    ---@type integer|nil
     local term_focus = 1
+
     ---@type snacks.terminal.Opts
     local term_opts =
     {
@@ -59,7 +62,7 @@ return {
     end
 
     ---@param term snacks.win
-    ---@return snacks.win|nil
+    ---@return integer|nil
     local function tindex(term)
       return vim.iter(ipairs(terminals)):find(function(_, t)
         return t == term
@@ -73,9 +76,9 @@ return {
     end
 
     local function cycle_terminal(term, dir)
-      if #terminals < 1 then
-        return nil
-      elseif #terminals < 2 then
+      assert(#terminals > 0)
+
+      if #terminals < 2 then
         return terminals[1]
       end
 
@@ -95,6 +98,8 @@ return {
 
     local function move_terminal(term, dir)
       local term_index = tindex(term)
+      assert(term_index ~= nil)
+
       local new_index = term_index + dir
 
       if new_index < 1 or new_index > #terminals then
@@ -119,6 +124,7 @@ return {
           }
         }))
         table.insert(terminals, term)
+        term_focus = 1
       end
 
       refresh_titles()
@@ -138,6 +144,7 @@ return {
 
         Snacks.keymap.set({ "t", "n", }, "<A-n>", function()
           local term_index = tindex(term)
+          assert(term_index ~= nil)
 
           term_counter = term_counter + 1
 
@@ -158,8 +165,10 @@ return {
         end, opts)
 
         Snacks.keymap.set({ "t", "n", }, "<A-h>", function()
-          cycle_terminal(term, -1):show()
-          term_focus = term_focus - 1
+          local next_term = cycle_terminal(term, -1)
+          next_term:show()
+          term_focus = tindex(next_term)
+          assert(term_focus ~= nil)
 
           vim.schedule(function()
             term:hide()
@@ -167,8 +176,10 @@ return {
         end, opts)
 
         Snacks.keymap.set({ "t", "n", }, "<A-l>", function()
-          cycle_terminal(term, 1):show()
-          term_focus = term_focus + 1
+          local next_term = cycle_terminal(term, 1)
+          next_term:show()
+          term_focus = tindex(next_term)
+          assert(term_focus ~= nil)
 
           vim.schedule(function()
             term:hide()
@@ -193,16 +204,25 @@ return {
         end
 
         local term = resolve_snacks_term(ev.buf)
+
+        ---@type snacks.win|nil
         local prev = cycle_terminal(term, -1)
+
+        if prev == term then
+          prev = nil
+        end
 
         if prev ~= nil and prev:buf_valid() then
           prev:show()
-          term_focus = term_focus - 1
         end
 
         terminals = vim.tbl_filter(function(t)
           return t ~= term
         end, terminals)
+
+        assert(term_focus ~= nil)
+        term_focus = prev and tindex(prev) or math.min(term_focus, math.max(#terminals, 1))
+
         refresh_titles()
 
         vim.defer_fn(function()
