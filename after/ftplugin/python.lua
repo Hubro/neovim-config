@@ -3,12 +3,11 @@ vim.wo.colorcolumn = "89" -- Black's default line length + 1
 
 -- Tree-sitter folding
 vim.wo.foldmethod = "expr"
-vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
+vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.wo.foldlevel = 99
 
 local function toggle_fstring()
-  local ts_utils = require("nvim-treesitter.ts_utils")
-  local node = ts_utils.get_node_at_cursor()
+  local node = vim.treesitter.get_node()
   if not node then return end
 
   --- @type TSNode?
