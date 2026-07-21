@@ -11,6 +11,9 @@ local efm_format_with_prettierd = {
     ".prettierrc.mjs",
     ".prettierrc.cjs",
     ".prettierrc.toml",
+    "prettier.config.ts",
+    "prettier.config.js",
+    "prettier.config.mjs",
   }
 }
 
