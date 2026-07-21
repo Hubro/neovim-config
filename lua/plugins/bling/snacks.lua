@@ -199,7 +199,8 @@ return {
     vim.api.nvim_create_autocmd("TermClose", {
       group = aug,
       callback = function(ev)
-        if vim.bo[ev.buf].filetype ~= "snacks_terminal" then
+        if not vim.api.nvim_buf_is_valid(ev.buf)
+            or vim.bo[ev.buf].filetype ~= "snacks_terminal" then
           return
         end
 
