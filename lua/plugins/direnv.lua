@@ -7,7 +7,7 @@ return {
     local cached_direnv_diff = nil
     local env_loaded = false
 
-    local group = vim.api.nvim_create_augroup("DirenvLoaded", { clear = true })
+    local group = vim.api.nvim_create_augroup("DirenvPlugin", { clear = true })
     vim.api.nvim_create_autocmd({ "User" }, {
       group = group,
       pattern = "DirenvLoaded",
@@ -27,6 +27,18 @@ return {
           end
         end
       end
+    })
+    vim.api.nvim_create_autocmd("User", {
+      group = group,
+      pattern = "LazyLoad",
+      desc = "Load .envrc on startup if necessary",
+      callback = function(event)
+        if event.data == "direnv.vim" then
+          if vim.env.DIRENV_FILE == nil then
+            vim.cmd.DirenvExport()
+          end
+        end
+      end,
     })
   end
 }
