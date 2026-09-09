@@ -47,6 +47,9 @@ return {
       win = {
         title_pos = "left",
         title = "Quick terminal",
+        b = {
+          quick_terminal = true,
+        },
       },
       auto_close = false,
     }
@@ -135,6 +138,10 @@ return {
       group = aug,
       pattern = "snacks_terminal",
       callback = function(ev)
+        if not vim.b[ev.buf].quick_terminal then
+          return
+        end
+
         local term = resolve_snacks_term(ev.buf)
         local opts = { buffer = ev.buf }
 
@@ -200,7 +207,8 @@ return {
       group = aug,
       callback = function(ev)
         if not vim.api.nvim_buf_is_valid(ev.buf)
-            or vim.bo[ev.buf].filetype ~= "snacks_terminal" then
+            or vim.bo[ev.buf].filetype ~= "snacks_terminal"
+            or not vim.b[ev.buf].quick_terminal then
           return
         end
 

@@ -12,15 +12,25 @@ return {
       -- Your configuration, if any — see `lua/opencode/config.lua`, or "goto definition" on the type or field.
     }
 
+    ---@type snacks.terminal.Opts
+    local snacks_terminal_opts = {
+      win = {
+        position = "right",
+        enter = true,
+        title = "OpenCode",
+        wo = { winbar = "" },
+      },
+    }
+
     Snacks.keymap.set(
       { "n", "x" }, "<Leader>x",
       function() opencode.select() end,
       { desc = "Execute opencode action…" })
 
     Snacks.keymap.set(
-      { "n", "t" }, "<C-.>",
-      function() opencode.toggle() end,
-      { desc = "Toggle opencode" })
+      { 'n', 't' }, '<C-.>',
+      function() require('snacks.terminal').toggle("opencode --port", snacks_terminal_opts) end,
+      { desc = "Toggle OpenCode" })
 
     Snacks.keymap.set(
       { "n", "x" }, "go",

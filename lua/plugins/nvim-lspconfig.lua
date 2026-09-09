@@ -25,6 +25,7 @@ return {
       "nu",
       -- "rust-analyzer",   -- Managed by rustaceanvim
       "taplo", -- For TOML files
+      "ty",    -- Python LSP of the future
     }
 
     for _, value in ipairs(my_lsps) do
@@ -35,5 +36,8 @@ return {
     end
 
     vim.lsp.enable(my_lsps)
+
+    -- Use ty by default. Override per project with `vim.lsp.enable`.
+    vim.lsp.enable("basedpyright", false)
   end,
 }

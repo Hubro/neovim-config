@@ -1,5 +1,6 @@
 local scratch_split = require("hubro.scratch_split")
-local splitlines = require("hubro.splitlines")
+
+require("hubro.exec_per_line")
 
 local function close_hidden_buffers(opts)
   opts = opts or {}

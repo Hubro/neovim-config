@@ -29,7 +29,7 @@ local function current_theme_mode()
   return current_mode
 end
 
-vim.g.hubro_default_dark_theme = "kanagawa"
+vim.g.hubro_default_dark_theme = "ayu"
 vim.g.hubro_default_light_theme = "dayfox"
 
 if vim.fn.hostname() == "cross" or vim.fn.hostname() == "aura" then
@@ -94,6 +94,12 @@ local themes = {
   ayu = {
     colorscheme = "ayu-dark",
     lualine = "ayu_dark",
+    overrides = {
+      Visual = { guibg = "#333944" },
+      NormalFloat = { guibg = "#14181f" },
+      FloatBorder = { guibg = "#14181f" },
+      LineNr = { guifg = "#434f69" }
+    },
   },
   ayu_mirage = {
     colorscheme = "ayu-mirage",

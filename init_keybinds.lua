@@ -28,8 +28,38 @@ local keybinds = {
   { { "n", "v" }, "<Leader>y",  '"+y' },
   { { "n", "v" }, "<Leader>p",  '"+p' },
 
-  -- Press ESC to remove search highlights and clear text from command line and
-  -- dismiss notifications
+  -- Copy relative path of current file to "-register and clipboard
+  { "n", "<Leader>yp", function()
+    local p = vim.fn.expand("%:p")
+    if p == "" then
+      return vim.notify("No file in buffer", vim.log.levels.WARN)
+    end
+
+    p = vim.fn.fnamemodify(p, ":~:.")
+
+    if not (p:sub(1, 1) == "~" or p:sub(1, 1) == "/") then
+      p = "./" .. p
+    end
+
+    vim.fn.setreg('"', p)
+    vim.fn.setreg("+", p)
+    vim.notify("Copied path: " .. p)
+  end },
+
+  -- Same as above, but absolute path
+  { "n", "<Leader>yP", function()
+    local p = vim.fn.expand("%:p")
+    if p == "" then
+      return vim.notify("No file in buffer", vim.log.levels.WARN)
+    end
+
+    vim.fn.setreg('"', p)
+    vim.fn.setreg("+", p)
+    vim.notify("Copied path: " .. p)
+  end },
+
+  -- Press ESC to remove search highlights, clear text from command line,
+  -- dismiss notifications and leave snippet expansion mode
   {
     "n",
     "<Esc>",
@@ -37,6 +67,7 @@ local keybinds = {
       vim.cmd(":nohl")
       vim.cmd(":echo")
       vim.cmd("silent! exec copilot#Dismiss()")
+      vim.snippet.stop()
       require("snacks.notifier").hide()
       require("hubro.close_floats")()
     end,
@@ -168,9 +199,6 @@ local keybinds = {
 
   -- Toggle light/dark mode
   { "n", "<F12>",     ":lua toggle_colorscheme()<CR>" },
-
-  -- Floating terminal ("vim-floaterm" plugin)
-  { "n", "<C-q>",     ":FloatermToggle<CR>" },
 
   -- Open a new embedded terminal in a split
   { "n", "<F1>",      ":vsplit<CR>:terminal<CR>i" },

@@ -32,11 +32,6 @@ return function(client, bufnr)
 
   local filetype = vim.api.nvim_get_option_value("filetype", { buf = bufnr })
 
-  -- For Python, only run setup for basedpyright
-  if filetype == "python" and client.name ~= "basedpyright" then
-    return
-  end
-
   if client.server_capabilities.documentSymbolProvider then
     navic.attach(client, bufnr)
   end
@@ -73,7 +68,7 @@ return function(client, bufnr)
     local rename_opts = {}
 
     if filetype == "python" then
-      rename_opts["name"] = "basedpyright"
+      rename_opts["name"] = "ty"
     end
 
     vim.lsp.buf.rename(nil, rename_opts)

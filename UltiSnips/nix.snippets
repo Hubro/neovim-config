@@ -31,11 +31,11 @@ snippet "([a-zA-Z0-9.]+)\s*\]$" "Test" rA
 endsnippet
 
 # Doesn't work for some reason
-snippet '([a-zA-Z0-9.-]+|"[^"]+")\s*=\s*\'\'$' "Multi-line string" rA
-`!p snip.rv = match.group(1)` = ''
-	$0
-'';
-endsnippet
+# snippet '([a-zA-Z0-9.-]+|"[^"]+")\s*=\s*\'\'$' "Multi-line string" rA
+# `!p snip.rv = match.group(1)` = ''
+# 	$0
+# '';
+# endsnippet
 
 # Shortcut for creating a development shell flake for use with nix-direnv
 snippet development-shell "Mini template for a flake with a devshell" b

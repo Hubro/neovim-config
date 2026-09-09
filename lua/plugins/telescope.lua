@@ -26,7 +26,19 @@ return {
     vim.keymap.set("n", "<Bar>h", ":Telescope oldfiles only_cwd=true<CR>")
     vim.keymap.set("n", "<Bar>la", ":Telescope lsp_code_actions theme=get_dropdown<CR>")
     vim.keymap.set("n", "<Bar>lr", ":Telescope lsp_references<CR>")
-    vim.keymap.set("n", "<M-p>", ":Telescope git_files<CR>") -- Files tracked by git
+    vim.keymap.set("n", "<M-p>", function()
+      local ok, err = pcall(builtin.git_files)
+      if not ok then
+        local message = tostring(err):match(":%d+: ([^\n]+)") or tostring(err)
+        vim.notify("Failed to show Git files: " .. message, vim.log.levels.ERROR, {
+          style = function(buf, notif, ctx)
+            ctx.opts.wo.wrap = true
+            local render = ctx.notifier:get_render("compact")
+            render(buf, notif, ctx)
+          end,
+        })
+      end
+    end) -- Files tracked by git
 
     --
     -- My own extensions:

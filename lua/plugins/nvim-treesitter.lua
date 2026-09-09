@@ -54,14 +54,19 @@ return {
 
     ts.install({
       "bash",
+      "html",
       "hyprlang",
       "javascript",
+      "json",
+      "just",
       "markdown",
       "nix",
       "python",
       "robot",
-      "tsx",
+      "rust",
+      "svelte",
       "toml",
+      "tsx",
       "typescript",
       "vimdoc",
       "xml",
@@ -69,22 +74,12 @@ return {
       "yang",
     })
 
-    -- highlight = {
-    --   enable = true,
-    --   -- Can also enable/disable for specific languages
-    --   -- enable = { "python" },
-    --   -- disable = { "c", "rust" },
-
-    --   -- Highlighting is currently kinda broken for some languages:
-    --   disable = { "gitcommit" },
-    -- },
-
-    -- indent = {
-    --   enable = true,
-
-    --   -- The indent expressions for some languages are complete shit
-    --   disable = { "svelte", "php", "ssh_config", "yaml", "python" },
-    -- },
+    vim.api.nvim_create_autocmd("FileType", {
+      group = vim.api.nvim_create_augroup("TreeSitterStart", { clear = true }),
+      callback = function(args)
+        pcall(vim.treesitter.start, args.buf)
+      end
+    })
 
     require("nvim-ts-autotag").setup({
       opts = {

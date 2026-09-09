@@ -1,3 +1,3 @@
 return {
-  -- filetypes = { "astro", "svelte" }
+  filetypes = { "astro", "svelte" }
 }

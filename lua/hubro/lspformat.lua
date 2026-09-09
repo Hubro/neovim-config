@@ -77,21 +77,21 @@ local function lspformat()
 
   restore_view(function()
     -- When formatting with Ruff (Python), organize imports first
-    if formatting_client.name == "ruff" then
-      -- formatting_client:request_sync(
-      --   'textDocument/codeAction',
-      --   params,
-      --   timeout_ms?,
-      --   bufnr?
-      -- )
+    -- if formatting_client.name == "ruff" then
+    --   -- formatting_client:request_sync(
+    --   --   'textDocument/codeAction',
+    --   --   params,
+    --   --   timeout_ms?,
+    --   --   bufnr?
+    --   -- )
 
-      vim.lsp.buf.code_action({
-        apply = true,
-        filter = function(action)
-          return action.kind == "source.organizeImports.ruff"
-        end
-      })
-    end
+    --   vim.lsp.buf.code_action({
+    --     apply = true,
+    --     filter = function(action)
+    --       return action.kind == "source.organizeImports.ruff"
+    --     end
+    --   })
+    -- end
 
     -- Use a long timeout, in case we're using "nix run" and we've just
     -- garbage collected or something
