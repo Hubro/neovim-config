@@ -5,6 +5,7 @@
 vim.filetype.add({
   extension = {
     -- extension = "filetype"
+    ["zen"] = "zener",
   },
   filename = {
     [".envrc"] = "bash",
@@ -42,3 +43,5 @@ vim.filetype.add({
     end,
   },
 })
+
+vim.treesitter.language.register("starlark", "zener")
