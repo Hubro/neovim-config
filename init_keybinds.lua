@@ -34,6 +34,18 @@ local keybinds = {
   { { "n", "v" }, "<Leader>y",  '"+y' },
   { { "n", "v" }, "<Leader>p",  '"+p' },
 
+  { { "n", "v", "o", "i", "c", "t" }, "<F4>", function()
+    local text = vim.fn.getreg('"')
+    vim.fn.setreg("+", vim.fn.getreg('"', 1, true), vim.fn.getregtype('"'))
+
+    local message = vim.fn.strcharpart(text, 0, 250)
+    if vim.fn.strchars(text) > 250 then
+      message = message .. "..."
+    end
+
+    vim.notify(message, vim.log.levels.INFO, { title = "Copied to system clipboard" })
+  end },
+
   -- Copy relative path of current file to "-register and clipboard
   { "n", "<Leader>yp", function()
     local p = vim.fn.expand("%:p")
