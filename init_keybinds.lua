@@ -20,6 +20,12 @@ local keybinds = {
   { "t",          "ń",          "<C-\\><C-n>" },
   { "t",          "Ǹ",          "<C-\\><C-n>" },
 
+  -- Unconditionally send the "Shift + Enter" escape sequence from terminals in
+  -- Neovide, since Claude Code fails to detect it as a terminal
+  { "t", "<S-Enter>", function()
+    vim.api.nvim_chan_send(vim.b.terminal_job_id, '\27\r')
+  end, { gui = true } },
+
   -- Shortcuts for saving the document, with and without autocommands
   { "n",          "<Leader>w",  ":w<CR>" },
   { "n",          "<Leader>W",  ":noauto w<CR>" },
