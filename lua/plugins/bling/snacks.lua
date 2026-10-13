@@ -4,6 +4,12 @@ return {
   priority = 1000,
   opts = {
     input = { enabled = true },
+    styles = {
+      terminal = {
+        -- Disable the <Esc><Esc> keybind
+        keys = { term_normal = false },
+      },
+    },
     -- scroll = { enabled = vim.g.neovide == nil },
     indent = {
       enabled = true,
