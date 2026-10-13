@@ -14,7 +14,7 @@ BUFFER_OPTIONS = {
 }
 
 local _set_defaults = function(opts)
-  local opts = opts or {}
+  opts = opts or {}
 
   local set_default = function(name, value)
     if opts[name] == nil then

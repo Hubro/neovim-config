@@ -11,7 +11,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-function setup_file(name)
+function _G.setup_file(name)
   return function()
     vim.cmd("runtime setup_" .. name .. ".lua")
   end

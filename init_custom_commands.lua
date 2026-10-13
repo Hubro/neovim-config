@@ -31,7 +31,7 @@ local function close_hidden_buffers(opts)
       goto continue
     end
 
-    if vim.tbl_contains(visible_buffers, buf) then
+    if is_visible then
       goto continue
     end
 
@@ -41,7 +41,7 @@ local function close_hidden_buffers(opts)
     end
 
     -- Also don't close any terminals
-    if vim.api.nvim_get_option_value("buftype", { buf = buf }) == "terminal" then
+    if is_terminal then
       terminals = terminals + 1
       goto continue
     end

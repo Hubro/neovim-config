@@ -38,9 +38,9 @@ if is_neovide then
   -- Background opacity
   vim.g.neovide_opacity = 0.93
 
-  if vim.api.nvim_exec("echo hostname()", true) == "aura" then
+  if vim.fn.hostname() == "aura" then
     vim.g.neovide_refresh_rate = 240
-  elseif vim.api.nvim_exec("echo hostname()", true) == "cross" then
+  elseif vim.fn.hostname() == "cross" then
     vim.g.neovide_refresh_rate = 144
   end
 

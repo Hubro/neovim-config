@@ -14,7 +14,7 @@ return {
       gitsigns = { enabled = false },
     },
 
-    on_open = function(win)
+    on_open = function()
       vim.g.neovide_scale_factor = 1.3
     end,
 

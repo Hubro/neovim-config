@@ -105,8 +105,8 @@ return {
           -- FIXME: This function is currently retarded, as it forces every new
           -- note to the inbox even if something else was explicitly provided.
           --
-          ---@param spec { id: string, dir: obsidian.Path, title: string|? }
-          ---@return string|obsidian.Path The full path to the new note.
+          -- @param spec { id: string, dir: obsidian.Path, title: string|? }
+          -- @return string|obsidian.Path The full path to the new note.
           -- note_path_func = function(spec)
           --   return personal_notes_path .. "/0 - 🏠 Inbox/" .. spec.title .. ".md"
           -- end,

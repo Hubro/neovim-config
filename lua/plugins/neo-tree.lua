@@ -59,7 +59,6 @@ return {
           untracked = "",
           ignored   = "",
           unstaged  = "󰄱",
-          unstaged  = "󰄱",
           staged    = "",
           conflict  = "",
         },

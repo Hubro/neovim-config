@@ -309,9 +309,6 @@ end
 -- Set default colorscheme on startup
 --
 
-local augroup =
-    vim.api.nvim_create_augroup("SetDefaultColorscheme", { clear = true })
-
 set_default_colorscheme()
 
 -- vim.api.nvim_create_autocmd("UIEnter", {

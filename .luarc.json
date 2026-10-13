@@ -1,0 +1,12 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LuaLS/vscode-lua/master/setting/schema.json",
+  "diagnostics.disable": [
+    "assign-type-mismatch",
+    "duplicate-set-field",
+    "invisible",
+    "missing-fields",
+    "need-check-nil",
+    "undefined-field"
+  ],
+  "type.weakNilCheck": true
+}

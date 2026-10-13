@@ -5,7 +5,6 @@ return {
   config = function()
     local hydra = require("hydra")
     local ts_swap = require("nvim-treesitter-textobjects.swap")
-    local ts_move = require("nvim-treesitter-textobjects.move")
 
     local ts_select_hydra = hydra({
       name = "Tree-sitter incremental selection",

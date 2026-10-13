@@ -21,7 +21,6 @@ local close_floats = function()
     local is_focused = vim.api.nvim_get_current_win() == w
 
     local buf = vim.api.nvim_win_get_buf(w)
-    local bufname = vim.api.nvim_buf_get_name(buf)
     local buflisted = vim.api.nvim_get_option_value("buflisted", { buf = buf })
     local bufhidden = vim.api.nvim_get_option_value("bufhidden", { buf = buf })
     local first_line = vim.api.nvim_buf_get_lines(buf, 0, 1, false)[1]

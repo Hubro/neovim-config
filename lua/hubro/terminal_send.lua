@@ -1,13 +1,7 @@
 local M = {}
 
-function M.terminal_send(text)
-  first_terminal_chan = get_first_terminal()
-
-  vim.api.nvim_chan_send(first_terminal_chan, text)
-end
-
-function get_first_terminal()
-  terminal_chans = {}
+local function get_first_terminal()
+  local terminal_chans = {}
 
   for _, chan in pairs(vim.api.nvim_list_chans()) do
     if chan["mode"] == "terminal" and chan["pty"] ~= "" then
@@ -20,6 +14,12 @@ function get_first_terminal()
   end)
 
   return terminal_chans[1]["id"]
+end
+
+function M.terminal_send(text)
+  local first_terminal_chan = get_first_terminal()
+
+  vim.api.nvim_chan_send(first_terminal_chan, text)
 end
 
 return M

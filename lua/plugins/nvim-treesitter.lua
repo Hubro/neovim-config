@@ -23,11 +23,11 @@ return {
       "prefix!",
       ---comment
       ---@param match table<integer,TSNode>
-      ---@param pattern integer
+      ---@param _ integer
       ---@param bufnr integer
       ---@param predicate any[]
       ---@param metadata table
-      function(match, pattern, bufnr, predicate, metadata)
+      function(match, _, bufnr, predicate, metadata)
         local _, match_index, field, prefix_text = unpack(predicate)
 
         local node = match[match_index]

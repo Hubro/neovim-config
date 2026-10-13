@@ -10,8 +10,6 @@ return {
   enabled = false,
   event = "VeryLazy",
   config = function()
-    local builtins = require("nvim-next.builtins")
-
     require("nvim-next").setup({
       default_mappings = {
         -- repeat_style = "directional", -- Overrides ; and ,

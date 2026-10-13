@@ -259,8 +259,8 @@ local keybinds = {
 }
 
 -- {{{ The magic
-_G.apply_keybinds = function(keybinds)
-  for _, bind in ipairs(keybinds) do
+_G.apply_keybinds = function(bindings)
+  for _, bind in ipairs(bindings) do
     if #bind < 4 then
       bind[4] = default_opts
     else
