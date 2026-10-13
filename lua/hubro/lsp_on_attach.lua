@@ -29,8 +29,25 @@ end
 ---@param bufnr number
 return function(client, bufnr)
   local navic = require("nvim-navic")
+  local diagnostics = require("hubro.diagnostics")
 
   local filetype = vim.api.nvim_get_option_value("filetype", { buf = bufnr })
+
+  local function map(mode, lh, rh)
+    local opts = { noremap = true, silent = true, buffer = bufnr }
+    vim.keymap.set(mode, lh, rh, opts)
+  end
+
+  -- Use nvim-next to hop to diagnostic, which makes it a repeatable motion
+  -- local next_lspdiag = require("nvim-next.integrations.diagnostic")()
+
+  local ts_repeat_move = require("nvim-treesitter-textobjects.repeatable_move")
+  local diag = ts_repeat_move.make_repeatable_move(function(opts)
+    diagnostics.jump(opts.forward)
+  end)
+
+  map({ "n", "x", "o" }, "]d", function() diag({ forward = true }) end)
+  map({ "n", "x", "o" }, "[d", function() diag({ forward = false }) end)
 
   if client.server_capabilities.documentSymbolProvider then
     navic.attach(client, bufnr)
@@ -44,14 +61,6 @@ return function(client, bufnr)
   if client.name == "efm" then
     efm_on_attach(client, bufnr)
   end
-
-  local function map(mode, lh, rh)
-    local opts = { noremap = true, silent = true, buffer = bufnr }
-    vim.keymap.set(mode, lh, rh, opts)
-  end
-
-  -- Use nvim-next to hop to diagnostic, which makes it a repeatable motion
-  -- local next_lspdiag = require("nvim-next.integrations.diagnostic")()
 
   map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>")
   map("n", "gD", "<cmd>lua vim.lsp.buf.type_definition()<CR>")
@@ -74,15 +83,4 @@ return function(client, bufnr)
     vim.lsp.buf.rename(nil, rename_opts)
   end)
 
-  local ts_repeat_move = require("nvim-treesitter-textobjects.repeatable_move")
-  local diag = ts_repeat_move.make_repeatable_move(function(opts)
-    if opts.forward then
-      vim.diagnostic.jump({ count = 1, float = true })
-    else
-      vim.diagnostic.jump({ count = -1, float = true })
-    end
-  end)
-
-  map({ "n", "x", "o" }, "]d", function() diag({ forward = true }) end)
-  map({ "n", "x", "o" }, "[d", function() diag({ forward = false }) end)
 end
