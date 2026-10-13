@@ -6,57 +6,12 @@ return {
   config = function()
     local Snacks = require("snacks")
     local opencode = require("opencode")
+    local opencode_terminal = require("hubro.opencode_terminal")
 
     ---@type opencode.Opts
     vim.g.opencode_opts = {
       -- Your configuration, if any — see `lua/opencode/config.lua`, or "goto definition" on the type or field.
     }
-
-    ---@type snacks.terminal.Opts
-    local snacks_terminal_opts = {
-      auto_insert = false,
-      start_insert = true,
-      win = {
-        title = "OpenCode",
-        position = "right",
-        enter = true,
-        wo = { winbar = "" },
-      },
-    }
-
-    _G.opencode_paste_operator = function(motion_type)
-      local terminal = require('snacks.terminal').get("opencode", {
-        create = false,
-        count = 1,
-      })
-      if not terminal then
-        vim.notify("Open the OpenCode terminal first", vim.log.levels.WARN)
-        return
-      end
-
-      local name = vim.api.nvim_buf_get_name(0)
-      if name == "" then
-        vim.notify("Current buffer has no file path", vim.log.levels.WARN)
-        return
-      end
-
-      local path = vim.fn.fnamemodify(name, ':~:.')
-      local text = "./" .. path
-      if motion_type then
-        local first = vim.api.nvim_buf_get_mark(0, "[")[1]
-        local last = vim.api.nvim_buf_get_mark(0, "]")[1]
-        first, last = math.min(first, last), math.max(first, last)
-        local range = first == last and tostring(first) or first .. "-" .. last
-        text = text .. ":" .. range
-      end
-      text = text .. " "
-      vim.fn.chansend(vim.b[terminal.buf].terminal_job_id, "\27[200~" .. text .. "\27[201~")
-    end
-
-    local function paste_operator()
-      vim.o.operatorfunc = "v:lua.opencode_paste_operator"
-      return "g@"
-    end
 
     Snacks.keymap.set(
       { "n", "x" }, "<Leader>x",
@@ -65,33 +20,28 @@ return {
 
     Snacks.keymap.set(
       { 'n', 't' }, '<C-.>',
-      function()
-        local terminal, created = get_terminal(true)
-        local opencode_in_focus = vim.api.nvim_get_current_win() == terminal.win and vim.fn.mode() == "t"
-
-        if not created and opencode_in_focus then
-          terminal:hide()
-        else
-          terminal:show():focus()
-          vim.cmd.startinsert()
-        end
-      end,
+      opencode_terminal.toggle,
       { desc = "Toggle OpenCode" })
 
     Snacks.keymap.set(
       { "n", "x" }, "go",
-      paste_operator,
+      opencode_terminal.paste_operator,
       { desc = "Add range to opencode", expr = true })
 
     Snacks.keymap.set(
       "n", "goo",
-      function() _G.opencode_paste_operator() end,
+      opencode_terminal.paste,
       { desc = "Add file to opencode" })
+
+    Snacks.keymap.set(
+      { "n", "x" }, "<LeftMouse>",
+      opencode_terminal.focus_and_click,
+      { desc = "Focus and click OpenCode", expr = true })
 
     local group = vim.api.nvim_create_augroup("OpenCodeKeybinds", { clear = true })
     vim.api.nvim_create_autocmd({ "TermOpen", "BufWinEnter" }, {
       group = group,
-      pattern = "term://*:opencode",
+      pattern = { "term://*:opencode", "term://*:opencode --continue" },
       callback = function(ev)
         Snacks.keymap.set(
           "t", "<C-h>",
@@ -140,11 +90,7 @@ return {
 
         Snacks.keymap.set(
           { "n", "t" }, "<C-o>",
-          function()
-            local buf = require("hubro.lib").get_previous_buffer()
-            local path = vim.fn.fnamemodify(vim.fn.bufname(buf), ':~:.')
-            vim.api.nvim_put({ "./" .. path }, "c", true, true)
-          end,
+          opencode_terminal.insert_previous_buffer_path,
           { desc = "Insert path of active buffer", buffer = ev.buf })
       end,
     })
