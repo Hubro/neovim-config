@@ -81,7 +81,7 @@ return {
     local group = vim.api.nvim_create_augroup("OpenCodeKeybinds", { clear = true })
     vim.api.nvim_create_autocmd({ "TermOpen", "BufWinEnter" }, {
       group = group,
-      pattern = "term://*:opencode --port",
+      pattern = "term://*:opencode",
       callback = function(ev)
         Snacks.keymap.set(
           "n", "<C-u>",
