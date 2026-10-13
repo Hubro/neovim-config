@@ -1,3 +1,10 @@
 return {
-  settings = { Lua = { completion = { callSnippet = "Replace" } } }
+  settings = {
+    Lua = {
+      completion = { callSnippet = "Replace" },
+      diagnostics = {
+        disable = { "need-check-nil", "missing-fields" },
+      },
+    },
+  },
 }
