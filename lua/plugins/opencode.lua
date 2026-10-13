@@ -24,6 +24,40 @@ return {
       },
     }
 
+    _G.opencode_paste_operator = function(motion_type)
+      local terminal = require('snacks.terminal').get("opencode", {
+        create = false,
+        count = 1,
+      })
+      if not terminal then
+        vim.notify("Open the OpenCode terminal first", vim.log.levels.WARN)
+        return
+      end
+
+      local name = vim.api.nvim_buf_get_name(0)
+      if name == "" then
+        vim.notify("Current buffer has no file path", vim.log.levels.WARN)
+        return
+      end
+
+      local path = vim.fn.fnamemodify(name, ':~:.')
+      local text = "./" .. path
+      if motion_type then
+        local first = vim.api.nvim_buf_get_mark(0, "[")[1]
+        local last = vim.api.nvim_buf_get_mark(0, "]")[1]
+        first, last = math.min(first, last), math.max(first, last)
+        local range = first == last and tostring(first) or first .. "-" .. last
+        text = text .. ":" .. range
+      end
+      text = text .. " "
+      vim.fn.chansend(vim.b[terminal.buf].terminal_job_id, "\27[200~" .. text .. "\27[201~")
+    end
+
+    local function paste_operator()
+      vim.o.operatorfunc = "v:lua.opencode_paste_operator"
+      return "g@"
+    end
+
     Snacks.keymap.set(
       { "n", "x" }, "<Leader>x",
       function() opencode.select() end,
@@ -36,13 +70,13 @@ return {
 
     Snacks.keymap.set(
       { "n", "x" }, "go",
-      function() return opencode.operator("@this ") end,
+      paste_operator,
       { desc = "Add range to opencode", expr = true })
 
     Snacks.keymap.set(
       "n", "goo",
-      function() return opencode.operator("@this ") .. "_" end,
-      { desc = "Add line to opencode", expr = true })
+      function() _G.opencode_paste_operator() end,
+      { desc = "Add file to opencode" })
 
     local group = vim.api.nvim_create_augroup("OpenCodeKeybinds", { clear = true })
     vim.api.nvim_create_autocmd({ "TermOpen", "BufWinEnter" }, {
