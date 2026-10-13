@@ -94,6 +94,16 @@ return {
       pattern = "term://*:opencode",
       callback = function(ev)
         Snacks.keymap.set(
+          "t", "<C-h>",
+          "<C-\\><C-n><C-w>h",
+          { desc = "Focus window to the left", buffer = ev.buf })
+
+        Snacks.keymap.set(
+          "t", "<C-l>",
+          "<C-\\><C-n><C-w>l",
+          { desc = "Focus window to the right", buffer = ev.buf })
+
+        Snacks.keymap.set(
           "n", "<C-u>",
           function() opencode.command("session.half.page.up") end,
           { desc = "Scroll opencode up", buffer = ev.buf })
