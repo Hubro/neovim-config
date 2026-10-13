@@ -65,7 +65,17 @@ return {
 
     Snacks.keymap.set(
       { 'n', 't' }, '<C-.>',
-      function() require('snacks.terminal').toggle("opencode", snacks_terminal_opts) end,
+      function()
+        local terminal, created = get_terminal(true)
+        local opencode_in_focus = vim.api.nvim_get_current_win() == terminal.win and vim.fn.mode() == "t"
+
+        if not created and opencode_in_focus then
+          terminal:hide()
+        else
+          terminal:show():focus()
+          vim.cmd.startinsert()
+        end
+      end,
       { desc = "Toggle OpenCode" })
 
     Snacks.keymap.set(
