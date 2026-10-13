@@ -14,10 +14,12 @@ return {
 
     ---@type snacks.terminal.Opts
     local snacks_terminal_opts = {
+      auto_insert = false,
+      start_insert = true,
       win = {
+        title = "OpenCode",
         position = "right",
         enter = true,
-        title = "OpenCode",
         wo = { winbar = "" },
       },
     }
@@ -29,7 +31,7 @@ return {
 
     Snacks.keymap.set(
       { 'n', 't' }, '<C-.>',
-      function() require('snacks.terminal').toggle("opencode --port", snacks_terminal_opts) end,
+      function() require('snacks.terminal').toggle("opencode", snacks_terminal_opts) end,
       { desc = "Toggle OpenCode" })
 
     Snacks.keymap.set(
