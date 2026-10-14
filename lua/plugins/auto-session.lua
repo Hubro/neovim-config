@@ -15,10 +15,10 @@ local function setup_opencode_session(opts)
 
   local function terminal_cwd(buf)
     -- Restoring terminal names also creates unlisted alternate-file buffers.
-    if not vim.bo[buf].buflisted then
+    if not vim.bo[buf].buflisted or not opencode_terminal.is_opencode(buf) then
       return
     end
-    local cwd = vim.api.nvim_buf_get_name(buf):match("^term://(.*)//%d+:opencode %-%-continue$")
+    local cwd = vim.api.nvim_buf_get_name(buf):match("^term://(.*)//%d+:")
     -- Terminal buffer names shorten the home directory to ~.
     return cwd and vim.fs.normalize(cwd)
   end
@@ -67,7 +67,7 @@ local function setup_opencode_session(opts)
   table.insert(opts.pre_restore_cmds, function()
     -- Detach Snacks before AutoSession replaces the buffers in its windows.
     for _, terminal in ipairs(snacks_terminal.list()) do
-      if terminal.cmd == opencode_terminal.command then
+      if opencode_terminal.is_opencode(terminal.buf) then
         terminal:hide()
       end
     end

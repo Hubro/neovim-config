@@ -43,8 +43,11 @@ return {
 
     vim.api.nvim_create_autocmd({ "TermOpen", "BufWinEnter" }, {
       group = group,
-      pattern = { "term://*:opencode", "term://*:opencode --continue" },
       callback = function(ev)
+        if not opencode_terminal.is_opencode(ev.buf) then
+          return
+        end
+
         Snacks.keymap.set(
           "t", "<C-h>",
           "<C-\\><C-n><C-w>h",
@@ -121,10 +124,8 @@ return {
 
           local win = windows[1]
           local buf = vim.api.nvim_win_get_buf(win)
-          local name = vim.api.nvim_buf_get_name(buf)
 
-          if vim.bo[buf].buftype == "terminal"
-              and (name:match(":opencode$") or name:match(":opencode %-%-continue$")) then
+          if opencode_terminal.is_opencode(buf) then
             vim.api.nvim_win_call(win, function()
               vim.cmd("leftabove 240vnew")
             end)

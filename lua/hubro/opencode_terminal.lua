@@ -14,6 +14,15 @@ local M = {
   },
 }
 
+function M.is_opencode(buf)
+  if vim.bo[buf].buftype ~= "terminal" then
+    return false
+  end
+
+  local name = vim.api.nvim_buf_get_name(buf)
+  return name:match(":opencode$") ~= nil or name:match(":opencode %-%-continue$") ~= nil
+end
+
 function M.get(create)
   return require("snacks.terminal").get(M.command, vim.tbl_extend("force", M.opts, { create = create }))
 end
@@ -67,10 +76,8 @@ function M.focus_and_click()
 
   if mouse.winid ~= 0 and mouse.line > 0 then
     local buf = vim.api.nvim_win_get_buf(mouse.winid)
-    local name = vim.api.nvim_buf_get_name(buf)
 
-    if vim.bo[buf].buftype == "terminal"
-        and (name:match(":opencode$") or name:match(":opencode %-%-continue$")) then
+    if M.is_opencode(buf) then
       -- Replay the click in terminal mode so OpenCode receives it.
       return "<Esc><LeftMouse>i<LeftMouse>"
     end
