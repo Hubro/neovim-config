@@ -10,7 +10,8 @@ return {
 
     ---@type opencode.Opts
     vim.g.opencode_opts = {
-      -- Your configuration, if any — see `lua/opencode/config.lua`, or "goto definition" on the type or field.
+      -- Your configuration, if any — see `lua/opencode/config.lua`, or
+      -- "goto definition" on the type or field.
     }
 
     Snacks.keymap.set(
@@ -38,7 +39,8 @@ return {
       opencode_terminal.focus_and_click,
       { desc = "Focus and click OpenCode", expr = true })
 
-    local group = vim.api.nvim_create_augroup("OpenCodeKeybinds", { clear = true })
+    local group = vim.api.nvim_create_augroup("OpenCodeSetup", { clear = true })
+
     vim.api.nvim_create_autocmd({ "TermOpen", "BufWinEnter" }, {
       group = group,
       pattern = { "term://*:opencode", "term://*:opencode --continue" },
@@ -92,6 +94,42 @@ return {
           { "n", "t" }, "<C-o>",
           opencode_terminal.insert_previous_buffer_path,
           { desc = "Insert path of active buffer", buffer = ev.buf })
+      end,
+    })
+
+    -- Automatically open a new window to the left of opencode if opencode is
+    -- the last window remaining in a tab
+    vim.api.nvim_create_autocmd({ "WinClosed", "WinEnter", "BufWinEnter", "TermOpen" }, {
+      group = group,
+      callback = function(ev)
+        local tab = ev.event == "WinClosed"
+            and vim.api.nvim_win_get_tabpage(tonumber(ev.match))
+            or vim.api.nvim_get_current_tabpage()
+
+        vim.schedule(function()
+          if not vim.api.nvim_tabpage_is_valid(tab) then
+            return
+          end
+
+          local windows = vim.tbl_filter(function(win)
+            return vim.api.nvim_win_get_config(win).relative == ""
+          end, vim.api.nvim_tabpage_list_wins(tab))
+
+          if #windows ~= 1 then
+            return
+          end
+
+          local win = windows[1]
+          local buf = vim.api.nvim_win_get_buf(win)
+          local name = vim.api.nvim_buf_get_name(buf)
+
+          if vim.bo[buf].buftype == "terminal"
+              and (name:match(":opencode$") or name:match(":opencode %-%-continue$")) then
+            vim.api.nvim_win_call(win, function()
+              vim.cmd("leftabove 240vnew")
+            end)
+          end
+        end)
       end,
     })
   end,
