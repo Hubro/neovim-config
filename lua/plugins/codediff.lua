@@ -8,6 +8,7 @@ return {
   config = function()
     local codediff = require("codediff")
     local keymaps = require("codediff.ui.view.keymaps")
+    local layout = require("codediff.ui.layout")
     local lifecycle = require("codediff.ui.lifecycle")
     local ts_repeat_move = require("nvim-treesitter-textobjects.repeatable_move")
 
@@ -29,6 +30,17 @@ return {
         { desc = "Next hunk" })
       lifecycle.set_tab_keymap(tabpage, "n", "[c", function() hunk({ forward = false }) end,
         { desc = "Previous hunk" })
+    end
+
+    -- Disable auto-resizing of windows, which makes keeping opencode on the
+    -- side possible
+    local arrange = layout.arrange
+    layout.arrange = function(tabpage)
+      local session = lifecycle.get_session(tabpage)
+      if session and session.single_pane then
+        return
+      end
+      return arrange(tabpage)
     end
 
     codediff.setup({})
