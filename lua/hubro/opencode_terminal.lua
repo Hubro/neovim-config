@@ -34,6 +34,9 @@ function M.toggle()
   if not created and opencode_in_focus then
     terminal:hide()
   else
+    if terminal:valid() and not terminal:on_current_tab() then
+      terminal:hide()
+    end
     terminal:show():focus()
     vim.cmd.startinsert()
   end
@@ -63,6 +66,8 @@ function M.paste(motion_type)
   end
   text = text .. " "
   vim.fn.chansend(vim.b[terminal.buf].terminal_job_id, "\27[200~" .. text .. "\27[201~")
+  terminal:show():focus()
+  vim.cmd.startinsert()
 end
 
 function M.paste_operator()
