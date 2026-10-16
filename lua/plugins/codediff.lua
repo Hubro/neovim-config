@@ -1,3 +1,32 @@
+local function inject_custom_codediff_actions()
+  local config = require("codediff.config")
+  local explorer_keymaps = require("codediff.ui.explorer.keymaps")
+  local lifecycle = require("codediff.ui.lifecycle")
+
+  local setup_explorer_keymaps = explorer_keymaps.setup
+
+  explorer_keymaps.setup = function(explorer)
+    setup_explorer_keymaps(explorer)
+
+    local mappings = config.options.keymaps.explorer
+    local select_entry = vim.api.nvim_buf_call(explorer.split.bufnr, function()
+      return vim.fn.maparg(mappings.select, "n", false, true).callback
+    end)
+    lifecycle.set_buf_keymap(explorer.tabpage, explorer.split.bufnr, "n", mappings.select_and_focus, function()
+      local node = explorer.tree:get_node()
+      select_entry()
+      if node and node.data and node.data.type ~= "group" and node.data.type ~= "directory" then
+        vim.schedule(function()
+          local _, mod_win = lifecycle.get_windows(explorer.tabpage)
+          if mod_win and vim.api.nvim_win_is_valid(mod_win) then
+            vim.api.nvim_set_current_win(mod_win)
+          end
+        end)
+      end
+    end, { silent = true, nowait = true, desc = "Select entry and focus diff" }, { suspendable = false })
+  end
+end
+
 return {
   "esmuellert/codediff.nvim",
   dependencies = {
@@ -43,7 +72,16 @@ return {
       return arrange(tabpage)
     end
 
-    codediff.setup({})
+    inject_custom_codediff_actions()
+
+    codediff.setup({
+      keymaps = {
+        explorer = {
+          select = "<Tab>",
+          select_and_focus = "<CR>", -- Custom action
+        },
+      },
+    })
   end,
   init = function()
     local Snacks = require("snacks")
