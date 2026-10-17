@@ -66,7 +66,7 @@ return function(client, bufnr)
   map("n", "gD", "<cmd>lua vim.lsp.buf.type_definition()<CR>")
   map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>")
   -- map("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>")
-  map("n", "gr", "<cmd>Trouble lsp_references<CR>")
+  map("n", "gr", "<cmd>Telescope lsp_references<CR>")
   map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>")
   map("n", "L", "<cmd>lua vim.diagnostic.open_float()<CR>")
   map("i", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
@@ -82,5 +82,4 @@ return function(client, bufnr)
 
     vim.lsp.buf.rename(nil, rename_opts)
   end)
-
 end
