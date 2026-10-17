@@ -5,6 +5,10 @@ return {
   opts = {
     input = { enabled = true },
     styles = {
+      notification = {
+        border = "rounded",
+        wo = { winblend = 0 },
+      },
       terminal = {
         -- Disable the <Esc><Esc> keybind
         keys = { term_normal = false },

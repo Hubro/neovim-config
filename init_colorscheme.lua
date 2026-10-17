@@ -222,6 +222,45 @@ local themes = {
   }
 }
 
+--- Customizes notification colors based on the current scheme to increase
+--- visibility
+local function set_notification_colors()
+  local dark = vim.opt.background:get() == "dark"
+  local normal = vim.api.nvim_get_hl(0, { name = "Normal", link = false })
+  local contrast = dark and 0xffffff or 0x000000
+  local background = normal.bg or (dark and 0x000000 or 0xffffff)
+  local foreground = normal.fg or contrast
+
+  local function blend(color, target, amount)
+    local result = 0
+    for _, shift in ipairs({ 16, 8, 0 }) do
+      local channel = math.floor(color / 2 ^ shift) % 256
+      local target_channel = math.floor(target / 2 ^ shift) % 256
+      result = result + math.floor(channel + (target_channel - channel) * amount + 0.5) * 2 ^ shift
+    end
+    return result
+  end
+
+  background = blend(background, contrast, 0.12)
+  foreground = blend(foreground, contrast, 0.1)
+
+  for level, group in pairs({
+    Error = "DiagnosticError",
+    Warn = "DiagnosticWarn",
+    Info = "DiagnosticInfo",
+    Debug = "Comment",
+    Trace = "NonText",
+  }) do
+    local accent = vim.api.nvim_get_hl(0, { name = group, link = false }).fg or foreground
+    accent = blend(accent, contrast, 0.2)
+    vim.api.nvim_set_hl(0, "SnacksNotifier" .. level, { fg = foreground, bg = background })
+    for _, part in ipairs({ "Border", "Icon", "Title", "Footer" }) do
+      vim.api.nvim_set_hl(0, "SnacksNotifier" .. part .. level, { fg = accent, bg = background })
+    end
+  end
+  vim.api.nvim_set_hl(0, "SnacksNotifierMinimal", { fg = foreground, bg = background })
+end
+
 function _G.set_colorscheme(name)
   local theme = themes[name]
 
@@ -248,6 +287,8 @@ function _G.set_colorscheme(name)
       end
     end
   end
+
+  set_notification_colors()
 
   if theme.lualine then
     set_lualine_theme(theme.lualine)
