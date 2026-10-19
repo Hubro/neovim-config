@@ -110,7 +110,7 @@ return {
             or vim.api.nvim_get_current_tabpage()
 
         vim.schedule(function()
-          if not vim.api.nvim_tabpage_is_valid(tab) then
+          if vim.o.columns < 280 or not vim.api.nvim_tabpage_is_valid(tab) then
             return
           end
 
@@ -126,8 +126,10 @@ return {
           local buf = vim.api.nvim_win_get_buf(win)
 
           if opencode_terminal.is_opencode(buf) then
+            local available_width = vim.api.nvim_win_get_width(win) - 1
+            local width = math.min(math.floor(available_width / 2), available_width - 180)
             vim.api.nvim_win_call(win, function()
-              vim.cmd("leftabove 240vnew")
+              vim.cmd("leftabove " .. width .. "vnew")
             end)
           end
         end)
