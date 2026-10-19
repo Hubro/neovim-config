@@ -1,3 +1,4 @@
+--- Handles preserving opencode and restoring it with "--continue" on launch
 local function setup_opencode_session(opts)
   local Snacks = require("snacks")
   local snacks_terminal = require("snacks.terminal")

@@ -7,6 +7,7 @@ local keybinds = {
 
   -- Shortcut so it's easy to exit only with the left hand
   { "n",          "Q",          ":qa<CR>" },
+  { "n",          "<Leader>Q",  ":AutoSession disable<CR>:AutoSession delete<CR>:qa<CR>", { desc = "Delete session and quit" } },
 
   -- Run macro 'q' on all selected lines
   { "v",          "q",          ":'<,'>norm @q<CR>" },
