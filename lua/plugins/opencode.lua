@@ -25,12 +25,8 @@ return {
       { desc = "Toggle OpenCode" })
 
     Snacks.keymap.set(
-      { "n", "t" }, "<Leader><C-.>",
+      { "n" }, "<Leader><C-.>",
       function()
-        if opencode_terminal.is_opencode(0) and vim.fn.mode() == "t" then
-          return
-        end
-
         opencode_terminal.toggle()
         vim.cmd.only()
       end,
