@@ -59,6 +59,8 @@ return {
         { desc = "Next hunk" })
       lifecycle.set_tab_keymap(tabpage, "n", "[c", function() hunk({ forward = false }) end,
         { desc = "Previous hunk" })
+      lifecycle.set_tab_keymap(tabpage, "n", "<C-w>c", "<Cmd>tabclose<CR>",
+        { desc = "Close codediff tab" })
     end
 
     -- Disable auto-resizing of windows, which makes keeping opencode on the
