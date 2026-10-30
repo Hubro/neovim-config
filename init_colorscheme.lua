@@ -114,6 +114,8 @@ local themes = {
     lualine = "ayu_dark",
     overrides = {
       Normal = { guibg = "#000000" },
+      NormalFloat = { guibg = "#202630" },
+      FloatBorder = { guibg = "#202630" },
       Visual = { guibg = "#5f6a75" },
       TelescopeSelection = { guibg = "#222222" },
       ColorColumn = { guibg = "#111111" },
