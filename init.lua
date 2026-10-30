@@ -37,6 +37,7 @@ require("hubro.nvimrc").load_local_nvimrc()
 vim.cmd("runtime helpers.lua")
 
 init("options")
+init("clipboard")
 init("filetypes")
 init("keybinds")
 init("plugins")
