@@ -111,25 +111,48 @@ local function setup_opencode_session(opts)
   })
 end
 
+--- Replacement for the close_unsupported_windows option so certain unsupported
+--- windows can be whitelisted.
+local function close_unsupported_session_windows()
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    if vim.api.nvim_win_is_valid(win) then
+      local buf = vim.api.nvim_win_get_buf(win)
+
+      if vim.bo[buf].buftype ~= "terminal"
+          and vim.bo[buf].filetype ~= "fugitive"
+          and vim.fn.filereadable(vim.api.nvim_buf_get_name(buf)) == 0 then
+        -- Ignore the error if this is Neovim's last window.
+        pcall(vim.api.nvim_win_close, win, true)
+      end
+    end
+  end
+end
+
 return {
   "rmagatti/auto-session",
   dependencies = {
-    "folke/snacks.nvim"
+    "folke/snacks.nvim",
+    -- Fugitive's read handler rebuilds status buffers when the session opens them.
+    "tpope/vim-fugitive",
   },
   lazy = false,
   init = function()
     -- ...
   end,
   opts = {
+    suppressed_dirs = { "/home", "/home/tomas", "/home/tomas/Desktop", "/home/tomas/bin" },
     auto_save = true,
     auto_create = true,
     auto_restore = true,
     auto_delete_empty_sessions = false,
-    suppressed_dirs = { "/home", "/home/tomas", "/home/tomas/Desktop", "/home/tomas/bin" },
+    -- The pre-save hook replaces the built-in cleanup to allow certain
+    -- unsupported windows to stay open.
+    close_unsupported_windows = false,
     pre_save_cmds = {
       function()
         require("hubro.close_floats")()
         require("notify").dismiss({})
+        close_unsupported_session_windows()
       end
     },
     post_restore_cmds = {
