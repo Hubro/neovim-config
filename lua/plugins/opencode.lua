@@ -25,7 +25,24 @@ return {
       { desc = "Toggle OpenCode" })
 
     Snacks.keymap.set(
+      { "n", "t" }, "<Leader><C-.>",
+      function()
+        if opencode_terminal.is_opencode(0) and vim.fn.mode() == "t" then
+          return
+        end
+
+        opencode_terminal.toggle()
+        vim.cmd.only()
+      end,
+      { desc = "OpenCode fullscreen" })
+
+    Snacks.keymap.set(
       { "n", "x" }, "go",
+      opencode_terminal.paste_operator,
+      { desc = "Add range to opencode", expr = true })
+
+    Snacks.keymap.set(
+      { "v" }, "<C-o>",
       opencode_terminal.paste_operator,
       { desc = "Add range to opencode", expr = true })
 
@@ -57,6 +74,16 @@ return {
           "t", "<C-l>",
           "<C-\\><C-n><C-w>l",
           { desc = "Focus window to the right", buffer = ev.buf })
+
+        Snacks.keymap.set(
+          "t", "<A-l>",
+          "<C-\\><C-n>:tabnext<CR>",
+          { desc = "Next tab", buffer = ev.buf })
+
+        Snacks.keymap.set(
+          "t", "<A-h>",
+          "<C-\\><C-n>:tabprev<CR>",
+          { desc = "Previous tab", buffer = ev.buf })
 
         Snacks.keymap.set(
           "n", "<C-u>",
