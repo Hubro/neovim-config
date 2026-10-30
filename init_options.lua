@@ -11,6 +11,8 @@ vim.opt.indentkeys = nil
 vim.opt.shortmess:append("I") -- Disable intro message
 -- vim.opt.winborder = "rounded" -- Rounded border on popup windows
 vim.opt.winborder = "solid"   -- Solid border on popup windows
+vim.opt.ttimeout = true
+vim.opt.ttimeoutlen = 1
 
 -- The "behave" command suddenly disappeared in Neovim 0.10.0
 vim.opt.mousemodel = "extend"
